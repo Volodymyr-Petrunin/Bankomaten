@@ -1,0 +1,1 @@
+﻿Läs [CONTRIBUTING.md](CONTRIBUTING.md) innan du börjar jobba i projektet.

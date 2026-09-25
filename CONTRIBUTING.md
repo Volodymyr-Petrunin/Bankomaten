@@ -11,7 +11,7 @@
 ## Commits
 - Kontrollera att din e-post i `git config user.email` är kopplad till ditt GitHub-konto. Annars syns inte dina commits som dina.
 - Commita ofta och i små steg.
-- Börja meddelandet med issuens nummer och beskriv sedan vad som gjorts: `#2 Add withdraw method to Account`, inte `#2 fix` eller `update`.
+- Börja meddelandet med issuens nummer och beskriv sedan vad som gjorts: `#2 Added withdraw method to Account`, inte `#2 fix` eller `update`.
 - Commita med `git commit -m "..."` eller via IDE:n. Om Git öppnar en editor tolkas rader som börjar med `#` som kommentarer och tas bort.
 - Kod, kommentarer och namn skrivs på engelska. Text som visas för användaren skrivs på svenska.
 
