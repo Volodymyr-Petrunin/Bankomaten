@@ -19,6 +19,7 @@ namespace Bankomaten.Domain
 
         /// <summary>
         /// Constructor for a new account
+        /// ex: Account TestKonto = new Account("TestKonto",111.111m);
         /// </summary>
         /// <param name="name">The name of the account</param>
         /// <param name="balance">The starting account balance, 0 by default</param>
