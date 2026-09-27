@@ -18,12 +18,11 @@ namespace Bankomaten.Domain
         public decimal Balance { get; private set; }
 
         /// <summary>
-        /// Constructor for a new account with "name" and "balance"
-        /// Balance is 0 by default
-        /// Does not accept negative numbers
+        /// Constructor for a new account
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="balance"></param>
+        /// <param name="name">The name of the account</param>
+        /// <param name="balance">The starting account balance, 0 by default</param>
+        /// <exception cref="ArgumentOutOfRangeException">Throw when <paramref name="balance"/> is less than 0</exception>
         public Account (string name, decimal balance = 0)
         {
             if (balance < 0)
@@ -34,14 +33,18 @@ namespace Bankomaten.Domain
             Name = name;
             Balance = balance;
         }
+
         /// <summary>
-        /// Adds "amount" to the account balance and returns true if it succeeds
-        /// returns false if the amount is less than 0
+        /// Adds the amount submitted to the accounts balance
         /// </summary>
-        /// <param name="amount"></param>
+        /// <param name="amount">The amount to add to the account balance</param>
+        /// <returns>
+        /// <c>true</c> if the deposit was successful
+        /// <c>false</c> if the deposit was less than 0
+        /// </returns>
         public bool Deposit(decimal amount)
         {
-            if (amount < 0)
+            if (amount <= 0)
             {
                 return false;
             }
@@ -49,11 +52,16 @@ namespace Bankomaten.Domain
             Balance += amount;
             return true;
         }
+
         /// <summary>
-        /// Removes "amount" from the account balance if there is enough to withdraw and returns true
-        /// returns false if balance is less than amount, or if amount is 0 or less
+        /// Removes the submitted amount from the account balance
         /// </summary>
-        /// <param name="amount"></param>
+        /// <param name="amount">The amount to remove from the account balance</param>
+        /// <returns>
+        /// <c>true</c> if the withdrawal was successful
+        /// <c>false</c> if the amount was negative or 0, 
+        /// or if the amount was more than the account balance
+        /// </returns>
         public bool Withdraw(decimal amount)
         {
             if (amount <= 0)
