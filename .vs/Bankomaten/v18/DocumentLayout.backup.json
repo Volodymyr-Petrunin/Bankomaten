@@ -1,0 +1,58 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Nils\\source\\repos\\Bankomaten\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{06C95858-CA44-47C4-B16E-540ED0CECA5B}|Bankomaten\\Bankomaten.csproj|c:\\users\\nils\\source\\repos\\bankomaten\\bankomaten\\domain\\account.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{06C95858-CA44-47C4-B16E-540ED0CECA5B}|Bankomaten\\Bankomaten.csproj|solutionrelative:bankomaten\\domain\\account.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{06C95858-CA44-47C4-B16E-540ED0CECA5B}|Bankomaten\\Bankomaten.csproj|c:\\users\\nils\\source\\repos\\bankomaten\\bankomaten\\domain\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{06C95858-CA44-47C4-B16E-540ED0CECA5B}|Bankomaten\\Bankomaten.csproj|solutionrelative:bankomaten\\domain\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "User.cs",
+              "DocumentMoniker": "C:\\Users\\Nils\\source\\repos\\Bankomaten\\Bankomaten\\Domain\\User.cs",
+              "RelativeDocumentMoniker": "Bankomaten\\Domain\\User.cs",
+              "ToolTip": "C:\\Users\\Nils\\source\\repos\\Bankomaten\\Bankomaten\\Domain\\User.cs",
+              "RelativeToolTip": "Bankomaten\\Domain\\User.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-27T09:25:21.35Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Account.cs",
+              "DocumentMoniker": "C:\\Users\\Nils\\source\\repos\\Bankomaten\\Bankomaten\\Domain\\Account.cs",
+              "RelativeDocumentMoniker": "Bankomaten\\Domain\\Account.cs",
+              "ToolTip": "C:\\Users\\Nils\\source\\repos\\Bankomaten\\Bankomaten\\Domain\\Account.cs",
+              "RelativeToolTip": "Bankomaten\\Domain\\Account.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-27T09:25:10.862Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
