@@ -39,8 +39,8 @@ class Program {
         Console.WriteLine("--------------------------------------------");
         Console.ReadKey();
 
-     //================================================================================
-     // Tester för Deposit();
+        //================================================================================
+        // Tester för Deposit();
 
         Console.WriteLine("Test 4: Giltig insättning");
         Account depositKonto = new Account("InsättningKonto", 100m);
