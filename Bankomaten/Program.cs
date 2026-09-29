@@ -8,6 +8,7 @@ class Program {
     {
         //================================================================================
         // Tester för konstruktor
+        //================================================================================
         Console.WriteLine("--------------------------------------------");
         Console.WriteLine("Test 1: Skapa konto med giltigt startsaldo");
         Account nilsKonto = new Account("NilsTestKonto", 1555.23m);
@@ -41,6 +42,7 @@ class Program {
 
         //================================================================================
         // Tester för Deposit();
+        //================================================================================
 
         Console.WriteLine("Test 4: Giltig insättning");
         Account depositKonto = new Account("InsättningKonto", 100m);
@@ -63,6 +65,7 @@ class Program {
 
         // =========================================================================
         // Tester för Withdraw();
+        //================================================================================
 
         Console.WriteLine("Test 6: Giltigt uttag");
         Account withdrawKonto = new Account("UttagKonto", 500m);
