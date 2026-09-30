@@ -24,12 +24,12 @@ namespace Bankomaten.Domain
         /// </summary>
         /// <param name="name">The name of the account</param>
         /// <param name="balance">The starting account balance, 0 by default</param>
-        /// <exception cref="ArgumentException">Throw when <paramref name="balance"/> is less than 0</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Throw when <paramref name="balance"/> is less than 0</exception>
         public Account(string name, decimal balance = 0)
         {
             if (balance < 0)
             {
-                throw new ArgumentException("Startsaldot för kontot kan inte vara mindre än 0.");
+                throw new ArgumentOutOfRangeException("Startsaldot för kontot kan inte vara mindre än 0.");
             }
 
             Name = name;
