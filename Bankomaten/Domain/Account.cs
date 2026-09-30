@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Bankomaten.Domain
+﻿namespace Bankomaten.Domain
 {
     public class Account
     {
@@ -10,13 +6,13 @@ namespace Bankomaten.Domain
         /// <summary>
         /// Get/Set name for the account
         /// </summary>
-        public string Name { get; set; }
+        private string Name { get; set; }
 
         /// <summary>
         /// Get/Set current balance of the account
         /// balance is private so it can't be changed to a negative outside the class
         /// </summary>
-        public decimal Balance { get; private set; }
+        private decimal Balance { get; set; }
 
         /// <summary>
         /// Constructor for a new account
@@ -66,7 +62,7 @@ namespace Bankomaten.Domain
         /// </returns>
         public bool Withdraw(decimal amount)
         {
-            if (amount <= 0 || balance < amount) 
+            if (amount <= 0 || Balance < amount) 
             {
                 return false;
             }
