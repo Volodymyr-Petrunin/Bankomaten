@@ -4,9 +4,10 @@
 - Arbeta aldrig direkt på `main`. Varje issue får en egen branch.
 - Tilldela dig själv issuen innan du börjar.
 - Hämta senaste `main` innan du skapar en ny branch.
-- Döp branchen till `#nummer-kort-beskrivning`, t.ex. `#2-skapa-klasserna`. Tack vare `#` blir numret en länk till issuen i PR-titeln och i merge-meddelandet.
-- I terminalen måste namnet stå inom citattecken: `git checkout "#2-skapa-klasserna"`.
-- Branches tas inte bort efter merge.
+- Döp branchen till `#nummer-kort-beskrivning` på engelska, t.ex. `#6-implement-console-input`.
+- Använd bara små bokstäver a–z, siffror och bindestreck. Inga å, ä, ö och inga mellanslag: GitHub kan inte visa sådana branches på webben.
+- I terminalen måste namnet stå inom citattecken: `git checkout "#6-implement-console-input"`.
+- Issue-titlar skrivs på engelska så att branchnamnet kan skapas direkt från titeln.
 
 ## Commits
 - Kontrollera att din e-post i `git config user.email` är kopplad till ditt GitHub-konto. Annars syns inte dina commits som dina.
