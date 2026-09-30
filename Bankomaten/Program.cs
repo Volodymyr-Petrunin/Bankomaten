@@ -1,3 +1,5 @@
+﻿using Bankomaten.Domain;
+
 ﻿namespace Bankomaten;
 
 class Program {
