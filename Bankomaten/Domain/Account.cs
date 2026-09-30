@@ -66,11 +66,7 @@ namespace Bankomaten.Domain
         /// </returns>
         public bool Withdraw(decimal amount)
         {
-            if (amount <= 0)
-            {
-                return false;
-            }
-            if (Balance < amount)
+            if (amount <= 0 || balance < amount) 
             {
                 return false;
             }
