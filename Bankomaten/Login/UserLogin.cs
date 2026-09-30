@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Bankomaten.Domain;
 
 namespace Bankomaten.Login
 {
@@ -15,7 +16,7 @@ namespace Bankomaten.Login
             Console.WriteLine();
 
             GetUsernameFromUser();
-            GetPasswordFromUser(userName!);
+            GetPinFromUser(userName!);
         }
 
         /// <summary>
@@ -40,29 +41,31 @@ namespace Bankomaten.Login
                     isUserNameOk = true;
 
                     // Check if username exists
+
+
                 }
             }
         }
 
         /// <summary>
-        /// Get user password and validate the format.
-        /// Check if the password is correct together with the username.
+        /// Get user pin and validate the format.
+        /// Check if the pin is correct together with the username.
         /// </summary>
         /// <param name="username"></param>
-        private void GetPasswordFromUser(string username)
+        private void GetPinFromUser(string username)
         {
-            bool isUserPasswordOk = false;
+            bool isUserPinOk = false;
 
-            while (!isUserPasswordOk)
+            while (!isUserPinOk)
             {
                 Console.WriteLine("Skriv in ditt lösenord");
-                bool intVerify = int.TryParse(Console.ReadLine(), out int password);
+                bool intVerify = int.TryParse(Console.ReadLine(), out int pin);
 
                 if (intVerify)
                 {
                     // Compare if password is correct and belongs to the correct username.
 
-                    isUserPasswordOk = true;
+                    isUserPinOk = true;
                 }
                 else
                 {
