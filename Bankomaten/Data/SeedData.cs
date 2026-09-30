@@ -6,12 +6,12 @@ public static class SeedData
 {
     private static readonly List<Account> Accounts =
     [
-        new Account("Spårkonto", 10000m),
+        new Account("Sparkonto", 10000m),
         new Account("Lönekonto", 4567m),
         new Account("Lönekonto", 101000m),
-        new Account("Spårkonto", 4m),
-        new Account ("Spårkonto", 333.33m),
-        new Account ("Spårkonto", 8763.75m),
+        new Account("Sparkonto", 4m),
+        new Account ("Sparkonto", 333.33m),
+        new Account ("Sparkonto", 8763.75m),
         new Account ("Lönekonto", 3290.73m),
         new Account ("Lönekonto", 987.03m),
     ];
