@@ -1,17 +1,19 @@
-﻿namespace Bankomaten.Domain
+﻿using System.Text;
+
+namespace Bankomaten.Domain
 {
     public class User
     {
         /// <summary>
         /// Username of the user
         /// </summary>
-        public string UserName { get; set; }
+        public string UserName { get; private set; }
         /// <summary>
         /// Pin for the user
         /// </summary>
-        public string Pin { get; set; }
+        public string Pin { get; private set; }
 
-        private List<Account> Accounts { get; set; }
+        public List<Account> Accounts { get; private set; }
 
         /// <summary>
         /// Constructor for new user, with an empty list Accounts
@@ -26,9 +28,15 @@
             Accounts = new List<Account>();
         }
 
-        public void AddAccounts(List<Account> accounts)
+        /// <summary>Just overriding ToString</summary>
+        /// <returns>Returns string with contains main info</returns>
+        public override string ToString()
         {
-            Accounts.AddRange(accounts);
+            return new StringBuilder()
+                .Append("User name: " + UserName)
+                .Append(" Pin: " + Pin)
+                .Append(" Accounts: " + Accounts.Count)
+                .ToString();
         }
     }
 }
