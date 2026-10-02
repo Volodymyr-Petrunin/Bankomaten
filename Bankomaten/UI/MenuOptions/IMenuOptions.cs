@@ -8,6 +8,7 @@ namespace Bankomaten.UI.MenuOptions
     public interface IMenuOptions
     {
         string Title {  get; set; }
-        //void Execute(User user);
+
+        void Execute(User user);
     }
 }

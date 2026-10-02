@@ -16,6 +16,9 @@ namespace Bankomaten.Domain
         /// </summary>
         public int Pin { get; set; }
 
+        /// <summary>
+        /// List of accounts for the user
+        /// </summary>
         public List<Account> Accounts { get; set; }
 
         /// <summary>
