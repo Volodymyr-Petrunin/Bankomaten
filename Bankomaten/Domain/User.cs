@@ -4,6 +4,7 @@ namespace Bankomaten.Domain
 {
     public class User
     {
+
         /// <summary>
         /// Username of the user
         /// </summary>
@@ -13,6 +14,9 @@ namespace Bankomaten.Domain
         /// </summary>
         public string Pin { get; private set; }
 
+        /// <summary>
+        /// List of accounts for the user
+        /// </summary>
         public List<Account> Accounts { get; private set; }
 
         /// <summary>
