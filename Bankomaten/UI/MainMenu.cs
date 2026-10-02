@@ -1,14 +1,30 @@
-﻿using Bankomaten.UI.MenuOptions;
+﻿using Bankomaten.Domain;
+using Bankomaten.UI.MenuOptions;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Bankomaten.UI
 {
-    internal class MainMenu
+    public class MainMenu
     {
-        Dictionary<int, string> IMenuOptions = new Dictionary<int, string>();
+        IMenuOptions[] _options;
 
-        
+        public MainMenu(IMenuOptions[] options)
+        {
+            _options = options;
+        }
+
+        public void Run(User user)
+        {
+            bool running = true;
+            while (running)
+            {
+                Console.Clear();
+                Console.WriteLine($"Välkommen {user.UserName}!");
+            }
+        }
+
+
     }
 }

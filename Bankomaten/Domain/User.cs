@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Bankomaten.Domain
 {
-    internal class User
+    public class User
     {
 
         /// <summary>
