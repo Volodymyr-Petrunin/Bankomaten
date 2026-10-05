@@ -8,7 +8,7 @@ namespace Bankomaten.Domain
         /// <summary>
         /// The name of the account
         /// </summary>
-        private string Name { get; set; }
+        public string Name { get; private set; }
 
         /// <summary>
         /// Current Balance of the account,
@@ -72,6 +72,8 @@ namespace Bankomaten.Domain
             Balance -= amount;
             return true;
         }
+        
+        public decimal GetBalance() => Balance;
 
         /// <summary>Just overriding ToString</summary>
         /// <returns>Returns string with contains main info</returns>

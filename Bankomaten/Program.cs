@@ -1,6 +1,8 @@
 using System.Globalization;
 using Bankomaten.Data;
 using Bankomaten.Services;
+using Bankomaten.UI;
+using Bankomaten.UI.MenuOptions;
 using static System.Globalization.CultureInfo;
 
 namespace Bankomaten;
@@ -14,7 +16,10 @@ class Program {
 
         BankService bankService = new BankService(SeedData.GenerateUsers());
 
-        // bankService.TransferBetweenUserAccounts(new Account("test", 22m), new Account("test", 22m), 33m);
+        ConsoleInputValidation consoleInputValidation = new ConsoleInputValidation();
+        IMenuOptions[] options = [new TransferMenu("New", consoleInputValidation, bankService)];
+        
+        options[0].Execute(bankService._users.Values.First());
     }
     
 }
