@@ -23,7 +23,7 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
     private string BuildMenu()
     {
         return new StringBuilder()
-            .AppendLine("Transfer between accounts")
+            .AppendLine(Title)
             .AppendLine("1. Transfer to another account")
             .AppendLine("2. Transfer to another user")
             .ToString();
