@@ -1,48 +1,50 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
+using Bankomaten.Data;
 using Bankomaten.Domain;
+using Bankomaten.UI;
 
 namespace Bankomaten.Login
 {
     internal class UserLogin
     {
-        private string? userName;
+        private string? usernameInput;
         private int loginAttempsCounter = 0;
 
-        public void WelcomeMessage()
+        public void StartBankomaten()
         {
-            Console.WriteLine("Välkommen till bankomaten");
+            Console.WriteLine("===== Välkommen till bankomaten =====");
             Console.WriteLine();
 
-            GetUsernameFromUser();
-            GetPinFromUser(userName!);
+            GetUsernameFromUserInput();
+            GetPinFromUserInput(usernameInput!);
         }
 
         /// <summary>
         /// Get username from the user and validate the input.
         /// </summary>
-        private void GetUsernameFromUser()
+        private void GetUsernameFromUserInput()
         {
             bool isUserNameOk = false;
 
             while (!isUserNameOk)
             {
                 Console.WriteLine("Skriv in ditt användarnamn");
-                userName = Console.ReadLine()!;
+                usernameInput = Console.ReadLine()!;
 
-                if (string.IsNullOrEmpty(userName) || string.IsNullOrWhiteSpace(userName))
+                if (string.IsNullOrEmpty(usernameInput) || string.IsNullOrWhiteSpace(usernameInput))
                 {
+                    // NOTE: Login attempts is not logged here. The logins are counted within "GetPinFromUserInput"-method
+
                     Console.WriteLine("Inskrivet format är felaktigt.");
                     isUserNameOk = false;
                 }
                 else
                 {
                     isUserNameOk = true;
-
-                    // Check if username exists
-
-
+                    bool usernameValidation = UsernameValidation(usernameInput);
                 }
             }
         }
@@ -52,29 +54,27 @@ namespace Bankomaten.Login
         /// Check if the pin is correct together with the username.
         /// </summary>
         /// <param name="username"></param>
-        private void GetPinFromUser(string username)
+        private void GetPinFromUserInput(string userPin)
         {
             bool isUserPinOk = false;
 
             while (!isUserPinOk)
             {
-                Console.WriteLine("Skriv in ditt lösenord");
-                bool intVerify = int.TryParse(Console.ReadLine(), out int pin);
+                //Console.WriteLine("Skriv in ditt lösenord");
+                //bool intVerify = int.TryParse(Console.ReadLine(), out int pin);
 
-                if (intVerify)
-                {
-                    // Compare if password is correct and belongs to the correct username.
+                ConsoleInputValidation civ = new ConsoleInputValidation();
 
-                    isUserPinOk = true;
-                }
-                else
-                {
-                    Console.WriteLine("Inskrivet format är felaktigt.");
-                    CheckLoginAttemps();
-                }
+                int inputPinCode = civ.ReadInteger("Skriv in ditt lösenord", 0000, 9999); // Input validation
+
+                UserPinValidation(inputPinCode);
+
             }
         }
 
+        /// <summary>
+        /// Monitor the number of login attempts.
+        /// </summary>
         private void CheckLoginAttemps()
         {
             loginAttempsCounter++;
@@ -91,17 +91,65 @@ namespace Bankomaten.Login
         private void BlockUserTimePeriod()
         {
             int blockWaitingTime = 0;
-            int blockTime = 60;
+            int blockTime = 60; 
 
             while (blockWaitingTime < blockTime)
             {
                 Thread.Sleep(1000); // Block computer thread for 1 second
-                blockWaitingTime++; // Count 1 second
+                blockWaitingTime++; // Count up 1 second
 
                 Console.WriteLine("Remaining time: " + (blockTime - 1).ToString());
                 Console.Clear();
             }
             loginAttempsCounter = 0; // Reset loginAttemps
+            StartBankomaten(); // After the blocking time start from beginning again.
+        }
+
+        /// <summary>
+        /// Iterate through all users and compare if the username that the user entered
+        /// </summary>
+        /// <param name="usernameInput"></param>
+        /// <returns></returns>
+        private bool UsernameValidation(string usernameInput)
+        {
+            User user = new User(usernameInput, 0000);
+
+            if (SeedData.UserData  != null)
+            {
+                //foreach (User user in SeedData.UserData)
+                //{
+                //    //if (user.UserName == usernameInput && user != null)
+                //    //{
+                //    //    return true;
+                //    //}
+
+                if (SeedData.UserData.Comparer.Compare(usernameInput, User.UserName) == 0)
+                {
+
+                }
+                //}
+            }
+            return false;
+        }
+
+        private bool UserPinValidation(int inputPinCode)
+        {
+            if (SeedData.UserData != null)
+            {
+                foreach (User user in SeedData.UserData)
+                {
+                    if (user != null)
+                    {
+                        if (user.UserName == usernameInput && user.Pin == inputPinCode)
+                        {
+                            return true;
+                        }
+
+                        CheckLoginAttemps();
+                    }
+                }
+            }
+            return false;
         }
     }
 }
