@@ -1,28 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Text;
 
 namespace Bankomaten.Domain
 {
-    internal class User : IComparable<User>
+    public class User
     {
         /// <summary>
         /// Username of the user
         /// </summary>
-        public string UserName { get; set; }
+        public string UserName { get; private set; }
         /// <summary>
         /// Pin for the user
         /// </summary>
-        public int Pin { get; set; }
+        public string Pin { get; private set; }
 
-        public List<Account> Accounts { get; set; }
+        /// <summary>
+        /// List of accounts for the user
+        /// </summary>
+        public List<Account> Accounts { get; private set; }
 
         /// <summary>
         /// Constructor for new user, with an empty list Accounts
         /// </summary>
         /// <param name="userName">Name of the user</param>
         /// <param name="pin">Pin for the user</param>
-        public User(string userName,int pin) 
+        public User(string userName, string pin)
         {
             UserName = userName;
             Pin = pin;
@@ -30,16 +31,15 @@ namespace Bankomaten.Domain
             Accounts = new List<Account>();
         }
 
-
-        public int CompareTo(User? user)
+        /// <summary>Just overriding ToString</summary>
+        /// <returns>Returns string with contains main info</returns>
+        public override string ToString()
         {
-
-            if (user == null) return 1;
-
-            //string name = name.Compare(this.UserName, user.UserName);
-
-            //return string.Compare(this.UserName, user.UserName);
-            return this.UserName.CompareTo(user.UserName);
+            return new StringBuilder()
+                .Append("User name: " + UserName)
+                .Append(" Pin: " + Pin)
+                .Append(" Accounts: " + Accounts.Count)
+                .ToString();
         }
     }
 }

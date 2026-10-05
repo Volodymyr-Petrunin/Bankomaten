@@ -1,21 +1,23 @@
-﻿namespace Bankomaten.Domain
+﻿using System.Text;
+
+namespace Bankomaten.Domain
 {
     public class Account
     {
 
         /// <summary>
-        /// Get/Set name for the account
+        /// The name of the account
         /// </summary>
-        private string Name { get; set; }
+        public string Name { get; private set; }
 
         /// <summary>
-        /// Get/Set current balance of the account
+        /// Current Balance of the account,
         /// balance is private so it can't be changed to a negative outside the class
         /// </summary>
         private decimal Balance { get; set; }
 
         /// <summary>
-        /// Constructor for a new account
+        /// Constructor for a new account,
         /// eg: Account TestKonto = new Account("TestKonto",111.111m);
         /// </summary>
         /// <param name="name">The name of the account</param>
@@ -33,7 +35,7 @@
         }
 
         /// <summary>
-        /// Adds the amount submitted to the accounts balance
+        /// Adds amount to the accounts balance
         /// </summary>
         /// <param name="amount">The amount to add to the account balance</param>
         /// <returns>
@@ -52,7 +54,7 @@
         }
 
         /// <summary>
-        /// Removes the submitted amount from the account balance
+        /// Removes amount from the account balance
         /// </summary>
         /// <param name="amount">The amount to remove from the account balance</param>
         /// <returns>
@@ -69,6 +71,15 @@
 
             Balance -= amount;
             return true;
+        }
+        
+        public decimal GetBalance() => Balance;
+
+        /// <summary>Just overriding ToString</summary>
+        /// <returns>Returns string with contains main info</returns>
+        public override string ToString()
+        {
+            return $"Account Name: {Name}, Balance: {Balance:C}";
         }
     }
 }
