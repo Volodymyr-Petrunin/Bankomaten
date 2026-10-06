@@ -34,6 +34,7 @@ namespace Bankomaten.UI
             int selectedMainMenu = _consoleInput.ReadInteger("Ange ditt val:", 1, menuOptions.Length + 1);
             if (selectedMainMenu == menuOptions.Length + 1)
             {
+                Console.Clear();
                 Console.WriteLine("Du har loggat ut.");
                 return false;
             }
