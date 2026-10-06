@@ -6,6 +6,19 @@ namespace Bankomaten.UI.MenuOptions;
 
 public class TransferMenu(string title, ConsoleInputValidation consoleInputValidation, BankService bankService) : IMenuOptions
 {
+    
+    private const string NoAccountMessage = "You don't have enough accounts to transfer";
+    
+    private const string AmountQuestion = "How much do you want to transfer?";
+    
+    private const string SuccessMessage = "Transfer successful!";
+    
+    private const string UnsuccessMessage = "Transfer unsuccessful!";
+    
+    private const string FromWithAccountQuestion = "Choose the account to transfer from";
+    
+    private const string ToWhichAccountQuestion = "Choose the account to transfer to";
+
     public string Title { get; } = title;
 
     public void Execute(User user)
@@ -13,10 +26,15 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
         int selectedOption = consoleInputValidation.ReadInteger(BuildMenu(), 1, 2);
         Console.Clear();
 
-        if (selectedOption == 1)
+        switch (selectedOption)
         {
-            string choseTransferAccountFrom = ChoseTransferAccountFrom(user);
-            Console.WriteLine(choseTransferAccountFrom);
+            case 1:
+                TransferBetweenUserAccounts(user);
+                break;
+            case 2:
+                break;
+            default:
+                break;
         }
     }
 
@@ -28,30 +46,44 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
             .AppendLine("2. Transfer to another user")
             .ToString();
     }
-    
-    private string ChoseTransferAccountFrom(User user)
+
+    private void TransferBetweenUserAccounts(User user)
     {
-        if (user.Accounts.Count <= 1)
+        if (user.Accounts.Count < 2)
         {
-            return "You don't have enough accounts to transfer";
+            throw new InvalidDataException(NoAccountMessage);
         }
         
-        var stringBuilder = new StringBuilder();
-        stringBuilder.AppendLine("Chose from with account you wanna do transfer");
-        stringBuilder.AppendLine(AllUserAccountsAsString(user.Accounts));
+        int indexTransferAccountFrom = consoleInputValidation.ReadInteger(
+            BuildAccountPrompt(FromWithAccountQuestion, user.Accounts), 1, user.Accounts.Count
+        );
+
+        int indexTransferAccountTo = consoleInputValidation.ReadInteger(
+            BuildAccountPrompt(ToWhichAccountQuestion, user.Accounts), 1, user.Accounts.Count
+        );
+
+        if (indexTransferAccountFrom == indexTransferAccountTo)
+        {
+            throw new InvalidDataException("You can't chose same account to transfer");
+        }
         
-        return stringBuilder.ToString();
+        Account fromAccount = user.Accounts[indexTransferAccountFrom - 1];
+        Account toAccount = user.Accounts[indexTransferAccountTo - 1];
+
+        decimal amount = consoleInputValidation.ReadDecimal(AmountQuestion, fromAccount.GetBalance());
+
+        bool isTransactionSuccessful = bankService.TransferBetweenUserAccounts(user, fromAccount, toAccount, amount);
+
+        Console.WriteLine(isTransactionSuccessful ? SuccessMessage : UnsuccessMessage);
     }
 
-    private string AllUserAccountsAsString(List<Account> accounts)
+    private string BuildAccountPrompt(string question, List<Account> accounts)
     {
-        var stringBuilder = new StringBuilder();
-
-        byte index = 1;
-        foreach (Account account in accounts)
+        var stringBuilder = new StringBuilder().AppendLine(question);
+        
+        for (int i = 0; i < accounts.Count; i++)
         {
-            stringBuilder.AppendLine(index + ". " + account.Name + " Balance: " + account.GetBalance());
-            index++;
+            stringBuilder.AppendLine($"{i + 1}. {accounts[i].Name}  Balance: {accounts[i].GetBalance():C}");
         }
         
         return stringBuilder.ToString();
