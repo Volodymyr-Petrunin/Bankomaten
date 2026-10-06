@@ -68,9 +68,13 @@ public class ConsoleInputValidation
         return Console.ReadLine() ?? throw new EndOfStreamException("Input ended unexpectedly.");
     }
 
-    public void WaitForEnter()
+    /// <summary>
+    /// Waits for the user to press Enter before continuing.
+    /// </summary>
+    /// <param name="message">The message to display.</param>
+    public void WaitForEnter(string message = "Tryck på Enter för att gå till huvudmenyn...")
     {
-        Console.WriteLine("Tryck på Enter för att gå till huvudmenyn...");
+        Console.WriteLine(message);
         ReadLineOrThrow();
     }
 }

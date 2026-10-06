@@ -13,6 +13,8 @@ namespace Bankomaten.UI
         /// </summary>
         IMenuOption[] menuOptions = new IMenuOption[] { new TestMenuOptionTest() };
 
+        new ConsoleInputValidation validInput = new ConsoleInputValidation();
+
 
 
         public void Show(User user)
@@ -25,13 +27,14 @@ namespace Bankomaten.UI
                 Console.WriteLine($"{i + 1}. {menuOptions[i].Title}");
             }
             Console.WriteLine($"{menuOptions.Length + 1}. Logga ut");
-            int choice = new ConsoleInputValidation().ReadInteger("Ange ditt val:", 1, menuOptions.Length + 1);
+            int choice = validInput.ReadInteger("Ange ditt val:", 1, menuOptions.Length + 1);
             if (choice == menuOptions.Length + 1)
             {
                 Console.WriteLine("Du har loggat ut.");
                 return;
             }
             menuOptions[choice - 1].Execute(user);
+            validInput.WaitForEnter();
         }
         string userMenuTitle = """
             ==========================================================================
