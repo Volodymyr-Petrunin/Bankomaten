@@ -11,13 +11,15 @@ namespace Bankomaten.UI
         /// <summary>
         /// Array of menu options to display in the main menu.
         /// </summary>
-        IMenuOption[] menuOptions;
+        IMenuOption[] menuOptions = new IMenuOption[] { new TestMenuOptionTest() };
+
+
 
         public void Show(User user)
         {
             Console.WriteLine(userMenuTitle);
             Console.WriteLine($"Välkommen {user.UserName}!");
-            Console.WriteLine("Välj ett alternativ nedan:");
+            Console.WriteLine("Välj ett alternativ nedan:\n");
             for (int i = 0; i < menuOptions.Length; i++)
             {
                 Console.WriteLine($"{i + 1}. {menuOptions[i].Title}");
