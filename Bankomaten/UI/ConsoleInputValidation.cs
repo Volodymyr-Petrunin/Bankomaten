@@ -72,7 +72,7 @@ public class ConsoleInputValidation
     /// Waits for the user to press Enter before continuing.
     /// </summary>
     /// <param name="message">The message to display.</param>
-    public void WaitForEnter(string message = "Tryck på Enter för att gå till huvudmenyn...")
+    public void WaitForEnter(string message = "Tryck på Enter för att gå till huvudmenyn.")
     {
         Console.WriteLine(message);
         ReadLineOrThrow();

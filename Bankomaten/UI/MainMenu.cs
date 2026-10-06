@@ -14,7 +14,7 @@ namespace Bankomaten.UI
         /// </summary>
         IMenuOption[] menuOptions = new IMenuOption[] { new TestMenuOptionTest() };
 
-        new ConsoleInputValidation validInput = new ConsoleInputValidation();
+        new ConsoleInputValidation _consoleInput = new ConsoleInputValidation();
 
 
         /// <summary>
@@ -30,15 +30,15 @@ namespace Bankomaten.UI
             {
                 Console.WriteLine($"{i + 1}. {menuOptions[i].Title}");
             }
-            Console.WriteLine($"{menuOptions.Length + 1}. Logga ut");
-            int choice = validInput.ReadInteger("Ange ditt val:", 1, menuOptions.Length + 1);
-            if (choice == menuOptions.Length + 1)
+            Console.WriteLine($"\n{menuOptions.Length + 1}. Logga ut\n");
+            int selectedMainMenu = _consoleInput.ReadInteger("Ange ditt val:", 1, menuOptions.Length + 1);
+            if (selectedMainMenu == menuOptions.Length + 1)
             {
                 Console.WriteLine("Du har loggat ut.");
                 return;
             }
-            menuOptions[choice - 1].Execute(user);
-            validInput.WaitForEnter();
+            menuOptions[selectedMainMenu - 1].Execute(user);
+            _consoleInput.WaitForEnter();
         }
 
         /// <summary>
