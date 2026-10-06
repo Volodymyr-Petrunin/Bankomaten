@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Bankomaten.Domain
 {
-    internal class User
+    public class User
     {
 
         /// <summary>
@@ -14,7 +14,7 @@ namespace Bankomaten.Domain
         /// <summary>
         /// Pin for the user
         /// </summary>
-        public int Pin { get; set; }
+        public string Pin { get; set; }
 
         public List<Account> Accounts { get; set; }
 
@@ -23,7 +23,7 @@ namespace Bankomaten.Domain
         /// </summary>
         /// <param name="userName">Name of the user</param>
         /// <param name="pin">Pin for the user</param>
-        public User(string userName,int pin)
+        public User(string userName, string pin)
         {
             UserName = userName;
             Pin = pin;
