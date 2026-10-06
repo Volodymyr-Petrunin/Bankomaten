@@ -17,10 +17,16 @@ class Program {
 
         BankService bankService = new BankService(SeedData.GenerateUsers());
 
+        UserLogin userLogin = new UserLogin();
+        userLogin.StartBankomaten();
+
         ConsoleInputValidation consoleInputValidation = new ConsoleInputValidation();
         IMenuOptions[] options = [new TransferMenu("Transfer between accounts", consoleInputValidation, bankService)];
         
         options[0].Execute(bankService._users.Values.First());
+
+
+       
     }
     
 }

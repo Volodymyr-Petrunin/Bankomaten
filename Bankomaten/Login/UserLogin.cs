@@ -1,79 +1,90 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Text;
-using Bankomaten.Data;
+﻿using Bankomaten.Data;
 using Bankomaten.Domain;
-using Bankomaten.UI;
 
 namespace Bankomaten.Login
 {
     internal class UserLogin
     {
-        private string? usernameInput;
         private int loginAttempsCounter = 0;
 
         public void StartBankomaten()
         {
-            Console.WriteLine("===== Välkommen till bankomaten =====");
+            Console.WriteLine("===== Välkommen till Bankomaten =====");
             Console.WriteLine();
 
-            GetUsernameFromUserInput();
-            GetPinFromUserInput(usernameInput!);
+            UserInput();
         }
 
         /// <summary>
-        /// Get username from the user and validate the input.
+        /// Get user input (username and pin code) and validate the format so it's not null, empty or whitespace.
+        /// When input format is validated, call the "UserCredentialAuthentication" for credential authentication.
         /// </summary>
-        private void GetUsernameFromUserInput()
+        private void UserInput()
         {
-            bool isUserNameOk = false;
+            bool isUsernameInputFormatOK = false;
+            bool isPinInputFormatOk = false;
+            string usernameInput = "";
+            string userPinInput = "";
 
-            while (!isUserNameOk)
+            // Check if user input format is null, empty or whitespace
+            while (!isUsernameInputFormatOK)
             {
                 Console.WriteLine("Skriv in ditt användarnamn");
                 usernameInput = Console.ReadLine()!;
+                Console.WriteLine();
 
                 if (string.IsNullOrEmpty(usernameInput) || string.IsNullOrWhiteSpace(usernameInput))
                 {
-                    // NOTE: Login attempts is not logged here. The logins are counted within "GetPinFromUserInput"-method
-
-                    Console.WriteLine("Inskrivet format är felaktigt.");
-                    isUserNameOk = false;
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Inskrivet format är felaktigt.\n");
+                    Console.ResetColor();
+                    isUsernameInputFormatOK = false;
                 }
                 else
                 {
-                    isUserNameOk = true;
-                    bool usernameValidation = UsernameValidation(usernameInput);
+                    isUsernameInputFormatOK = true;
                 }
             }
-        }
 
-        /// <summary>
-        /// Get user pin and validate the format.
-        /// Check if the pin is correct together with the username.
-        /// </summary>
-        /// <param name="username"></param>
-        private void GetPinFromUserInput(string userPin)
-        {
-            bool isUserPinOk = false;
-
-            while (!isUserPinOk)
+            // Check if user input format is null, empty or whitespace
+            while (!isPinInputFormatOk)
             {
-                //Console.WriteLine("Skriv in ditt lösenord");
-                //bool intVerify = int.TryParse(Console.ReadLine(), out int pin);
+                Console.WriteLine("Skriv in din pinkod");
+                userPinInput = Console.ReadLine()!;
 
-                ConsoleInputValidation civ = new ConsoleInputValidation();
+                if (string.IsNullOrEmpty(userPinInput) || string.IsNullOrWhiteSpace(userPinInput))
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Inskrivet format är felaktigt.\n");
+                    Console.ResetColor();
+                    isPinInputFormatOk = false;
+                }
+                else
+                {
+                    isPinInputFormatOk = true;
+                }
+            }
 
-                int inputPinCode = civ.ReadInteger("Skriv in ditt lösenord", 0000, 9999); // Input validation
-
-                UserPinValidation(inputPinCode);
-
+            if (isUsernameInputFormatOK && isPinInputFormatOk)
+            {
+                // Check if entered credential are correct
+                if (UserCredentialAuthentication(usernameInput, userPinInput))
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Clear();
+                    Console.WriteLine("\nInloggningen lyckades\n");
+                    Console.ResetColor();
+                }
+                else
+                {
+                    CheckLoginAttemps();
+                }
             }
         }
 
         /// <summary>
         /// Monitor the number of login attempts.
+        /// If login attempts is equal to 3, call the block-user function.
         /// </summary>
         private void CheckLoginAttemps()
         {
@@ -83,72 +94,65 @@ namespace Bankomaten.Login
             {
                 BlockUserTimePeriod();
             }
+            else
+            {
+                UserInput();
+            }
         }
         
         /// <summary>
-        /// Block user from interact with the program after 3 failed login attempts.
+        /// Block user from interact with the program.
+        /// The user will be able to see the countdown. The console get clear after each count to not fill the entire
+        /// console window with messages.
         /// </summary>
         private void BlockUserTimePeriod()
         {
-            int blockWaitingTime = 0;
-            int blockTime = 60; 
+            int blockWaitingTime = 60; 
 
-            while (blockWaitingTime < blockTime)
+            while (blockWaitingTime >= 0)
             {
-                Thread.Sleep(1000); // Block computer thread for 1 second
-                blockWaitingTime++; // Count up 1 second
-
-                Console.WriteLine("Remaining time: " + (blockTime - 1).ToString());
+                Thread.Sleep(1000); // Block computer thread for 1s (timeout)
                 Console.Clear();
+
+                blockWaitingTime--; // Count down 1s
+
+                Console.WriteLine("Du har angett fel användarnam eller lösenord för många gånger.");
+                Console.WriteLine($"Du är nu därför spärrad!\n");
+                Console.WriteLine("Återstående tid: " + blockWaitingTime.ToString());
             }
+
             loginAttempsCounter = 0; // Reset loginAttemps
-            StartBankomaten(); // After the blocking time start from beginning again.
+
+            Console.Clear();
+            UserInput(); // After the blocking time start from where user enter the credentials.
         }
 
         /// <summary>
-        /// Iterate through all users and compare if the username that the user entered
+        /// Get all users from "SeedData" and authenticate user input credentials with the stored credentials.
+        /// The comparison is not case-sensitive.
         /// </summary>
         /// <param name="usernameInput"></param>
+        /// <param name="userPinInput"></param>
         /// <returns></returns>
-        private bool UsernameValidation(string usernameInput)
+        private bool UserCredentialAuthentication(string usernameInput, string userPinInput)
         {
-            User user = new User(usernameInput, 0000);
+            List<User> allUsers = SeedData.Users;
 
-            if (SeedData.UserData  != null)
+            foreach (User user in allUsers)
             {
-                //foreach (User user in SeedData.UserData)
-                //{
-                //    //if (user.UserName == usernameInput && user != null)
-                //    //{
-                //    //    return true;
-                //    //}
-
-                if (SeedData.UserData.Comparer.Compare(usernameInput, User.UserName) == 0)
+                // Check if "user" is not null and if "user.Username" & "usernameInput" is equal, ignoring case sensitive,
+                // and that that the pin is correct for the username.
+                if (user != null && string.Equals(user.UserName, usernameInput, StringComparison.OrdinalIgnoreCase) &&
+                    user.Pin == userPinInput)
                 {
-
-                }
-                //}
-            }
-            return false;
-        }
-
-        private bool UserPinValidation(int inputPinCode)
-        {
-            if (SeedData.UserData != null)
-            {
-                foreach (User user in SeedData.UserData)
-                {
-                    if (user != null)
-                    {
-                        if (user.UserName == usernameInput && user.Pin == inputPinCode)
-                        {
-                            return true;
-                        }
-
-                        CheckLoginAttemps();
-                    }
+                    return true;
                 }
             }
+
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Användarnamnet eller lösenordet är felaktigt!\n");
+            Console.ResetColor();
+
             return false;
         }
     }

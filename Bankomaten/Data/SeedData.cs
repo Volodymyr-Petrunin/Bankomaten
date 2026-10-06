@@ -2,11 +2,11 @@
 
 namespace Bankomaten.Data;
 
-public static class SeedData
+public class SeedData
 {
     private static readonly string[] AccountNames = ["Lönekonto", "Sparkonto", "Buffert", "Semesterkonto", "Bilkonto"];
 
-    private static readonly List<User> Users =
+    public static readonly List<User> Users =
     [
         new User("Volodymyr", "1234"),
         new User("Nils", "0987"),
