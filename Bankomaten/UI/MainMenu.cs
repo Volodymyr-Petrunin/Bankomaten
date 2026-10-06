@@ -10,13 +10,17 @@ namespace Bankomaten.UI
     {
         /// <summary>
         /// Array of menu options to display in the main menu.
+        /// Add new menu options here to make them available in the main menu.
         /// </summary>
         IMenuOption[] menuOptions = new IMenuOption[] { new TestMenuOptionTest() };
 
         new ConsoleInputValidation validInput = new ConsoleInputValidation();
 
 
-
+        /// <summary>
+        /// Displays the main menu for the user and handles user input.
+        /// </summary>
+        /// <param name="user">The user to show the menu for.</param>
         public void Show(User user)
         {
             Console.WriteLine(userMenuTitle);
@@ -36,6 +40,10 @@ namespace Bankomaten.UI
             menuOptions[choice - 1].Execute(user);
             validInput.WaitForEnter();
         }
+
+        /// <summary>
+        /// The title of the user menu, displayed when the user logs in.
+        /// </summary>
         string userMenuTitle = """
             ==========================================================================
             ||                                                                      ||
