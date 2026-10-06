@@ -16,7 +16,14 @@ class Program {
 
         User testUser = new User("Nils", "0987");
         MainMenu menu = new MainMenu();
-        menu.Show(testUser);
+        bool running = true;
+        while (running)
+        {
+            //loggedInUser = login.Marcus
+            Console.Clear();
+            menu.Show(testUser);
+        }
+        
     }
     
 }

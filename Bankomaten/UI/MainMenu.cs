@@ -21,7 +21,7 @@ namespace Bankomaten.UI
         /// Displays the main menu for the user and handles user input.
         /// </summary>
         /// <param name="user">The user to show the menu for.</param>
-        public void Show(User user)
+        public bool Show(User user)
         {
             Console.WriteLine(userMenuTitle);
             Console.WriteLine($"Välkommen {user.UserName}!");
@@ -35,10 +35,11 @@ namespace Bankomaten.UI
             if (selectedMainMenu == menuOptions.Length + 1)
             {
                 Console.WriteLine("Du har loggat ut.");
-                return;
+                return false;
             }
             menuOptions[selectedMainMenu - 1].Execute(user);
             _consoleInput.WaitForEnter();
+            return true;
         }
 
         /// <summary>
