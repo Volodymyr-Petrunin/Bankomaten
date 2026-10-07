@@ -18,7 +18,7 @@ namespace Bankomaten.UI
 
 
         /// <summary>
-        /// Displays the main menu for the user and handles user input.
+        /// Displays the main menu for the user.
         /// </summary>
         public bool Show(User user)
         {
