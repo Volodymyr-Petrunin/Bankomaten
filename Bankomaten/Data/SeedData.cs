@@ -15,9 +15,9 @@ public static class SeedData
         new User("Karl", "1010"),
     ];
 
-    public static Dictionary<long, User> GenerateUsers()
+    public static Dictionary<byte, User> GenerateUsers()
     {
-        long id = 1;
+        byte id = 1;
 
         AddAccountsToUsers();
 
