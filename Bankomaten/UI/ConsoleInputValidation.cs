@@ -6,6 +6,11 @@
 /// </summary>
 public class ConsoleInputValidation 
 {
+    /// <summary>
+    /// Default message to display when waiting for the user to press Enter.
+    /// </summary>
+    private const string defaultMessage = "Tryck på Enter för att gå vidare.";
+
     /// <summary> Asks until the user enters an integer between min and max.</summary>
     /// <returns>A valid integer between min and max.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Throws only when min param is bigger than max param</exception>
@@ -72,7 +77,7 @@ public class ConsoleInputValidation
     /// Waits for the user to press Enter before continuing.
     /// </summary>
     /// <param name="message">The message to display.</param>
-    public void WaitForEnter(string message = "Tryck på Enter för att gå till huvudmenyn.")
+    public void WaitForEnter(string message = defaultMessage)
     {
         Console.WriteLine(message);
         ReadLineOrThrow();

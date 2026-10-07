@@ -20,26 +20,29 @@ namespace Bankomaten.UI
         /// <summary>
         /// Displays the main menu for the user and handles user input.
         /// </summary>
-        /// <param name="user">The user to show the menu for.</param>
         public bool Show(User user)
         {
             Console.WriteLine(userMenuTitle);
             Console.WriteLine($"Välkommen {user.UserName}!");
             Console.WriteLine("Välj ett alternativ nedan:\n");
+
             for (int i = 0; i < menuOptions.Length; i++)
             {
                 Console.WriteLine($"{i + 1}. {menuOptions[i].Title}");
             }
+
             Console.WriteLine($"\n{menuOptions.Length + 1}. Logga ut\n");
             int selectedMainMenu = _consoleInput.ReadInteger("Ange ditt val:", 1, menuOptions.Length + 1);
+
             if (selectedMainMenu == menuOptions.Length + 1)
             {
                 Console.Clear();
                 Console.WriteLine("Du har loggat ut.");
                 return false;
             }
+
             menuOptions[selectedMainMenu - 1].Execute(user);
-            _consoleInput.WaitForEnter();
+            _consoleInput.WaitForEnter("Tryck på Enter för att återgå till huvumenyn.");
             return true;
         }
 
