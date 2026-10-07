@@ -13,14 +13,14 @@ public class ConsoleInputValidation
     {
         ArgumentOutOfRangeException.ThrowIfGreaterThan(min, max);
 
-        Console.WriteLine(question);
+        Console.Write(question);
 
         int result;
 
         while (!int.TryParse(ReadLineOrThrow(), out result) || result < min || result > max)
         {
             Console.WriteLine($"Ogiltig inmatning. Ange ett tal mellan {min} och {max}.");
-            Console.WriteLine(question);
+            Console.Write(question);
         }
 
         return result;
@@ -33,14 +33,14 @@ public class ConsoleInputValidation
     {
         ArgumentOutOfRangeException.ThrowIfGreaterThan(min, max);
         
-        Console.WriteLine(question);
+        Console.Write(question);
 
         decimal result;
 
         while (!IsValidDecimal(ReadLineOrThrow(), min, max, out result))
         {
             Console.WriteLine($"Ogiltigt belopp. Ange ett belopp mellan {min:C} och {max:C}, med max två decimaler.");
-            Console.WriteLine(question);
+            Console.Write(question);
         }
 
         return result;
