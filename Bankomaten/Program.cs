@@ -1,4 +1,5 @@
 using System.Globalization;
+using Bankomaten.Data;
 using Bankomaten.Services;
 using Bankomaten.UI;
 using Bankomaten.UI.MenuOptions;
@@ -13,11 +14,13 @@ class Program {
         // All parsing and formatting in the app uses Swedish rules, regardless of the machine's settings
         CurrentCulture = new CultureInfo("sv-SE");
 
-        UserManagement userManagement = new UserManagement();
+        UserManagement userManagement = new UserManagement(SeedData.GenerateUsers());
         BankService bankService = new BankService();
 
         ConsoleInputValidation consoleInputValidation = new ConsoleInputValidation();
-        IMenuOptions[] options = [new TransferMenu("Transfer between accounts", consoleInputValidation, bankService)];
+        IMenuOptions[] options = [
+            new TransferMenu("Transfer between accounts", consoleInputValidation, bankService, userManagement),
+        ];
         
         options[0].Execute(userManagement.users.Values.First());
     }

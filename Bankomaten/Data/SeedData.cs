@@ -27,7 +27,7 @@ public static class SeedData
     private static void AddAccountsToUsers()
     {
         // Every user must have a different number of accounts, so the counts are shuffled, not random
-        int[] accountCounts = [.. Enumerable.Range(1, AccountNames.Length - 1)];
+        int[] accountCounts = [.. Enumerable.Range(1, AccountNames.Length)];
         Random.Shared.Shuffle(accountCounts);
 
         for (int index = 0; index < Users.Count - 1; index++)
