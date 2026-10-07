@@ -4,13 +4,6 @@ namespace Bankomaten.Services;
 
 public class BankService
 {
-    public readonly Dictionary<byte, User> _users;
-
-    public BankService(Dictionary<byte, User> users)
-    {
-        _users = users;
-    }
-
     public bool TransferBetweenUserAccounts(User user, Account fromAccount, Account toAccount, decimal amount)
     {
         if (!user.Accounts.Contains(fromAccount) || !user.Accounts.Contains(toAccount))
