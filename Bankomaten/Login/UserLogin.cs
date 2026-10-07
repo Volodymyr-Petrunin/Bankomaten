@@ -1,5 +1,6 @@
 ﻿using Bankomaten.Data;
 using Bankomaten.Domain;
+using Bankomaten.Services;
 
 namespace Bankomaten.Login
 {
@@ -9,9 +10,6 @@ namespace Bankomaten.Login
 
         public void StartBankomaten()
         {
-            Console.WriteLine("===== Välkommen till Bankomaten =====");
-            Console.WriteLine();
-
             UserInput();
         }
 
@@ -23,8 +21,8 @@ namespace Bankomaten.Login
         {
             bool isUsernameInputFormatOK = false;
             bool isPinInputFormatOk = false;
-            string usernameInput = "";
-            string userPinInput = "";
+            string usernameInput = string.Empty;
+            string userPinInput = string.Empty;
 
             // Check if user input format is null, empty or whitespace
             while (!isUsernameInputFormatOK)
@@ -65,21 +63,7 @@ namespace Bankomaten.Login
                 }
             }
 
-            if (isUsernameInputFormatOK && isPinInputFormatOk)
-            {
-                // Check if entered credential are correct
-                if (UserCredentialAuthentication(usernameInput, userPinInput))
-                {
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.Clear();
-                    Console.WriteLine("\nInloggningen lyckades\n");
-                    Console.ResetColor();
-                }
-                else
-                {
-                    CheckLoginAttemps();
-                }
-            }
+            UserCredentialAuthentication(usernameInput, userPinInput);
         }
 
         /// <summary>
@@ -131,12 +115,12 @@ namespace Bankomaten.Login
         /// Get all users from "SeedData" and authenticate user input credentials with the stored credentials.
         /// The comparison is not case-sensitive.
         /// </summary>
-        /// <param name="usernameInput"></param>
-        /// <param name="userPinInput"></param>
         /// <returns></returns>
-        private bool UserCredentialAuthentication(string usernameInput, string userPinInput)
+        private void UserCredentialAuthentication(string usernameInput, string userPinInput)
         {
-            List<User> allUsers = SeedData.Users;
+            //List<User> allUsers = SeedData.Users;
+            BankService bankService = new BankService(SeedData.GenerateUsers());
+            List<User> allUsers = bankService._users.Values.ToList();
 
             foreach (User user in allUsers)
             {
@@ -145,15 +129,20 @@ namespace Bankomaten.Login
                 if (user != null && string.Equals(user.UserName, usernameInput, StringComparison.OrdinalIgnoreCase) &&
                     user.Pin == userPinInput)
                 {
-                    return true;
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Clear();
+                    Console.WriteLine("\nInloggningen lyckades\n");
+                    Console.ResetColor();
+                }
+                else
+                {
+                    CheckLoginAttemps();
                 }
             }
 
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Användarnamnet eller lösenordet är felaktigt!\n");
             Console.ResetColor();
-
-            return false;
         }
     }
 }
