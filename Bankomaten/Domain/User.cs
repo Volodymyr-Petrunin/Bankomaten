@@ -11,7 +11,7 @@ namespace Bankomaten.Domain
         /// <summary>
         /// Pin for the user
         /// </summary>
-        public string Pin { get; private set; }
+        public string Pin { get; set; }
 
         /// <summary>
         /// List of accounts for the user
