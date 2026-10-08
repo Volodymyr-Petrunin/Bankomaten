@@ -14,7 +14,7 @@ namespace Bankomaten.UI
         /// </summary>
         IMenuOption[] menuOptions = new IMenuOption[] { };
 
-        new ConsoleInputValidation _consoleInput = new ConsoleInputValidation();
+        ConsoleInputValidation _consoleInput = new ConsoleInputValidation();
 
 
         /// <summary>
