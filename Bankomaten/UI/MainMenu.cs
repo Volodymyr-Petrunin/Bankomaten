@@ -27,20 +27,25 @@ namespace Bankomaten.UI
         ConsoleInputValidation _consoleInput = new ConsoleInputValidation();
 
         /// <summary>
+        /// Empty line, replaces \n.
+        /// </summary>
+        string nl = Environment.NewLine;
+
+        /// <summary>
         /// Displays the main menu for the user.
         /// </summary>
         public bool Show(User user)
         {
             Console.WriteLine(userMenuTitle);
             Console.WriteLine($"Välkommen {user.UserName}!");
-            Console.WriteLine("Välj ett alternativ nedan:\n");
+            Console.WriteLine($"Välj ett alternativ nedan:{nl}");
 
             for (int i = 0; i < menuOptions.Length; i++)
             {
                 Console.WriteLine($"{i + 1}. {menuOptions[i].Title}");
             }
 
-            Console.WriteLine($"\n{menuOptions.Length + 1}. Logga ut\n");
+            Console.WriteLine($"{nl}{menuOptions.Length + 1}. Logga ut{nl}");
             int selectedMainMenu = _consoleInput.ReadInteger("Ange ditt val:", 1, menuOptions.Length + 1);
 
             if (selectedMainMenu == menuOptions.Length + 1)
