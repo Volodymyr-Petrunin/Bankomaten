@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Bankomaten.Domain;
+using System;
 using System.Collections.Generic;
 using System.Text;
-using Bankomaten.Domain;
 
 namespace Bankomaten.UI.MenuOptions
 {
