@@ -4,26 +4,24 @@ using System.Text;
 
 namespace Bankomaten.Domain
 {
-    internal class User
+    public class User
     {
 
         /// <summary>
-        /// Username of the user
+        /// Username of the user.
         /// </summary>
         public string UserName { get; set; }
         /// <summary>
-        /// Pin for the user
+        /// Pin for the user.
         /// </summary>
-        public int Pin { get; set; }
+        public string Pin { get; set; }
 
         public List<Account> Accounts { get; set; }
 
         /// <summary>
-        /// Constructor for new user, with an empty list Accounts
+        /// Constructor for new user, with an empty list Accounts.
         /// </summary>
-        /// <param name="userName">Name of the user</param>
-        /// <param name="pin">Pin for the user</param>
-        public User(string userName,int pin)
+        public User(string userName, string pin)
         {
             UserName = userName;
             Pin = pin;
