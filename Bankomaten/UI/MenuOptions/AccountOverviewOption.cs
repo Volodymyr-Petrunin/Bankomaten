@@ -10,7 +10,10 @@ namespace Bankomaten.UI.MenuOptions
         public string Title => "Se dina konton och saldo";
         public void Execute(User user)
         {
-       
+            foreach (var account in user.Accounts)
+            {
+                Console.WriteLine(account.ToString());
+            }
         }
     }
 }
