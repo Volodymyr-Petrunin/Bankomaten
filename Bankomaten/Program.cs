@@ -14,20 +14,6 @@ class Program {
         // All parsing and formatting in the app uses Swedish rules, regardless of the machine's settings
         CurrentCulture = new CultureInfo("sv-SE");
 
-        ConsoleInputValidation ConsoleInputValidation = new ConsoleInputValidation();
-        User testUser = new User("Nils", "0987");
-        MainMenu menu = new MainMenu();
-
-        bool running = true;
-
-        while (running)
-        {
-            //loggedInUser = login.Marcus
-            Console.Clear();
-            running = menu.Show(testUser);
-        }
-        ConsoleInputValidation.WaitForEnter("Tack och Hej!");
-
     }
     
 }

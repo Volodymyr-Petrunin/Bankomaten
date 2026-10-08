@@ -12,7 +12,7 @@ namespace Bankomaten.UI
         /// Array of menu options to display in the main menu.
         /// Add new menu options here to make them available in the main menu.
         /// </summary>
-        IMenuOption[] menuOptions = new IMenuOption[] { new TestMenuOptionTest() };
+        IMenuOption[] menuOptions = new IMenuOption[] { };
 
         new ConsoleInputValidation _consoleInput = new ConsoleInputValidation();
 
@@ -50,16 +50,11 @@ namespace Bankomaten.UI
         /// The title of the user menu, displayed when the user logs in.
         /// </summary>
         string userMenuTitle = """
-            ==========================================================================
-            ||                                                                      ||
-            ||   _   _  _   _  _     _  _   _  ____   __  __ _____ _   _ __     __  ||
-            ||  | | | || | | || |   | || | | ||  _ \ |  \/  | ____| \ | |\ \   / /  ||
-            ||  | |_| || | | | \ \ / / | | | || | | || |\/| |  _| |  \| | \ \ / /   ||
-            ||  |  _  || |_| |  \ V /  | |_| || |_| || |  | | |___| |\  |  \ V /    ||
-            ||  |_| |_| \___/    \_/    \___/ |____/ |_|  |_|_____|_| \_|   |_|     ||
-            ||                                                                      ||
-            ==========================================================================
-            
+            ==========================
+                    Huvudmeny!
+            ==========================
             """;
+
+
     }
 }
