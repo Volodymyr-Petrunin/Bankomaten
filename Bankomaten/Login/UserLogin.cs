@@ -1,6 +1,7 @@
 ﻿using Bankomaten.Data;
 using Bankomaten.Domain;
 using Bankomaten.Services;
+using Bankomaten.UI;
 
 namespace Bankomaten.Login
 {
@@ -15,6 +16,7 @@ namespace Bankomaten.Login
 
         /// <summary>
         /// Get user input (username and pin code) and validate the format so it's not null, empty or whitespace.
+        /// Loops the username and pin code separately so the user do not need to enter everything if any user failure.
         /// When input format is validated, call the "UserCredentialAuthentication" for credential authentication.
         /// </summary>
         private void UserInput()
@@ -24,42 +26,45 @@ namespace Bankomaten.Login
             string usernameInput = string.Empty;
             string userPinInput = string.Empty;
 
-            // Check if user input format is null, empty or whitespace
+            ConsoleInputValidation civ = new ConsoleInputValidation();
+
             while (!isUsernameInputFormatOK)
             {
-                Console.WriteLine("Skriv in ditt användarnamn");
-                usernameInput = Console.ReadLine()!;
+                Console.Write("Skriv in ditt användarnamn: ");
+                usernameInput = Console.ReadLine()!.Trim();
                 Console.WriteLine();
 
-                if (string.IsNullOrEmpty(usernameInput) || string.IsNullOrWhiteSpace(usernameInput))
+                // Check if the user input is not null, empty or whitespace
+                if (civ.IsStringValid(usernameInput))
+                {
+                    isUsernameInputFormatOK = true;
+                }
+                else
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Inskrivet format är felaktigt.\n");
                     Console.ResetColor();
                     isUsernameInputFormatOK = false;
                 }
-                else
-                {
-                    isUsernameInputFormatOK = true;
-                }
             }
 
-            // Check if user input format is null, empty or whitespace
             while (!isPinInputFormatOk)
             {
-                Console.WriteLine("Skriv in din pinkod");
-                userPinInput = Console.ReadLine()!;
+                Console.Write("Skriv in din pinkod: ");
+                userPinInput = Console.ReadLine()!.Trim();
+                Console.WriteLine();
 
-                if (string.IsNullOrEmpty(userPinInput) || string.IsNullOrWhiteSpace(userPinInput))
+                // Check if the user input is not null, empty or whitespace and if it only contain digits
+                if (civ.IsStringValid(userPinInput) && civ.IsStringDigits(userPinInput))
+                {
+                    isPinInputFormatOk = true;
+                }
+                else
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Inskrivet format är felaktigt.\n");
                     Console.ResetColor();
                     isPinInputFormatOk = false;
-                }
-                else
-                {
-                    isPinInputFormatOk = true;
                 }
             }
 
@@ -101,8 +106,8 @@ namespace Bankomaten.Login
                 blockWaitingTime--; // Count down 1s
 
                 Console.WriteLine("Du har angett fel användarnam eller lösenord för många gånger.");
-                Console.WriteLine($"Du är nu därför spärrad!\n");
-                Console.WriteLine("Återstående tid: " + blockWaitingTime.ToString());
+                Console.WriteLine($"Temporär spärr aktiverad!\n");
+                Console.WriteLine("Återstående tid: " + blockWaitingTime.ToString() + "s");
             }
 
             loginAttempsCounter = 0; // Reset loginAttemps
@@ -112,37 +117,30 @@ namespace Bankomaten.Login
         }
 
         /// <summary>
-        /// Get all users from "SeedData" and authenticate user input credentials with the stored credentials.
-        /// The comparison is not case-sensitive.
+        /// Authenticate user input credentials with the stored credentials.
         /// </summary>
         /// <returns></returns>
         private void UserCredentialAuthentication(string usernameInput, string userPinInput)
         {
-            //List<User> allUsers = SeedData.Users;
-            BankService bankService = new BankService(SeedData.GenerateUsers());
-            List<User> allUsers = bankService._users.Values.ToList();
+            UserManagement um = new UserManagement();
 
-            foreach (User user in allUsers)
+            if (um.Authenticate(usernameInput, userPinInput))
             {
-                // Check if "user" is not null and if "user.Username" & "usernameInput" is equal, ignoring case sensitive,
-                // and that that the pin is correct for the username.
-                if (user != null && string.Equals(user.UserName, usernameInput, StringComparison.OrdinalIgnoreCase) &&
-                    user.Pin == userPinInput)
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.Clear();
                     Console.WriteLine("\nInloggningen lyckades\n");
                     Console.ResetColor();
-                }
-                else
-                {
-                    CheckLoginAttemps();
+
+                    return;
                 }
             }
 
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Användarnamnet eller lösenordet är felaktigt!\n");
             Console.ResetColor();
+            Console.WriteLine($"Försök {loginAttempsCounter + 1}/3.\n");
+            CheckLoginAttemps();
         }
     }
 }

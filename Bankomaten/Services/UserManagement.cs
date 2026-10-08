@@ -21,12 +21,16 @@ public class UserManagement
         return null;
     }
 
+    /// <summary>
+    /// Check if user is not null and if the user input username and pin matches the stored values.
+    /// Returns true if match, otherwise returns false.
+    /// </summary>
     public bool Authenticate(string username, string pin)
     {
         //checks if the username and pin match any user in the dictionary and returns true if they do, false otherwise
         foreach (User user in users.Values)
         {
-            if (user.UserName == username && user.Pin == pin)
+            if (user != null && user.UserName == username && user.Pin == pin)
             {
                 return true;
             }
