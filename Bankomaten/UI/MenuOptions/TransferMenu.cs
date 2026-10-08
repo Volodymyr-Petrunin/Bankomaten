@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Diagnostics;
+using System.Text;
 using Bankomaten.Domain;
 using Bankomaten.Services;
 using Bankomaten.UI.Exceptions;
@@ -32,7 +33,7 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
 
     public void Execute(User user)
     {
-        int selectedOption = consoleInputValidation.ReadInteger(BuildMenu(), 1, 2);
+        int selectedOption = consoleInputValidation.ReadInteger(BuildMenu(), 1, 3);
         Console.Clear();
 
         switch (selectedOption)
@@ -43,8 +44,10 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
             case 2:
                 TransferBetweenUsers(user);
                 break;
-            default:
+            case 3:
                 break;
+            default:
+                throw new UnreachableException($"Unexpected menu option: {selectedOption}");
         }
     }
 
@@ -52,8 +55,9 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
     {
         return new StringBuilder()
             .AppendLine(Title)
-            .AppendLine("1. Transfer to another account")
-            .AppendLine("2. Transfer to another user")
+            .AppendLine("1. Mellan egna konton")
+            .AppendLine("2. Till en annan användare")
+            .AppendLine("3. Tillbaka till huvudmenyn")
             .ToString();
     }
 

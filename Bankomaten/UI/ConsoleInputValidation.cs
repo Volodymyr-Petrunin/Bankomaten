@@ -49,6 +49,7 @@ public class ConsoleInputValidation
     /// <summary>
     /// Asks until the user enters a non-empty text. Surrounding spaces are removed.
     /// </summary>
+    /// <returns>String after validation; otherwise infinity loop until correct input</returns>
     public string ReadText(string question)
     {
         Console.WriteLine(question);

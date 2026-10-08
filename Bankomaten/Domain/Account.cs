@@ -72,7 +72,11 @@ namespace Bankomaten.Domain
             Balance -= amount;
             return true;
         }
-        
+
+        /// <summary>
+        /// Just return Balance decimal.
+        /// </summary>
+        /// <returns></returns>
         public decimal GetBalance() => Balance;
 
         /// <summary>Just overriding ToString</summary>

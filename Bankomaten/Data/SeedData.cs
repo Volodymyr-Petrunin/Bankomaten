@@ -4,6 +4,7 @@ namespace Bankomaten.Data;
 
 public static class SeedData
 {
+    
     private static readonly string[] AccountNames = ["Lönekonto", "Sparkonto", "Buffert", "Semesterkonto", "Bilkonto"];
 
     private static readonly List<User> Users =

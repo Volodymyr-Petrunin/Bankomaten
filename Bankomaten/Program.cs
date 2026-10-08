@@ -1,5 +1,6 @@
 using System.Globalization;
 using Bankomaten.Data;
+using Bankomaten.Domain;
 using Bankomaten.Services;
 using Bankomaten.UI;
 using Bankomaten.UI.MenuOptions;
@@ -22,7 +23,14 @@ class Program {
             new TransferMenu("Transfer between accounts", consoleInputValidation, bankService, userManagement),
         ];
         
-        options[0].Execute(userManagement.users.Values.First());
+        User testUser = userManagement.users.Values.First();
+
+        while (true)
+        {
+            options[0].Execute(testUser);
+            Console.WriteLine("Klicka enter för att komma till huvudmenyn");
+            Console.ReadLine();
+        }
     }
     
 }
