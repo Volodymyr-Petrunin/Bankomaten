@@ -9,7 +9,7 @@ public class ConsoleInputValidation
     /// <summary>
     /// Default message to display when waiting for the user to press Enter.
     /// </summary>
-    private const string defaultMessage = "Tryck på Enter för att gå vidare.";
+    private const string DefaultWaitMessage = "Tryck på Enter för att gå vidare.";
 
     /// <summary> Asks until the user enters an integer between min and max.</summary>
     /// <returns>A valid integer between min and max.</returns>
