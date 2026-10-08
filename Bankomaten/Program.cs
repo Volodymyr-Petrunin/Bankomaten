@@ -1,6 +1,3 @@
-using Bankomaten.Data;
-using Bankomaten.Domain;
-using Bankomaten.UI;
 using System.Globalization;
 using static System.Globalization.CultureInfo;
 

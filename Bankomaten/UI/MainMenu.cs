@@ -8,6 +8,16 @@ namespace Bankomaten.UI
 {
     internal class MainMenu
     {
+
+        /// <summary>
+        /// The title of the user menu, displayed when the user logs in.
+        /// </summary>
+        string userMenuTitle = """
+            ==========================
+                    Huvudmeny!
+            ==========================
+            """;
+
         /// <summary>
         /// Array of menu options to display in the main menu.
         /// Add new menu options here to make them available in the main menu.
@@ -15,7 +25,6 @@ namespace Bankomaten.UI
         IMenuOption[] menuOptions = new IMenuOption[] { };
 
         ConsoleInputValidation _consoleInput = new ConsoleInputValidation();
-
 
         /// <summary>
         /// Displays the main menu for the user.
@@ -45,16 +54,5 @@ namespace Bankomaten.UI
             _consoleInput.WaitForEnter("Tryck på Enter för att återgå till huvumenyn.");
             return true;
         }
-
-        /// <summary>
-        /// The title of the user menu, displayed when the user logs in.
-        /// </summary>
-        string userMenuTitle = """
-            ==========================
-                    Huvudmeny!
-            ==========================
-            """;
-
-
     }
 }
