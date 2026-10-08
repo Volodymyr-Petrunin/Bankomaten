@@ -77,7 +77,7 @@ public class ConsoleInputValidation
     /// Waits for the user to press Enter before continuing.
     /// </summary>
     /// <param name="message">The message to display.</param>
-    public void WaitForEnter(string message = defaultMessage)
+    public void WaitForEnter(string message = DefaultWaitMessage)
     {
         Console.WriteLine(message);
         ReadLineOrThrow();
