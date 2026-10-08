@@ -110,7 +110,7 @@ namespace Bankomaten.Login
             loginAttempsCounter = 0; // Reset loginAttemps
 
             Console.Clear();
-            UserInput(); // After the blocking time start from where user enter the credentials.
+            UserInput(); // After the blocking time, start from where user enter the credentials.
         }
 
         /// <summary>
