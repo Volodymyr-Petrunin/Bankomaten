@@ -4,6 +4,10 @@ namespace Bankomaten.Services;
 
 public class BankService
 {
+    /// <summary>
+    /// Transfers a specified amount of money from one account to another account belonging to the same user.
+    /// </summary>
+    /// <returns>True if the transfer is successful, false otherwise.</returns>
     public bool TransferBetweenUserAccounts(User user, Account fromAccount, Account toAccount, decimal amount)
     {
         if (!user.Accounts.Contains(fromAccount) || !user.Accounts.Contains(toAccount))

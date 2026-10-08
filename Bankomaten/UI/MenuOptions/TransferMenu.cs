@@ -31,6 +31,11 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
     
     public string Title { get; } = title;
 
+    /// <summary>
+    /// Executes the transfer menu for the specified user. Prompts the user to select an option
+    /// for transferring funds between their own accounts or to another user, or to exit the menu.
+    /// </summary>
+    /// <exception cref="UnreachableException">Thrown when an unexpected menu option is selected.</exception>
     public void Execute(User user)
     {
         int selectedOption = consoleInputValidation.ReadInteger(BuildMenu(), 1, 3);
@@ -51,6 +56,8 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
         }
     }
 
+    /// <summary>Builds and returns a formatted string representing a transfer menu with options.</summary>
+    /// <returns>A string containing the transfer menu options, formatted for display.</returns>
     private string BuildMenu()
     {
         return new StringBuilder()

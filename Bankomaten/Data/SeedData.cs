@@ -4,9 +4,17 @@ namespace Bankomaten.Data;
 
 public static class SeedData
 {
-    
+    /// <summary>
+    /// A collection of predefined account names.
+    /// These names are referred to when creating accounts for users.
+    /// </summary>
     private static readonly string[] AccountNames = ["Lönekonto", "Sparkonto", "Buffert", "Semesterkonto", "Bilkonto"];
 
+    /// <summary>
+    /// A predefined collection of user objects.
+    /// Each user has a unique username, pin, and an associated list of accounts.
+    /// Primarily used as seed data for initializing user data in the application.
+    /// </summary>
     private static readonly List<User> Users =
     [
         new User("Volodymyr", "1234"),
@@ -16,6 +24,13 @@ public static class SeedData
         new User("Karl", "1010"),
     ];
 
+    /// <summary>
+    /// Generates a dictionary of users with unique IDs as keys and User instances as values.
+    /// </summary>
+    /// <returns>
+    /// A dictionary where each key is a byte representing a unique user ID,
+    /// and each value is a User object containing user information.
+    /// </returns>
     public static Dictionary<byte, User> GenerateUsers()
     {
         byte id = 1;
@@ -25,6 +40,11 @@ public static class SeedData
         return Users.ToDictionary(user => id++);
     }
 
+    /// <summary>
+    /// Automatically assigns accounts to each user in the predefined list of users.
+    /// The number of accounts assigned to each user varies and is determined
+    /// based on a shuffled collection of account counts.
+    /// </summary>
     private static void AddAccountsToUsers()
     {
         // Every user must have a different number of accounts, so the counts are shuffled, not random
@@ -36,7 +56,17 @@ public static class SeedData
             Users[index].Accounts.AddRange(CreateAccounts(accountCounts[index]));
         }
     }
-    
+
+    /// <summary>
+    /// Creates a list of accounts with specified count using predefined account names.
+    /// Each account is initialized with a random balance within a predefined range.
+    /// </summary>
+    /// <param name="count">
+    /// The number of accounts to generate.
+    /// </param>
+    /// <returns>
+    /// A list of Account objects, where each account contains a unique name and a randomly generated balance.
+    /// </returns>
     private static List<Account> CreateAccounts(int count)
     {
         string[] names = (string[])AccountNames.Clone();
