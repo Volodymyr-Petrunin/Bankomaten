@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection.Metadata;
-using System.Text;
-using Bankomaten.Domain;
+﻿using Bankomaten.Domain;
 
 namespace Bankomaten.UI.MenuOptions
 {
@@ -16,7 +12,6 @@ namespace Bankomaten.UI.MenuOptions
         /// <summary>
         /// Executes the menu option, takes a user as parameter
         /// </summary>
-        /// <param name="user">The logged in user that executes the menu option</param>
         void Execute(User user);
     }
 }
