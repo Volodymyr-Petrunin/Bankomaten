@@ -54,4 +54,18 @@ public class BankService
         toAccount.Deposit(amount);
         return true;
     }
+    
+    /// <summary>
+    /// Verifies that the provided password matches the user's PIN.
+    /// </summary>
+    /// <returns>True if the password matches the user's PIN, false otherwise.</returns>
+    public bool VerifyPassword(User user, string password)
+    {
+        ArgumentNullException.ThrowIfNull(user);
+
+        if (string.IsNullOrWhiteSpace(password))
+            return false;
+
+        return user.Pin == password;
+    }
 }

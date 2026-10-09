@@ -57,7 +57,7 @@ public class ConsoleInputValidation
     /// <returns>String after validation; otherwise infinity loop until correct input</returns>
     public string ReadText(string question)
     {
-        Console.WriteLine(question);
+        Console.Write(question);
         string result = ReadLineOrThrow();
 
         while (string.IsNullOrWhiteSpace(result))

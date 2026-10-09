@@ -9,18 +9,20 @@ namespace Bankomaten.UI.MenuOptions;
 public class TransferMenu(string title, ConsoleInputValidation consoleInputValidation,
     BankService bankService, UserManagement userManagement) : IMenuOptions
 {
+    private const string FromAccountQuestion = "Välj konto att föra över från: ";
+
+    private const string ToAccountQuestion = "Välj konto att föra över till: ";
+
+    private const string AmountQuestion = "Hur mycket vill du föra över: ";
+
+    private const string RecipientQuestion = "Ange mottagarens användarnamn: ";
+    
+    private const string PinCodeQuestion = "Ange PIN-kod: ";
+    
     private const string NotEnoughAccountsMessage = "Du behöver minst två konton för att föra över mellan egna konton.";
     
     private const string EmptyAccountMessage = "Kontot är tomt. Välj ett konto med pengar.";
-    
-    private const string FromAccountQuestion = "Välj konto att föra över från:";
-    
-    private const string ToAccountQuestion = "Välj konto att föra över till:";
-    
-    private const string AmountQuestion = "Hur mycket vill du föra över?";
-    
-    private const string RecipientQuestion = "Ange mottagarens användarnamn:";
-    
+
     private const string RecipientNotFoundMessage = "Det finns ingen användare med det namnet.";
     
     private const string SelfTransferMessage = "Du kan inte skicka pengar till dig själv. Välj överföring mellan egna konton.";
@@ -91,6 +93,9 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
 
         decimal amount = consoleInputValidation.ReadDecimal(AmountQuestion, fromAccount.GetBalance());
 
+        if (!VerifyPinCode(user))
+            throw new UserInputException("Felaktig PIN-kod.");
+
         if (!bankService.TransferBetweenUserAccounts(user, fromAccount, toAccount, amount))
         {
             Console.WriteLine(FailedMessage);
@@ -122,6 +127,9 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
 
         Account fromAccount = ChooseSourceAccount(sender);
         decimal amount = consoleInputValidation.ReadDecimal(AmountQuestion, fromAccount.GetBalance());
+        
+        if (!VerifyPinCode(sender))
+            throw new UserInputException("Felaktig PIN-kod.");
 
         if (!bankService.TransferBetweenUsers(sender, fromAccount, recipient, amount))
         {
@@ -191,5 +199,10 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
         }
         
         return stringBuilder.ToString();
+    }
+
+    private bool VerifyPinCode(User user)
+    {
+        return bankService.VerifyPassword(user, consoleInputValidation.ReadText(PinCodeQuestion));
     }
 }
