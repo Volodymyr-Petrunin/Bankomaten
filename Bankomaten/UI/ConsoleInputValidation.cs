@@ -6,6 +6,11 @@
 /// </summary>
 public class ConsoleInputValidation 
 {
+    /// <summary>
+    /// Default message to display when waiting for the user to press Enter.
+    /// </summary>
+    private const string DefaultWaitMessage = "Tryck på Enter för att gå vidare.";
+
     /// <summary> Asks until the user enters an integer between min and max.</summary>
     /// <returns>A valid integer between min and max.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Throws only when min param is bigger than max param</exception>
@@ -13,14 +18,14 @@ public class ConsoleInputValidation
     {
         ArgumentOutOfRangeException.ThrowIfGreaterThan(min, max);
 
-        Console.WriteLine(question);
+        Console.Write(question);
 
         int result;
 
         while (!int.TryParse(ReadLineOrThrow(), out result) || result < min || result > max)
         {
             Console.WriteLine($"Ogiltig inmatning. Ange ett tal mellan {min} och {max}.");
-            Console.WriteLine(question);
+            Console.Write(question);
         }
 
         return result;
@@ -33,14 +38,14 @@ public class ConsoleInputValidation
     {
         ArgumentOutOfRangeException.ThrowIfGreaterThan(min, max);
         
-        Console.WriteLine(question);
+        Console.Write(question);
 
         decimal result;
 
         while (!IsValidDecimal(ReadLineOrThrow(), min, max, out result))
         {
             Console.WriteLine($"Ogiltigt belopp. Ange ett belopp mellan {min:C} och {max:C}, med max två decimaler.");
-            Console.WriteLine(question);
+            Console.Write(question);
         }
 
         return result;
@@ -85,5 +90,15 @@ public class ConsoleInputValidation
     private static string ReadLineOrThrow()
     {
         return Console.ReadLine() ?? throw new EndOfStreamException("Input ended unexpectedly.");
+    }
+
+    /// <summary>
+    /// Waits for the user to press Enter before continuing.
+    /// </summary>
+    /// <param name="message">The message to display.</param>
+    public void WaitForEnter(string message = DefaultWaitMessage)
+    {
+        Console.WriteLine(message);
+        ReadLineOrThrow();
     }
 }

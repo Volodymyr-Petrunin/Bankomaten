@@ -6,11 +6,11 @@ namespace Bankomaten.Domain
     {
 
         /// <summary>
-        /// Username of the user
+        /// Username of the user.
         /// </summary>
         public string UserName { get; private set; }
         /// <summary>
-        /// Pin for the user
+        /// Pin for the user.
         /// </summary>
         public string Pin { get; private set; }
 
@@ -20,10 +20,8 @@ namespace Bankomaten.Domain
         public List<Account> Accounts { get; private set; }
 
         /// <summary>
-        /// Constructor for new user, with an empty list Accounts
+        /// Constructor for new user, with an empty list Accounts.
         /// </summary>
-        /// <param name="userName">Name of the user</param>
-        /// <param name="pin">Pin for the user</param>
         public User(string userName, string pin)
         {
             UserName = userName;
