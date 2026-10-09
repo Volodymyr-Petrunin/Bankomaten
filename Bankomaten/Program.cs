@@ -1,6 +1,5 @@
 using System.Globalization;
 using Bankomaten.Data;
-using Bankomaten.Domain;
 using Bankomaten.Services;
 using Bankomaten.UI;
 using Bankomaten.UI.MenuOptions;
@@ -17,20 +16,16 @@ class Program {
 
         UserManagement userManagement = new UserManagement(SeedData.GenerateUsers());
         BankService bankService = new BankService();
-
         ConsoleInputValidation consoleInputValidation = new ConsoleInputValidation();
-        IMenuOptions[] options = [
-            new TransferMenu("Transfer between accounts", consoleInputValidation, bankService, userManagement),
-        ];
         
-        User testUser = userManagement.users.Values.First();
+        IMenuOptions[] options = [
+            new TransferMenu("Överföring mellan konton", consoleInputValidation, bankService, userManagement),
+        ];
 
-        while (true)
-        {
-            options[0].Execute(testUser);
-            Console.WriteLine("Klicka enter för att komma till huvudmenyn");
-            Console.ReadLine();
-        }
+        MainMenu mainMenu = new MainMenu(options,  consoleInputValidation);
+        // Here must be the login logic
+        
+        while (mainMenu.Show(userManagement.users.First().Value));
     }
     
 }
