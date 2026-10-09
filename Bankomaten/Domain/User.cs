@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Text;
 
 namespace Bankomaten.Domain
 {
@@ -10,13 +8,16 @@ namespace Bankomaten.Domain
         /// <summary>
         /// Username of the user.
         /// </summary>
-        public string UserName { get; set; }
+        public string UserName { get; private set; }
         /// <summary>
         /// Pin for the user.
         /// </summary>
-        public string Pin { get; set; }
+        public string Pin { get; private set; }
 
-        public List<Account> Accounts { get; set; }
+        /// <summary>
+        /// List of accounts for the user
+        /// </summary>
+        public List<Account> Accounts { get; private set; }
 
         /// <summary>
         /// Constructor for new user, with an empty list Accounts.
@@ -27,6 +28,17 @@ namespace Bankomaten.Domain
             Pin = pin;
 
             Accounts = new List<Account>();
+        }
+
+        /// <summary>Just overriding ToString</summary>
+        /// <returns>Returns string with contains main info</returns>
+        public override string ToString()
+        {
+            return new StringBuilder()
+                .Append("User name: " + UserName)
+                .Append(" Pin: " + Pin)
+                .Append(" Accounts: " + Accounts.Count)
+                .ToString();
         }
     }
 }

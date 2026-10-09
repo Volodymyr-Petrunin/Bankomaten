@@ -52,6 +52,25 @@ public class ConsoleInputValidation
     }
 
     /// <summary>
+    /// Asks until the user enters a non-empty text. Surrounding spaces are removed.
+    /// </summary>
+    /// <returns>String after validation; otherwise infinity loop until correct input</returns>
+    public string ReadText(string question)
+    {
+        Console.Write(question);
+        string result = ReadLineOrThrow();
+
+        while (string.IsNullOrWhiteSpace(result))
+        {
+            Console.WriteLine("Fältet får inte vara tomt.");
+            Console.WriteLine(question);
+            result = ReadLineOrThrow();
+        }
+
+        return result.Trim();
+    }
+
+    /// <summary>
     /// Checks that the input is a number between min and max with at most two decimals.
     /// And "." is accepted as well as "," so both 238,50 and 238.50 will work.
     /// </summary>

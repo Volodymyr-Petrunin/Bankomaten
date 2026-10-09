@@ -1,4 +1,6 @@
-﻿namespace Bankomaten.Domain
+﻿using System.Text;
+
+namespace Bankomaten.Domain
 {
     public class Account
     {
@@ -6,7 +8,7 @@
         /// <summary>
         /// Get/Set name for the account.
         /// </summary>
-        private string Name { get; set; }
+        public string Name { get; private set; }
 
         /// <summary>
         /// Get/Set current balance of the account.
@@ -64,6 +66,19 @@
 
             Balance -= amount;
             return true;
+        }
+
+        /// <summary>
+        /// Just return Balance decimal.
+        /// </summary>
+        /// <returns></returns>
+        public decimal GetBalance() => Balance;
+
+        /// <summary>Just overriding ToString</summary>
+        /// <returns>Returns string with contains main info</returns>
+        public override string ToString()
+        {
+            return $"Account Name: {Name}, Balance: {Balance:C}";
         }
     }
 }
