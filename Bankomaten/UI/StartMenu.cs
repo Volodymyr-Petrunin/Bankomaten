@@ -13,15 +13,18 @@ namespace Bankomaten.UI
 
         private readonly string _nl = Environment.NewLine;
         ConsoleInputValidation consoleInput = new ConsoleInputValidation();
-        public void Start()
+        UserLogin loginScreen = new UserLogin();
+        public bool Show(MainMenu mainMenu)
         {
-            while (true)
-            {
-
                 ShowMenu();
                 int input = consoleInput.ReadInteger("Ange ditt val:", 1, 2);
-
+            if (input == 1)
+            {
+                return mainMenu.Show(loginScreen.Login);
             }
+            Console.Clear();
+            Console.WriteLine("Programmet avslutas...");
+            return false;
         }
         private void ShowMenu()
         {
