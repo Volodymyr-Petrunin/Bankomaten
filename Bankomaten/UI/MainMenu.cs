@@ -1,4 +1,5 @@
 using Bankomaten.Domain;
+using Bankomaten.UI.Exceptions;
 using Bankomaten.UI.MenuOptions;
 
 namespace Bankomaten.UI
@@ -43,7 +44,18 @@ namespace Bankomaten.UI
                 return false;
             }
 
-            menuOptions[selectedMainMenu - 1].Execute(user);
+            try
+            {
+                menuOptions[selectedMainMenu - 1].Execute(user);
+            }
+            catch (UserInputException exception)
+            {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(exception.Message);
+                Console.ResetColor();
+            }
+            
             consoleInput.WaitForEnter("Tryck på Enter för att återgå till huvumenyn.");
             return true;
         }
