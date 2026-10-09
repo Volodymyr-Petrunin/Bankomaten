@@ -1,7 +1,4 @@
 ﻿using Bankomaten.Domain;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Bankomaten.UI.MenuOptions
 {
@@ -18,6 +15,22 @@ namespace Bankomaten.UI.MenuOptions
             {
                 Console.WriteLine(account.ToString());
             }
+            
+            PrintTransactionsHistory(user, 3);
+        }
+        
+        private static void PrintTransactionsHistory(User user, byte numberOfTransactionsToShow)
+        {
+            Console.WriteLine(new string('-', Console.WindowWidth / 2));
+            
+            if (user.TransactionsHistory.Count == 0)
+            {
+                Console.WriteLine("Inga transaktioner ännu.");
+                return;
+            }
+            
+            Console.WriteLine($"Senaste {numberOfTransactionsToShow} transaktionerna:");
+            user.TransactionsHistory.AsEnumerable().Reverse().Take(numberOfTransactionsToShow).ToList().ForEach(Console.WriteLine);
         }
     }
 }
