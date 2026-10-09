@@ -22,7 +22,7 @@ namespace Bankomaten.UI
         /// Array of menu options to display in the main menu.
         /// Add new menu options here to make them available in the main menu.
         /// </summary>
-        IMenuOption[] menuOptions = new IMenuOption[] { };
+        IMenuOption[] menuOptions = new IMenuOption[] { new AccountOverviewOption() };
 
         ConsoleInputValidation _consoleInput = new ConsoleInputValidation();
 
