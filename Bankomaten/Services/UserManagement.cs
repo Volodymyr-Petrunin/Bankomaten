@@ -1,5 +1,4 @@
-﻿using Bankomaten.Data;
-using Bankomaten.Domain;
+﻿using Bankomaten.Domain;
 
 namespace Bankomaten.Services;
 
@@ -40,7 +39,7 @@ public class UserManagement
 
     /// <summary>Authenticates a user by verifying the provided username and PIN.</summary>
     /// <returns> Returns true if the username and PIN match a user in the stored user data; otherwise, false.</returns>
-    public bool Authenticate(string username, string pin)
+    public User? Authenticate(string username, string pin)
     {
         //checks if the username and pin match any user in the dictionary and returns the user if they do, null otherwise
         foreach (User user in users.Values)
