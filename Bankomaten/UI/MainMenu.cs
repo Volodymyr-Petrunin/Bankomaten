@@ -1,52 +1,40 @@
-﻿using Bankomaten.UI.MenuOptions;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Bankomaten.Domain;
+using Bankomaten.UI.MenuOptions;
 
 namespace Bankomaten.UI
 {
-    internal class MainMenu
+    internal class MainMenu (IMenuOptions[] menuOptions, ConsoleInputValidation consoleInput)
     {
-
         /// <summary>
         /// The title of the user menu, displayed when the user logs in.
         /// </summary>
-        string userMenuTitle = """
-            ==========================
-                    Huvudmeny!
-            ==========================
-            """;
-
-        /// <summary>
-        /// Array of menu options to display in the main menu.
-        /// Add new menu options here to make them available in the main menu.
-        /// </summary>
-        IMenuOption[] menuOptions = new IMenuOption[] { new AccountOverviewOption() };
-
-        ConsoleInputValidation _consoleInput = new ConsoleInputValidation();
+        private const string UserMenuTitle = """
+                                             ==========================
+                                                     Huvudmeny!
+                                             ==========================
+                                             """;
 
         /// <summary>
         /// Empty line, replaces \n.
         /// </summary>
-        string nl = Environment.NewLine;
+        private readonly string _nl = Environment.NewLine;
 
         /// <summary>
         /// Displays the main menu for the user.
         /// </summary>
         public bool Show(User user)
         {
-            Console.WriteLine(userMenuTitle);
+            Console.WriteLine(UserMenuTitle);
             Console.WriteLine($"Välkommen {user.UserName}!");
-            Console.WriteLine($"Välj ett alternativ nedan:{nl}");
+            Console.WriteLine($"Välj ett alternativ nedan:{_nl}");
 
-            for (int i = 0; i < menuOptions.Length; i++)
+            for (int index = 0; index < menuOptions.Length; index++)
             {
-                Console.WriteLine($"{i + 1}. {menuOptions[i].Title}");
+                Console.WriteLine($"{index + 1}. {menuOptions[index].Title}");
             }
 
-            Console.WriteLine($"{nl}{menuOptions.Length + 1}. Logga ut{nl}");
-            int selectedMainMenu = _consoleInput.ReadInteger("Ange ditt val:", 1, menuOptions.Length + 1);
+            Console.WriteLine($"{_nl}{menuOptions.Length + 1}. Logga ut{_nl}");
+            int selectedMainMenu = consoleInput.ReadInteger("Ange ditt val:", 1, menuOptions.Length + 1);
 
             if (selectedMainMenu == menuOptions.Length + 1)
             {
@@ -56,7 +44,7 @@ namespace Bankomaten.UI
             }
 
             menuOptions[selectedMainMenu - 1].Execute(user);
-            _consoleInput.WaitForEnter("Tryck på Enter för att återgå till huvumenyn.");
+            consoleInput.WaitForEnter("Tryck på Enter för att återgå till huvumenyn.");
             return true;
         }
     }
