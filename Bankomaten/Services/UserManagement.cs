@@ -5,7 +5,7 @@ using System;
 public class UserManagement
 {
     //stores the users from seed data
-    private Dictionary<long, User> users = SeedData.GenerateUsers();
+    private Dictionary<byte, User> users = SeedData.GenerateUsers();
 
     public User? FindUser(string username)
     {
@@ -21,17 +21,17 @@ public class UserManagement
         return null;
     }
 
-    public bool Authenticate(string username, string pin)
+    public User? Authenticate(string username, string pin)
     {
-        //checks if the username and pin match any user in the dictionary and returns true if they do, false otherwise
+        //checks if the username and pin match any user in the dictionary and returns the user if they do, null otherwise
         foreach (User user in users.Values)
         {
             if (user.UserName == username && user.Pin == pin)
             {
-                return true;
+                return user;
             }
         }
 
-        return false;
+        return null;
     }
 }
