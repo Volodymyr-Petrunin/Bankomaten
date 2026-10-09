@@ -22,11 +22,15 @@ class Program {
             new AccountOverviewOption(),
             new TransferMenu("Överföring mellan konton", consoleInputValidation, bankService, userManagement),
         ];
-
         MainMenu mainMenu = new MainMenu(options,  consoleInputValidation);
+        StartMenu startMenu = new StartMenu();
         // Here must be the login logic
-        
+
         while (mainMenu.Show(userManagement.users.First().Value));
+        while (startMenu.Show(mainMenu))
+        {
+            // Continue showing the start menu until the user chooses to exit
+        }
     }
     
 }
