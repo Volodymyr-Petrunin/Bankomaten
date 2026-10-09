@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Bankomaten.UI.MenuOptions
 {
-    internal class AccountOverviewOption : IMenuOption
+    internal class AccountOverviewOption : IMenuOptions
     {
         public string Title => "Se dina konton och saldo";
 
