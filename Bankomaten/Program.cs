@@ -20,6 +20,7 @@ class Program {
         ConsoleInputValidation consoleInputValidation = new ConsoleInputValidation();
         
         IMenuOptions[] options = [
+            new AccountOverviewOption(),
             new TransferMenu("Överföring mellan konton", consoleInputValidation, bankService, userManagement),
         ];
 
