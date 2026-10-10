@@ -1,5 +1,6 @@
 using System.Globalization;
 using Bankomaten.Data;
+using Bankomaten.Login;
 using Bankomaten.Services;
 using Bankomaten.UI;
 using Bankomaten.UI.MenuOptions;
@@ -24,6 +25,8 @@ class Program {
 
         MainMenu mainMenu = new MainMenu(options,  consoleInputValidation);
         // Here must be the login logic
+        UserLogin userLogin = new UserLogin();
+        userLogin.UserInput(userManagement);
         
         while (mainMenu.Show(userManagement.users.First().Value));
     }

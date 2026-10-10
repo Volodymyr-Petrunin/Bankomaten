@@ -89,7 +89,7 @@ public class ConsoleInputValidation
     /// <exception cref="EndOfStreamException">Thrown when input is closed, to avoid null input</exception>
     private static string ReadLineOrThrow()
     {
-        return Console.ReadLine() ?? throw new EndOfStreamException("Input ended unexpectedly.");
+        return Console.ReadLine() ?? throw new EndOfStreamException("Inmatningen avslutades oväntat.");
     }
 
     /// <summary>
@@ -100,38 +100,5 @@ public class ConsoleInputValidation
     {
         Console.WriteLine(message);
         ReadLineOrThrow();
-    }
-
-    /// <summary>
-    /// Check if a string is Null, Empty or only Whitespace.
-    /// Returns true if the string is NOT null, empty or whitespace, otherwise return false.
-    /// </summary>
-    public bool IsStringValid(string str)
-    {
-        if (string.IsNullOrWhiteSpace(str))
-        {
-            return false;
-        }
-
-        return true;
-    }
-
-    /// <summary>
-    /// Check if a string only contains digits.
-    /// Return true if only digits, otherwise return false.
-    /// </summary>
-    /// <param name="str"></param>
-    /// <returns></returns>
-    public bool IsStringDigits(string str)
-    {
-        // Try to convert string to an integer
-        bool result = int.TryParse(str, out int i);
-
-        if (result)
-        {
-            return true;
-        }
-
-        return false;
     }
 }
