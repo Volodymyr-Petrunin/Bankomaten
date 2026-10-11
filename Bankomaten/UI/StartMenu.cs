@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Bankomaten.Domain;
+using Bankomaten.Login;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -7,11 +9,10 @@ namespace Bankomaten.UI
 
     /// <summary>
     /// Class representing the start menu of the application.
+    /// Takes in the main menu, console input validation, and user login as dependencies.
     /// </summary>
-    internal class StartMenu
+    internal class StartMenu(MainMenu mainMenu, ConsoleInputValidation consoleInput, UserLogin userLogin)
     {
-        ConsoleInputValidation consoleInput = new ConsoleInputValidation();
-        UserLogin loginScreen = new UserLogin();
 
         /// <summary>
         /// Displays the start menu and handles user input for login or exit.
@@ -20,13 +21,15 @@ namespace Bankomaten.UI
         /// <c>true</c> if the user want to continue.
         /// <c>false</c> if the user wants to exit.
         /// </returns>
-        public bool Show(MainMenu mainMenu)
+        public bool Run()
         {
-            ShowMenu();
+            ShowStartMenu();
 
-            if (consoleInput.ReadInteger("Ange ditt val:", 1, 2) == 1)
+            if (consoleInput.ReadInteger("Ange ditt val: ", 1, 2) == 1)
             {
-                while (mainMenu.Show(loginScreen.Login));
+                var user = userLogin.UserInput();
+                Console.Clear();
+                while (mainMenu.Show(user));
                 return true;
             }
 
@@ -38,7 +41,7 @@ namespace Bankomaten.UI
         /// <summary>
         /// Displays the start menu options to the console.
         /// </summary>
-        private void ShowMenu()
+        private void ShowStartMenu()
         {
             Console.WriteLine("""
                 ===========================

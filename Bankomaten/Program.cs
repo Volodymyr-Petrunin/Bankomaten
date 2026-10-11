@@ -26,12 +26,13 @@ class Program {
         ];
 
         MainMenu mainMenu = new MainMenu(options,  consoleInputValidation);
+        UserLogin userLogin = new UserLogin(userManagement, consoleInputValidation);
+        StartMenu startMenu = new StartMenu(mainMenu, consoleInputValidation, userLogin);
 
         // User login functionality
-        UserLogin userLogin = new UserLogin(userManagement, consoleInputValidation);
-        User user = userLogin.UserInput();
 
-        while (mainMenu.Show(user));
+
+        while (startMenu.Run());
     }
     
 }
