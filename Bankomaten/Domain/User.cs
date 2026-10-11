@@ -20,7 +20,12 @@ namespace Bankomaten.Domain
         public List<Account> Accounts { get; private set; }
 
         /// <summary>
-        /// Constructor for new user, with an empty list Accounts.
+        /// Gets the transaction history for the user.
+        /// </summary>
+        public Queue<Transaction> TransactionsHistory { get; private set; }
+
+        /// <summary>
+        /// Constructor for new user, with an empty list Accounts and queue TransactionsHistory.
         /// </summary>
         public User(string userName, string pin)
         {
@@ -28,6 +33,7 @@ namespace Bankomaten.Domain
             Pin = pin;
 
             Accounts = new List<Account>();
+            TransactionsHistory = new Queue<Transaction>();
         }
 
         /// <summary>Just overriding ToString</summary>
@@ -38,6 +44,7 @@ namespace Bankomaten.Domain
                 .Append("User name: " + UserName)
                 .Append(" Pin: " + Pin)
                 .Append(" Accounts: " + Accounts.Count)
+                .Append(" Transactions: " + TransactionsHistory.Count)
                 .ToString();
         }
     }
