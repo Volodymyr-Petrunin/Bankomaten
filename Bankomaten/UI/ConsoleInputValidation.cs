@@ -64,8 +64,10 @@ public class ConsoleInputValidation
 
         while (string.IsNullOrWhiteSpace(result))
         {
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Fältet får inte vara tomt.");
-            Console.WriteLine(question);
+            Console.ResetColor();
+            Console.Write(question);
             result = ReadLineOrThrow();
         }
 
