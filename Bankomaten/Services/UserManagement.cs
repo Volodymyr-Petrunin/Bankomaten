@@ -44,7 +44,7 @@ public class UserManagement
         //checks if the username and pin match any user in the dictionary and returns the user if they do, null otherwise
         foreach (User user in Users.Values)
         {
-            if (user.UserName == username && user.Pin == pin)
+            if (user != null && user.UserName == username && user.Pin == pin)
             {
                 return user;
             }

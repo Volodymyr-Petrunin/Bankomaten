@@ -1,4 +1,6 @@
-﻿namespace Bankomaten.UI;
+﻿using System.Text;
+
+namespace Bankomaten.UI;
 
 /// <summary>
 /// Reads and validates user input from the console.
@@ -62,8 +64,10 @@ public class ConsoleInputValidation
 
         while (string.IsNullOrWhiteSpace(result))
         {
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Fältet får inte vara tomt.");
-            Console.WriteLine(question);
+            Console.ResetColor();
+            Console.Write(question);
             result = ReadLineOrThrow();
         }
 
@@ -89,7 +93,7 @@ public class ConsoleInputValidation
     /// <exception cref="EndOfStreamException">Thrown when input is closed, to avoid null input</exception>
     private static string ReadLineOrThrow()
     {
-        return Console.ReadLine() ?? throw new EndOfStreamException("Input ended unexpectedly.");
+        return Console.ReadLine() ?? throw new EndOfStreamException("Inmatningen avslutades oväntat.");
     }
 
     /// <summary>
@@ -100,5 +104,62 @@ public class ConsoleInputValidation
     {
         Console.WriteLine(message);
         ReadLineOrThrow();
+    }
+
+    /// <summary>
+    /// Get user pin code.
+    /// It checks each keystroke input until user hits "Enter".
+    /// It also allows the user to use backspace in case of any faulty keystroke.
+    /// The "hideChar" can be changed to let the character be display to the user; true=hide chars / false=show chars
+    /// </summary>
+    /// <param name="question"></param>
+    /// <returns>The entered pin code</returns>
+    public string HandlePinUserInput(string question, bool hideChar)
+    {
+        Console.Write(question);
+
+        StringBuilder sb = new StringBuilder();
+        ConsoleKeyInfo keyInfo;
+
+        do
+        {
+            keyInfo = Console.ReadKey(hideChar); // Get keystroke and hide/show the input character
+
+            // Check if user keystroke i "Backspace"
+            if (keyInfo.Key == ConsoleKey.Backspace)
+            {
+                if (sb.Length > 0)
+                {
+                    sb.Remove(sb.Length - 1, 1); // Remove the last character from string
+
+                    // Remove the last character input from console
+                    Console.CursorLeft--;
+                    Console.Write(" ");
+                    Console.CursorLeft--;
+                }
+            }
+            else if (char.IsDigit(keyInfo.KeyChar)) // Check if input is a digit
+            {
+                // If characters are set to show, write stars to the console
+                if (hideChar)
+                {
+                    Console.Write("*");
+                }
+
+                sb.Append(keyInfo.KeyChar);
+            }
+            else
+            {
+                // Do nothing. Let the user to just enter a number again.
+                continue;
+            }
+
+        } while (keyInfo.Key is not ConsoleKey.Enter);
+
+        string userPinInput = sb.ToString();
+
+        Console.WriteLine();
+
+        return userPinInput;
     }
 }
