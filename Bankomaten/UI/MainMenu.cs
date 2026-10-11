@@ -40,7 +40,9 @@ namespace Bankomaten.UI
             if (selectedMainMenu == menuOptions.Length + 1)
             {
                 Console.Clear();
-                Console.WriteLine("Du har loggat ut.");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Du har loggats ut.");
+                Console.ResetColor();
                 return false;
             }
 
