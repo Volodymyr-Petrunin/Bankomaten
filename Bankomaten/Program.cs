@@ -1,8 +1,10 @@
 using System.Globalization;
 using Bankomaten.Data;
+using Bankomaten.Login;
 using Bankomaten.Services;
 using Bankomaten.UI;
 using Bankomaten.UI.MenuOptions;
+using Bankomaten.Domain;
 using static System.Globalization.CultureInfo;
 
 namespace Bankomaten;
@@ -22,15 +24,14 @@ class Program {
             new AccountOverviewOption(),
             new TransferMenu("Överföring mellan konton", consoleInputValidation, bankService, userManagement),
         ];
-        MainMenu mainMenu = new MainMenu(options,  consoleInputValidation);
-        StartMenu startMenu = new StartMenu();
-        // Here must be the login logic
 
-        while (mainMenu.Show(userManagement.users.First().Value));
-        while (startMenu.Show(mainMenu))
-        {
-            // Continue showing the start menu until the user chooses to exit
-        }
+        MainMenu mainMenu = new MainMenu(options,  consoleInputValidation);
+
+        // User login functionality
+        UserLogin userLogin = new UserLogin(userManagement, consoleInputValidation);
+        User user = userLogin.UserInput();
+
+        while (mainMenu.Show(user));
     }
     
 }
