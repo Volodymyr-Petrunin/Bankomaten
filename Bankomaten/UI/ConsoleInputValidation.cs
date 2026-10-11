@@ -108,7 +108,7 @@ public class ConsoleInputValidation
     /// Get user pin code.
     /// It checks each keystroke input until user hits "Enter".
     /// It also allows the user to use backspace in case of any faulty keystroke.
-    /// The "showChar" can be changed to let the character be display to the user; true=hide chars / false=show chars
+    /// The "hideChar" can be changed to let the character be display to the user; true=hide chars / false=show chars
     /// </summary>
     /// <param name="question"></param>
     /// <returns>The entered pin code</returns>
