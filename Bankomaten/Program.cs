@@ -26,7 +26,7 @@ class Program {
         MainMenu mainMenu = new MainMenu(options,  consoleInputValidation);
         // Here must be the login logic
         
-        while (mainMenu.Show(userManagement.users.First().Value));
+        while (mainMenu.Show(userManagement.Users.First().Value));
     }
     
 }

@@ -27,6 +27,8 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
     
     private const string SelfTransferMessage = "Du kan inte skicka pengar till dig själv. Välj överföring mellan egna konton.";
     
+    private const string WrongPinCodeMessage = "Felaktig PIN-kod.";
+    
     private const string SuccessMessage = "Överföringen är klar.";
     
     private const string FailedMessage = "Överföringen kunde inte genomföras.";
@@ -94,13 +96,17 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
         decimal amount = consoleInputValidation.ReadDecimal(AmountQuestion, fromAccount.GetBalance());
 
         if (!VerifyPinCode(user))
-            throw new UserInputException("Felaktig PIN-kod.");
+            throw new UserInputException(WrongPinCodeMessage);
 
         if (!bankService.TransferBetweenUserAccounts(user, fromAccount, toAccount, amount))
         {
             Console.WriteLine(FailedMessage);
             return;
         }
+        
+        userManagement.AddUserTransaction(
+            user, TransactionType.OwnTransfer, amount, fromAccount.Name, toAccount.Name
+        );
         
         Console.WriteLine(SuccessMessage);
         PrintBalance(fromAccount);
@@ -129,13 +135,21 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
         decimal amount = consoleInputValidation.ReadDecimal(AmountQuestion, fromAccount.GetBalance());
         
         if (!VerifyPinCode(sender))
-            throw new UserInputException("Felaktig PIN-kod.");
+            throw new UserInputException(WrongPinCodeMessage);
 
         if (!bankService.TransferBetweenUsers(sender, fromAccount, recipient, amount))
         {
             Console.WriteLine(FailedMessage);
             return;
         }
+        
+        userManagement.AddUserTransaction(
+            sender, TransactionType.TransferSent, amount, fromAccount.Name, recipient.UserName
+        );
+        
+        userManagement.AddUserTransaction(
+            recipient, TransactionType.TransferReceived, amount, fromAccount.Name, recipient.UserName
+        );
 
         // Only the sender's own balance is shown, never the recipient's accounts
         Console.WriteLine($"{SuccessMessage} {amount:C} har skickats till {recipient.UserName}.");
