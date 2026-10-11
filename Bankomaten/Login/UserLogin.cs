@@ -80,7 +80,7 @@ namespace Bankomaten.Login
                 blockWaitingTime--; // Count down 1s
 
                 Console.WriteLine("Du har angett fel användarnam eller lösenord för många gånger.");
-                Console.WriteLine($"Temporär spärr aktiverad!\n");
+                Console.WriteLine($"Temporär spärr aktiverad" + Environment.NewLine);
                 Console.WriteLine("Återstående tid: " + blockWaitingTime.ToString() + "s");
             }
 
@@ -103,7 +103,7 @@ namespace Bankomaten.Login
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.Clear();
-                    Console.WriteLine("\nInloggningen lyckades\n");
+                    Console.WriteLine(Environment.NewLine + "Inloggningen lyckades" + Environment.NewLine);
                     Console.ResetColor();
 
                     return user;
@@ -111,9 +111,9 @@ namespace Bankomaten.Login
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Användarnamnet eller lösenordet är felaktigt!\n");
+                    Console.WriteLine("Användarnamnet eller lösenordet är felaktigt!" + Environment.NewLine);
                     Console.ResetColor();
-                    Console.WriteLine($"Försök {loginAttempsCounter + 1}/3.\n");
+                    Console.WriteLine($"Försök {loginAttempsCounter + 1}/3." + Environment.NewLine);
                 }
             }
             return null!;
