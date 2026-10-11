@@ -4,6 +4,7 @@ using Bankomaten.Login;
 using Bankomaten.Services;
 using Bankomaten.UI;
 using Bankomaten.UI.MenuOptions;
+using Bankomaten.Domain;
 using static System.Globalization.CultureInfo;
 
 namespace Bankomaten;
@@ -25,11 +26,12 @@ class Program {
         ];
 
         MainMenu mainMenu = new MainMenu(options,  consoleInputValidation);
-        // Here must be the login logic
-        UserLogin userLogin = new UserLogin();
-        userLogin.UserInput(userManagement);
-        
-        while (mainMenu.Show(userManagement.users.First().Value));
+
+        // User login functionality
+        UserLogin userLogin = new UserLogin(userManagement, consoleInputValidation);
+        User user = userLogin.UserInput();
+
+        while (mainMenu.Show(user));
     }
     
 }

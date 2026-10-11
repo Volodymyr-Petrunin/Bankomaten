@@ -1,90 +1,52 @@
-﻿using Bankomaten.UI;
+﻿using Bankomaten.Domain;
 using Bankomaten.Services;
-using Bankomaten.Domain;
+using Bankomaten.UI;
+using Bankomaten.UI.MenuOptions;
+using System.Text;
+using System.Threading.Channels;
 
 namespace Bankomaten.Login
 {
     internal class UserLogin
     {
         private int loginAttempsCounter = 0;
-        //public void StartBankomaten()
-        //{
-        //    UserInput();
-        //}
+
+        private readonly UserManagement _userManagement;
+        private readonly ConsoleInputValidation _consoleInputValidation;
+
+        public UserLogin(UserManagement userManagement, ConsoleInputValidation consoleInputValidation)
+        {
+            _userManagement = userManagement;
+            _consoleInputValidation = consoleInputValidation;
+        }
 
         /// <summary>
-        /// Get user input (username and pin code) and validate the format so it's not null, empty or whitespace.
-        /// Loops the username and pin code separately so the user do not need to enter everything if any user failure.
-        /// When input format is validated, call the "UserCredentialAuthentication" for credential authentication.
+        /// Handle user input information.
         /// </summary>
-        public void UserInput(UserManagement userManagement)
+        public User UserInput()
         {
-            //bool isUsernameInputFormatOK = false;
-            //bool isPinInputFormatOk = false;
-            //string usernameInput = string.Empty;
-            //string userPinInput = string.Empty;
+            User user;
 
-            ConsoleInputValidation civ = new ConsoleInputValidation();
+            // The loop continues until the user has successfully logged in to prevent return of a null-value
+            while (true)
+            {
+                string usernameInput = _consoleInputValidation.ReadText("Skriv in ditt användarnamn: ");
+                Console.WriteLine();
 
-            //Console.Write("Skriv in ditt användarnamn: ");
-            string usernameInput = civ.ReadText("Skriv in ditt användarnamn: ");
-            //civ.ReadText(usernameInput);
-            Console.WriteLine();
+                string userPinInput = _consoleInputValidation.HandlePinUserInput("Skriv in pinkoden: ", true);
 
-            // Check if possible replace user input with stars to hide the pin code
-            //Console.Write("Skriv in din pinkod: ");
-            string userPinInput = civ.ReadInteger("Skriv in din pinkod: ", 0000, 9999).ToString();
-            Console.WriteLine();
+                user = UserCredentialAuthentication(usernameInput, userPinInput);
 
-
-
-
-
-
-
-            //while (!isUsernameInputFormatOK)
-            //{
-            //    Console.Write("Skriv in ditt användarnamn: ");
-            //    usernameInput = Console.ReadLine()!.Trim();
-            //    Console.WriteLine();
-
-            //    // Check if the user input is not null, empty or whitespace
-            //    if (civ.IsStringValid(usernameInput))
-            //    {
-            //        isUsernameInputFormatOK = true;
-            //    }
-            //    else
-            //    {
-            //        Console.ForegroundColor = ConsoleColor.Red;
-            //        Console.WriteLine("Inskrivet format är felaktigt.");
-            //        Console.WriteLine();
-            //        Console.ResetColor();
-            //        isUsernameInputFormatOK = false;
-            //    }
-            //}
-
-
-            //while (!isPinInputFormatOk)
-            //{
-            //    Console.Write("Skriv in din pinkod: ");
-            //    userPinInput = Console.ReadLine()!.Trim();
-            //    Console.WriteLine();
-
-            //    // Check if the user input is not null, empty or whitespace and if it only contain digits
-            //    if (civ.IsStringValid(userPinInput) && civ.IsStringDigits(userPinInput))
-            //    {
-            //        isPinInputFormatOk = true;
-            //    }
-            //    else
-            //    {
-            //        Console.ForegroundColor = ConsoleColor.Red;
-            //        Console.WriteLine("Inskrivet format är felaktigt.\n");
-            //        Console.ResetColor();
-            //        isPinInputFormatOk = false;
-            //    }
-            //}
-
-            UserCredentialAuthentication(usernameInput, userPinInput, userManagement);
+                if (user is null)
+                {
+                    CheckLoginAttemps();
+                }
+                else
+                {
+                    loginAttempsCounter = 0; // Reset loginAttemps
+                    return user;
+                }
+            }
         }
 
         /// <summary>
@@ -99,10 +61,6 @@ namespace Bankomaten.Login
             {
                 BlockUserTimePeriod();
             }
-            else
-            {
-                UserInput(null!);
-            }
         }
         
         /// <summary>
@@ -112,7 +70,7 @@ namespace Bankomaten.Login
         /// </summary>
         private void BlockUserTimePeriod()
         {
-            int blockWaitingTime = 60; 
+            int blockWaitingTime = 5; 
 
             while (blockWaitingTime >= 0)
             {
@@ -129,34 +87,35 @@ namespace Bankomaten.Login
             loginAttempsCounter = 0; // Reset loginAttemps
 
             Console.Clear();
-            UserInput(); // After the blocking time, start from where user enter the credentials.
         }
 
         /// <summary>
         /// Authenticate user input credentials with the stored credentials.
         /// </summary>
         /// <returns></returns>
-        private User UserCredentialAuthentication(string usernameInput, string userPinInput, UserManagement um)
+        private User UserCredentialAuthentication(string usernameInput, string userPinInput)
         {
-            //UserManagement um = new UserManagement(new Dictionary<byte, User>());
-
-            if (um.Authenticate(usernameInput, userPinInput) != null)
+            if (_userManagement != null)
             {
+                User? user = _userManagement.Authenticate(usernameInput, userPinInput);
 
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.Clear();
-                Console.WriteLine("\nInloggningen lyckades\n");
-                Console.ResetColor();
+                if (user != null)
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Clear();
+                    Console.WriteLine("\nInloggningen lyckades\n");
+                    Console.ResetColor();
 
-                return um.users.Values.First();
-
+                    return user;
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Användarnamnet eller lösenordet är felaktigt!\n");
+                    Console.ResetColor();
+                    Console.WriteLine($"Försök {loginAttempsCounter + 1}/3.\n");
+                }
             }
-
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("Användarnamnet eller lösenordet är felaktigt!\n");
-            Console.ResetColor();
-            Console.WriteLine($"Försök {loginAttempsCounter + 1}/3.\n");
-            CheckLoginAttemps();
             return null!;
         }
     }
