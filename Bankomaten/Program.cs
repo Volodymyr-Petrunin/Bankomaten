@@ -26,12 +26,12 @@ class Program {
         ];
 
         MainMenu mainMenu = new MainMenu(options,  consoleInputValidation);
-
-        // User login functionality
         UserLogin userLogin = new UserLogin(userManagement, consoleInputValidation);
-        User user = userLogin.UserInput();
+        StartMenu startMenu = new StartMenu(mainMenu, consoleInputValidation, userLogin);
 
-        while (mainMenu.Show(user));
+        // Run the start menu in a loop to start the program.
+        // The loop will continue until the user chooses to exit the program.
+        while (startMenu.Run());
     }
     
 }
