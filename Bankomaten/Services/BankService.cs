@@ -59,13 +59,13 @@ public class BankService
     /// Verifies that the provided password matches the user's PIN.
     /// </summary>
     /// <returns>True if the password matches the user's PIN, false otherwise.</returns>
-    public bool VerifyPassword(User user, string password)
+    public bool VerifyPassword(User user, string pin)
     {
         ArgumentNullException.ThrowIfNull(user);
 
-        if (string.IsNullOrWhiteSpace(password))
+        if (string.IsNullOrWhiteSpace(pin))
             return false;
 
-        return user.Pin == password;
+        return user.VerifyPin(pin);
     }
 }
