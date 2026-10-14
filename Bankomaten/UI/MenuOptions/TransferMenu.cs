@@ -13,13 +13,13 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
 
     private const string ToAccountQuestion = "Välj konto att föra över till: ";
 
-    private const string AmountQuestion = "Hur mycket vill du föra över: ";
+    private const string AmountQuestion = "Ange belopp att överföra: ";
 
     private const string RecipientQuestion = "Ange mottagarens användarnamn: ";
     
-    private const string PinCodeQuestion = "Ange PIN-kod: ";
+    private const string PinCodeQuestion = "Ange din PIN-kod för att bekräfta överföring: ";
     
-    private const string NotEnoughAccountsMessage = "Du behöver minst två konton för att föra över mellan egna konton.";
+    private const string NotEnoughAccountsMessage = "Du behöver minst två konton göra en överföring mellan egna konton.";
     
     private const string EmptyAccountMessage = "Kontot är tomt. Välj ett konto med pengar.";
 
