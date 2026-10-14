@@ -67,7 +67,7 @@ public class BankService
     {
         if (amount <= 0)
         {
-            throw new UserInputException("Beloppet kan inte vara noll eller negativt.");
+            throw new UserInputException("The amount must be positive");
         }
 
         if (!toAccount.Deposit(amount))
