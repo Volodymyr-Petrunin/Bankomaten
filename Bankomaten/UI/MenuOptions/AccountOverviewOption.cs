@@ -25,6 +25,7 @@ namespace Bankomaten.UI.MenuOptions
             
             PrintTransactionsHistory(user, 3);
             consoleInput.WaitForEnter("Tryck på Enter för att återgå till huvudmenyn.");
+            Console.Clear();
         }
         
         private static void PrintTransactionsHistory(User user, byte numberOfTransactionsToShow)
