@@ -52,10 +52,10 @@ public class Transaction
     public override string ToString()
     {
         return new StringBuilder()
-            .Append(" Transaktion: " + TransactionType)
-            .Append($" Belopp: {Amount:C}")
-            .Append(" Från: " + FromAccountName)
-            .Append(" Till: " + CounterpartyName)
+            .Append(TransactionType.ToDisplayString())
+            .Append(" Från: " + FromAccountName +"|")
+            .Append(" Till: " + CounterpartyName +"|")
+            .Append($" Belopp: {Amount:C} |")
             .Append(" Datum: " + DateTime)
             .ToString();
     }
