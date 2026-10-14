@@ -25,6 +25,7 @@ namespace Bankomaten.UI
         /// </summary>
         public bool Show(User user)
         {
+            Console.Clear();
             Console.WriteLine(UserMenuTitle);
             Console.WriteLine($"Välkommen {user.UserName}!");
             Console.WriteLine($"Välj ett alternativ nedan:{_nl}");
@@ -48,6 +49,7 @@ namespace Bankomaten.UI
 
             try
             {
+                Console.Clear();
                 menuOptions[selectedMainMenu - 1].Execute(user);
             }
             catch (UserInputException exception)
