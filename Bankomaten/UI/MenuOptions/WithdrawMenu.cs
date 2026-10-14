@@ -30,17 +30,18 @@ namespace Bankomaten.UI.MenuOptions
         public void Execute(User user)
         {
             Console.Clear();
+
             try
             {
                 WithdrawFromUserAccount(user);
-                Console.Clear();
             }
             catch (UserInputException ex)
             {
 
                 consoleInputValidation.WaitForEnter(ex.Message + _nl + "Tryck på enter för att återgå till huvudmenyn.");
-                Console.Clear();
             }
+
+            Console.Clear();
         }
 
         /// <summary>
