@@ -1,4 +1,5 @@
 ﻿using Bankomaten.Domain;
+using Bankomaten.UI.Exceptions;
 
 namespace Bankomaten.Services;
 
@@ -52,6 +53,28 @@ public class BankService
             return false;
 
         toAccount.Deposit(amount);
+        return true;
+    }
+
+    /// <summary>
+    /// Deposit user entered amount to selected account.
+    /// </summary>
+    /// <param name="user"></param>
+    /// <param name="toAccount"></param>
+    /// <param name="amount"></param>
+    /// <returns>True if the transfer was successful, false otherwise.</returns>
+    public bool DepositToOwnAccount(User user, Account toAccount, decimal amount)
+    {
+        if (amount <= 0)
+        {
+            throw new UserInputException("The amount must be positive");
+        }
+
+        if (!toAccount.Deposit(amount))
+        {
+            return false;
+        }
+
         return true;
     }
     

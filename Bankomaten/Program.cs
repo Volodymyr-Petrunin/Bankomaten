@@ -23,7 +23,9 @@ class Program {
         IMenuOptions[] options = [
             new AccountOverviewOption(),
             new TransferMenu("Överföring mellan konton", consoleInputValidation, bankService, userManagement),
-            new WithdrawOption(consoleInputValidation, userManagement),
+            new DepositMenu("Överföring till eget konto", consoleInputValidation, bankService, userManagement),
+            new WithdrawMenu("Ta ut pengar", consoleInputValidation, bankService, userManagement),
+
         ];
 
         MainMenu mainMenu = new MainMenu(options,  consoleInputValidation);
