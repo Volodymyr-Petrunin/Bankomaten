@@ -60,7 +60,6 @@ namespace Bankomaten.UI
                 Console.ResetColor();
             }
             
-            consoleInput.WaitForEnter("Tryck på Enter för att återgå till huvudmenyn.");
             return true;
         }
     }
