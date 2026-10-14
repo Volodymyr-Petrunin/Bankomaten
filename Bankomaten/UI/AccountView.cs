@@ -9,16 +9,25 @@ internal class AccountView(ConsoleInputValidation consoleInputValidation)
     /// Prompts the user to select an account from a list of available accounts.
     /// Ensures that the user inputs a valid selection within the given range.
     /// </summary>
-    /// <returns>The account selected by the user.</returns>
+    /// <returns>The account selected by the user, returns null if no account is selected.</returns>
     /// <exception cref="ArgumentOutOfRangeException">
     /// Thrown if the provided list of accounts is empty or the user's selection is out of range.
     /// </exception>
-    public Account ChooseAccount(string question, List<Account> accounts)
+    public Account? ChooseAccount(string question, List<Account> accounts)
     {
+        // Add a "Go Back" option the end of the printed list of accounts
+        int goBackOption = accounts.Count + 1;
+
         int choice = consoleInputValidation.ReadInteger(
-            BuildAccountPrompt(question, accounts), 1, accounts.Count
+            BuildAccountPrompt(question, accounts), 1, goBackOption
         );
-        
+
+        if(choice == goBackOption)
+        {
+            // User chose to go back
+            return null; 
+        }
+
         return accounts[choice - 1];
     }
 
@@ -41,6 +50,8 @@ internal class AccountView(ConsoleInputValidation consoleInputValidation)
         {
             stringBuilder.AppendLine($"{i + 1}. {accounts[i].Name}  Balance: {accounts[i].GetBalance():C}");
         }
+
+        stringBuilder.AppendLine($"{accounts.Count + 1}. Tillbaka till huvudmenyn");
         
         return stringBuilder.ToString();
     }
