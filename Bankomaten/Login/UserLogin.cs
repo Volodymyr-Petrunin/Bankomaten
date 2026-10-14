@@ -21,10 +21,10 @@ namespace Bankomaten.Login
             // The loop continues until the user has successfully logged in to prevent return of a null-value
             while (true)
             {
-                string usernameInput = consoleInputValidation.ReadText("Skriv in ditt användarnamn: ");
+                string usernameInput = consoleInputValidation.ReadText("Ange användarnamn: ");
                 Console.WriteLine();
 
-                string userPinInput = consoleInputValidation.HandlePinUserInput("Skriv in pinkoden: ", true);
+                string userPinInput = consoleInputValidation.HandlePinUserInput("Ange din PIN-kod: ", true);
 
                 user = UserCredentialAuthentication(usernameInput, userPinInput);
 
