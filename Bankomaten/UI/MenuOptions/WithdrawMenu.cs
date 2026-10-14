@@ -58,7 +58,12 @@ namespace Bankomaten.UI.MenuOptions
             }
 
             List<Account> accounts = user.Accounts.ToList();
-            Account fromAccount = _accountView.ChooseAccount(FromAccountQuestion, accounts);
+            Account? fromAccount = _accountView.ChooseAccount(FromAccountQuestion, accounts);
+
+            if (fromAccount == null)
+            {
+                return;
+            }
 
             //checks if balance of the selected account is 0 and stops the process if so
             if (fromAccount.GetBalance() == 0)
