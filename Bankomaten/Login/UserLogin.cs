@@ -70,7 +70,7 @@ namespace Bankomaten.Login
 
                 blockWaitingTime--; // Count down 1s
 
-                Console.WriteLine("Du har angett fel användarnam eller lösenord för många gånger.");
+                Console.WriteLine("Du har angett fel användarnamn eller PIN-kod för många gånger.");
                 Console.WriteLine($"Temporär spärr aktiverad" + Environment.NewLine);
                 Console.WriteLine("Återstående tid: " + blockWaitingTime.ToString() + "s");
             }
