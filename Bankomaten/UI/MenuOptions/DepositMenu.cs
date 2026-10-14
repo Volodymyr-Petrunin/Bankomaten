@@ -24,18 +24,15 @@ namespace Bankomaten.UI.MenuOptions
         /// <summary>
         /// Manage user selection.
         /// </summary>
-        /// <param name="user"></param>
-        /// <exception cref="UnreachableException"></exception>
+        /// <exception cref="UserInputException"></exception>
         public void Execute(User user)
         {
-
             try
             {
                 DepositToUserAccount(user);
             }
             catch (UserInputException ex)
             {
-                // Använd din WaitForEnter-metod vid fel
                 consoleInputValidation.WaitForEnter(ex.Message + _nl + "Tryck på Enter för att återgå till huvudmenyn");
             }
 
@@ -50,6 +47,7 @@ namespace Bankomaten.UI.MenuOptions
         /// <exception cref="UserInputException"></exception>
         private void DepositToUserAccount(User user)
         {
+
             // Check so the user have at least one account
             if (user.Accounts.Count < 1)
             {
@@ -59,6 +57,10 @@ namespace Bankomaten.UI.MenuOptions
             List<Account> targetAccounts = user.Accounts.ToList();
             Account toAccount = _accountView.ChooseAccount(ToAccountQuestion, targetAccounts);
 
+            if (toAccount == null)
+            {
+                return;
+            }
             decimal amount = consoleInputValidation.ReadDecimal(_nl + AmountQuestion, decimal.MaxValue, default);
 
             if (!bankService.DepositToOwnAccount(user, toAccount, amount))
@@ -71,6 +73,7 @@ namespace Bankomaten.UI.MenuOptions
 
             Console.WriteLine($"{_nl}{SuccessMessage}");
             _accountView.PrintBalance(toAccount);
+            consoleInputValidation.WaitForEnter("Tryck på Enter för att återgå till huvudmenyn");
         }
     }
 }
