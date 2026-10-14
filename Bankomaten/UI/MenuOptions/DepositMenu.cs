@@ -57,7 +57,7 @@ namespace Bankomaten.UI.MenuOptions
             }
 
             List<Account> targetAccounts = user.Accounts.ToList();
-            Account toAccount = _accountView.ChooseAccount(ToAccountQuestion, targetAccounts);
+            Account? toAccount = _accountView.ChooseAccount(ToAccountQuestion, targetAccounts);
 
             if (toAccount == null)
             {
