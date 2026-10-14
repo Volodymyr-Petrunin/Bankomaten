@@ -78,7 +78,7 @@ namespace Bankomaten.Domain
         /// <returns>Returns string with contains main info</returns>
         public override string ToString()
         {
-            return $"Account Name: {Name}, Balance: {Balance:C}";
+            return $"Konto: {Name}, Saldo: {Balance:C}";
         }
     }
 }
