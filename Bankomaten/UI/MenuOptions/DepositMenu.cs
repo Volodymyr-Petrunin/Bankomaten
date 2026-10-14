@@ -10,6 +10,8 @@ namespace Bankomaten.UI.MenuOptions
     public class DepositMenu(string title, ConsoleInputValidation consoleInputValidation,
     BankService bankService, UserManagement userManagement) : IMenuOptions
     {
+        private readonly AccountView _accountView = new AccountView(consoleInputValidation);
+
         private readonly string _nl = Environment.NewLine;
         private const string ToAccountQuestion = "Välj konto att föra över till: ";
         private const string AmountQuestion = "Hur mycket vill du föra över: ";
@@ -19,6 +21,11 @@ namespace Bankomaten.UI.MenuOptions
         private const string AtmMessage = "Bankomatinsättning";
         public string Title { get; } = title;
 
+        /// <summary>
+        /// Manage user selection.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <exception cref="UnreachableException"></exception>
         public void Execute(User user)
         {
             int selectedOption = consoleInputValidation.ReadInteger(BuildMenu(), 1, 2);
@@ -45,7 +52,7 @@ namespace Bankomaten.UI.MenuOptions
             return new StringBuilder()
                 .AppendLine(Title)
                 .AppendLine("1. Fortsätt")
-                .AppendLine("2. Tillbaka till huvudmenyn") // This takes the user back to an unneccessary menu!
+                .AppendLine("2. Tillbaka till huvudmenyn")
                 .ToString();
         }
 
@@ -65,7 +72,7 @@ namespace Bankomaten.UI.MenuOptions
             }
 
             List<Account> targetAccounts = user.Accounts.ToList();
-            Account toAccount = ChooseAccount(ToAccountQuestion, targetAccounts);
+            Account toAccount = _accountView.ChooseAccount(ToAccountQuestion, targetAccounts);
 
             decimal amount = consoleInputValidation.ReadDecimal(_nl + AmountQuestion, decimal.MaxValue, default);
 
@@ -78,49 +85,7 @@ namespace Bankomaten.UI.MenuOptions
             userManagement.AddUserTransaction(user, TransactionType.OwnTransfer, amount, AtmMessage, toAccount.Name);
 
             Console.WriteLine($"{_nl}{SuccessMessage}");
-            PrintBalance(toAccount);
-        }
-
-        /// <summary>
-        /// Prompts the user to select an account from a list of available accounts.
-        /// Ensures that the user inputs a valid selection within the given range.
-        /// </summary>
-        /// <returns>The account selected by the user.</returns>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// Thrown if the provided list of accounts is empty or the user's selection is out of range.
-        /// </exception>
-        private Account ChooseAccount(string question, List<Account> accounts)
-        {
-            int choice = consoleInputValidation.ReadInteger(
-                BuildAccountPrompt(question, accounts), 1, accounts.Count
-            );
-
-            return accounts[choice - 1];
-        }
-
-        /// <summary>
-        /// Displays the current balance of the specified account in a formatted manner.
-        /// </summary>
-        private void PrintBalance(Account account)
-        {
-            Console.WriteLine($"Nytt saldo på {account.Name}: {account.GetBalance():C}{_nl}");
-        }
-
-        /// <summary>
-        /// Constructs a formatted prompt string displaying a question and a list of accounts.
-        /// Each account is displayed with an index, its name, and the current balance.
-        /// </summary>
-        /// <returns>A formatted string containing the prompt and account options.</returns>
-        private string BuildAccountPrompt(string question, List<Account> accounts)
-        {
-            var stringBuilder = new StringBuilder().AppendLine(question);
-
-            for (int i = 0; i < accounts.Count; i++)
-            {
-                stringBuilder.AppendLine($"{i + 1}. {accounts[i].Name}  Saldo: {accounts[i].GetBalance():C}");
-            }
-
-            return stringBuilder.ToString();
+            _accountView.PrintBalance(toAccount);
         }
     }
 }
