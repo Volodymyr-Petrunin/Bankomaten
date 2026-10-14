@@ -13,11 +13,11 @@ namespace Bankomaten.UI.MenuOptions
         private readonly AccountView _accountView = new AccountView(consoleInputValidation);
 
         private readonly string _nl = Environment.NewLine;
-        private const string ToAccountQuestion = "Välj konto att föra över till: ";
-        private const string AmountQuestion = "Hur mycket vill du föra över: ";
+        private const string ToAccountQuestion = "Välj konto för insättning: ";
+        private const string AmountQuestion = "Ange belopp: ";
         private const string NotEnoughAccountsMessage = "Du behöver minst ett konto för att sätta in pengar.";
-        private const string SuccessMessage = "Överföringen är klar.";
-        private const string FailedMessage = "Överföringen kunde inte genomföras.";
+        private const string SuccessMessage = "Insättning genomförd.";
+        private const string FailedMessage = "Insättningen kunde inte genomföras.";
         private const string AtmMessage = "Bankomatinsättning";
         public string Title { get; } = title;
 
@@ -41,6 +41,7 @@ namespace Bankomaten.UI.MenuOptions
                 default:
                     throw new UnreachableException($"Ogiltigt menyval: {selectedOption}");
             }
+            Console.Clear();
         }
 
         // <summary>
@@ -61,7 +62,6 @@ namespace Bankomaten.UI.MenuOptions
         /// Validates that the user has at least one one account. If so the user will be presented a list with their account(s).
         /// The amount that can be deposited is between "decimal.MaxValue" (approx. 79 trillion trillion) and "decimal default" (0,01).
         /// </summary>
-        /// <param name="user"></param>
         /// <exception cref="UserInputException"></exception>
         private void DepositToUserAccount(User user)
         {
