@@ -31,11 +31,11 @@ public static class SeedData
     /// A dictionary where each key is a byte representing a unique user ID,
     /// and each value is a User object containing user information.
     /// </returns>
-    public static List<User> GenerateUsers()
+    public static Dictionary<string, User> GenerateUsers()
     {
         AddAccountsToUsers();
 
-        return Users;
+        return Users.ToDictionary(user => user.UserName, StringComparer.OrdinalIgnoreCase);
     }
 
     /// <summary>

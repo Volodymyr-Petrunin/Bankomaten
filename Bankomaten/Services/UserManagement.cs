@@ -11,9 +11,9 @@ public class UserManagement
     /// </summary>
     public readonly Dictionary<string, User> Users;
 
-    public UserManagement(List<User> users)
+    public UserManagement(Dictionary<string, User> users)
     {
-        Users = users.ToDictionary(user => user.UserName, StringComparer.OrdinalIgnoreCase);
+        Users = users;
     }
 
     /// <summary>
