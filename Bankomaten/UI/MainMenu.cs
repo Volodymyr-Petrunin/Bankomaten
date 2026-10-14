@@ -25,7 +25,6 @@ namespace Bankomaten.UI
         /// </summary>
         public bool Show(User user)
         {
-            Console.Clear();
             Console.WriteLine(UserMenuTitle);
             Console.WriteLine($"Du är inloggad som: {user.UserName}.");
             Console.WriteLine($"Välj ett alternativ nedan:{_nl}");
