@@ -162,4 +162,15 @@ public class ConsoleInputValidation
 
         return userPinInput;
     }
+    public string CenterTitle(string title)
+    {
+        int width = Console.WindowWidth;
+        if (title.Length >= width)
+        {
+            return title; // If the title is longer than the width, return it as is.
+        }
+        int leftPadding = (width - title.Length) / 2;
+        int rightPadding = width - title.Length - leftPadding;
+        return new string(' ', leftPadding) + title + new string(' ', rightPadding);
+    }
 }
