@@ -13,12 +13,14 @@ namespace Bankomaten.UI.MenuOptions
         private readonly AccountView _accountView = new AccountView(consoleInputValidation);
 
         private readonly string _nl = Environment.NewLine;
-        private const string ToAccountQuestion = "Välj konto att föra över till: ";
-        private const string AmountQuestion = "Hur mycket vill du föra över: ";
-        private const string NotEnoughAccountsMessage = "Du behöver minst ett konto för att sätta in pengar.";
-        private const string SuccessMessage = "Överföringen är klar.";
-        private const string FailedMessage = "Överföringen kunde inte genomföras.";
-        private const string AtmMessage = "Bankomatinsättning";
+        private const string FromAccountQuestion = "Välj konto att ta ut pengar från: ";
+        private const string AmountQuestion = "Hur mycket vill du ta ut: ";
+        private const string NotEnoughAccountsMessage = "Du behöver minst ett konto för att ta ut pengar.";
+        private const string SuccessMessage = "Uttaget är klart.";
+        private const string FailedMessage = "Uttaget kunde inte genomföras.";
+        private const string AtmMessage = "Bankomatuttag";
+        private const string EmptyAccountMessage = "Kontot är tomt.";
+        private const string WrongPinMessage = "Fel PIN-kod.";
         public string Title { get; } = title;
 
         /// <summary>
@@ -34,7 +36,7 @@ namespace Bankomaten.UI.MenuOptions
             switch (selectedOption)
             {
                 case 1:
-                    DepositToUserAccount(user);
+                    WithdrawFromUserAccount(user);
                     break;
                 case 2:
                     break;
@@ -57,9 +59,7 @@ namespace Bankomaten.UI.MenuOptions
         }
 
         /// <summary>
-        /// Allow user to deposit funds to their own account.
-        /// Validates that the user has at least one one account. If so the user will be presented a list with their account(s).
-        /// The amount that can be deposited is between "decimal.MaxValue" (approx. 79 trillion trillion) and "decimal default" (0,01).
+        /// Withdraw funds from the user's account after verifying the account, amount, and PIN code
         /// </summary>
         /// <param name="user"></param>
         /// <exception cref="UserInputException"></exception>
@@ -71,21 +71,39 @@ namespace Bankomaten.UI.MenuOptions
                 throw new UserInputException(NotEnoughAccountsMessage);
             }
 
-            List<Account> targetAccounts = user.Accounts.ToList();
-            Account toAccount = _accountView.ChooseAccount(ToAccountQuestion, targetAccounts);
+            List<Account> accounts = user.Accounts.ToList();
+            Account fromAccount = _accountView.ChooseAccount(FromAccountQuestion, accounts);
 
-            decimal amount = consoleInputValidation.ReadDecimal(_nl + AmountQuestion, decimal.MaxValue, default);
-
-            if (!bankService.DepositToOwnAccount(user, toAccount, amount))
+            //checks if balance of the selected account is 0 and stops the process if so
+            if (fromAccount.GetBalance() == 0)
             {
-                Console.WriteLine(FailedMessage);
+                throw new UserInputException(EmptyAccountMessage);
             }
 
-            // Add transaction history
-            userManagement.AddUserTransaction(user, TransactionType.OwnTransfer, amount, AtmMessage, toAccount.Name);
+            //asks user for an amount to withdraw
+            decimal amount = consoleInputValidation.ReadDecimal(_nl + AmountQuestion, fromAccount.GetBalance());
+
+            // Ask for PIN code
+            string pin = consoleInputValidation.HandlePinUserInput("ange PIN: ", true);
+
+            // checks if the PIN code is correct
+            if (!bankService.VerifyPassword(user, pin))
+            {
+                throw new UserInputException(WrongPinMessage);
+            }
+
+            // checks if the withdrawal was unsuccessful
+            if (!fromAccount.Withdraw(amount))
+            {
+                Console.WriteLine(FailedMessage);
+                return;
+            }
+
+            // completes the withdrawal and adds a transaction to the user's account
+            userManagement.AddUserTransaction(user, TransactionType.Withdrawal, amount, AtmMessage, fromAccount.Name);
 
             Console.WriteLine($"{_nl}{SuccessMessage}");
-            _accountView.PrintBalance(toAccount);
+            _accountView.PrintBalance(fromAccount);
         }
     }
 }
