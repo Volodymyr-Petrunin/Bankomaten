@@ -30,7 +30,6 @@ namespace Bankomaten.UI
                 // The logged in user is saved here and passed to the main menu.
                 // The user will stay logged in until they choose to log out from the main menu.
                 var user = userLogin.UserInput();
-                Console.Clear();
                 while (mainMenu.Show(user));
                 return true;
             }
@@ -53,9 +52,9 @@ namespace Bankomaten.UI
                 Välkommen till Bankomaten!
                 Välj ett alternativ nedan:
 
-                1. Logga in
+                [1] Logga in
 
-                2. Avsluta
+                [2] Avsluta
 
                 """);
 
