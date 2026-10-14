@@ -25,7 +25,7 @@ namespace Bankomaten.UI
         {
             ShowStartMenu();
 
-            if (consoleInput.ReadInteger("Ange ditt val: ", 1, 2) == 1)
+            if (consoleInput.ReadInteger("Ange ditt val: ", 1, 2, "Ogiltigt val. Välj ett av alternativen i menyn.") == 1)
             {
                 // The logged in user is saved here and passed to the main menu.
                 // The user will stay logged in until they choose to log out from the main menu.

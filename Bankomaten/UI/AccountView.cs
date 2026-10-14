@@ -19,7 +19,7 @@ internal class AccountView(ConsoleInputValidation consoleInputValidation)
         int goBackOption = accounts.Count + 1;
 
         int choice = consoleInputValidation.ReadInteger(
-            BuildAccountPrompt(question, accounts), 1, goBackOption
+            BuildAccountPrompt(question, accounts), 1, goBackOption, "Ogiltigt val. Välj ett av alternativen i menyn."
         );
 
         if(choice == goBackOption)
@@ -51,6 +51,7 @@ internal class AccountView(ConsoleInputValidation consoleInputValidation)
             stringBuilder.AppendLine($"{i + 1}. {accounts[i].Name}  Saldo: {accounts[i].GetBalance():C}");
         }
 
+        stringBuilder.AppendLine(); // Add an empty line for better readability
         stringBuilder.AppendLine($"{accounts.Count + 1}. Tillbaka till huvudmenyn");
         
         return stringBuilder.ToString();

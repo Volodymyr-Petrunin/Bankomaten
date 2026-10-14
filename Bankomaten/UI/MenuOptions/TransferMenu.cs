@@ -44,7 +44,7 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
     /// <exception cref="UnreachableException">Thrown when an unexpected menu option is selected.</exception>
     public void Execute(User user)
     {
-        int selectedOption = consoleInputValidation.ReadInteger(BuildMenu(), 1, 3);
+        int selectedOption = consoleInputValidation.ReadInteger(BuildMenu(), 1, 3, "Ogiltigt val. Välj ett av alternativen i menyn.");
         Console.Clear();
 
         switch (selectedOption)
