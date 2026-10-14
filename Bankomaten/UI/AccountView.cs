@@ -48,7 +48,7 @@ internal class AccountView(ConsoleInputValidation consoleInputValidation)
         
         for (int i = 0; i < accounts.Count; i++)
         {
-            stringBuilder.AppendLine($"{i + 1}. {accounts[i].Name}  Balance: {accounts[i].GetBalance():C}");
+            stringBuilder.AppendLine($"{i + 1}. {accounts[i].Name}  Saldo: {accounts[i].GetBalance():C}");
         }
 
         stringBuilder.AppendLine($"{accounts.Count + 1}. Tillbaka till huvudmenyn");
