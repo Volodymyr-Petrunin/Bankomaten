@@ -21,7 +21,7 @@ class Program {
         ConsoleInputValidation consoleInputValidation = new ConsoleInputValidation();
         
         IMenuOptions[] options = [
-            new AccountOverviewOption("Konton & Saldo"),
+            new AccountOverviewOption("Konton & Saldo", consoleInputValidation),
             new TransferMenu("Betala & Överföra", consoleInputValidation, bankService, userManagement),
         ];
 
