@@ -12,7 +12,7 @@ namespace Bankomaten.Domain
         /// <summary>
         /// Pin for the user.
         /// </summary>
-        public string Pin { get; private set; }
+        private string Pin { get; set; }
 
         /// <summary>
         /// List of accounts for the user
@@ -34,6 +34,11 @@ namespace Bankomaten.Domain
 
             Accounts = new List<Account>();
             TransactionsHistory = new Queue<Transaction>();
+        }
+        
+        public bool VerifyPin(string pin)
+        {
+            return Pin == pin;
         }
 
         /// <summary>Just overriding ToString</summary>
