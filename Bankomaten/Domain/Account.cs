@@ -24,7 +24,7 @@ namespace Bankomaten.Domain
         {
             if (balance < 0)
             {
-                throw new ArgumentOutOfRangeException("Startsaldot för kontot kan inte vara mindre än 0.");
+                throw new ArgumentOutOfRangeException("Account balance cannot be negative.");
             }
 
             Name = name;
