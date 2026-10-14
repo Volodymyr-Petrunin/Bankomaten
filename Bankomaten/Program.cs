@@ -24,7 +24,7 @@ class Program {
             new AccountOverviewOption("Konton & Saldo", consoleInputValidation),
             new TransferMenu("Betala & Överföra", consoleInputValidation, bankService, userManagement),
             new DepositMenu("Insättning", consoleInputValidation, bankService, userManagement),
-
+            new WithdrawMenu("Uttag", consoleInputValidation, bankService, userManagement),
         ];
 
         MainMenu mainMenu = new MainMenu(options,  consoleInputValidation);
