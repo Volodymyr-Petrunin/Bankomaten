@@ -166,12 +166,14 @@ public class ConsoleInputValidation
     public string CenterTitle(string title)
     {
         int width = Console.WindowWidth;
+        string _nl = Environment.NewLine;
+        string border = new string('=', width);
         if (title.Length >= width)
         {
-            return title; // If the title is longer than the width, return it as is.
+            return border + _nl + title + _nl + border; // If the title is longer than the width, return it as is.
         }
-        int leftPadding = (width - title.Length) / 2;
-        int rightPadding = width - title.Length - leftPadding;
-        return new string(' ', leftPadding) + title + new string(' ', rightPadding);
+        int leftSpacers = (width - title.Length) / 2;
+        int rightSpacers = width - title.Length - leftSpacers;
+        return border + _nl + new string(' ', leftSpacers) + title + new string(' ', rightSpacers) + _nl + border;
     }
 }
