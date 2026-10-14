@@ -26,7 +26,7 @@ namespace Bankomaten.UI.MenuOptions
         /// <summary>
         /// Manage user selection.
         /// </summary>
-        /// <exception cref="UnreachableException"></exception>
+        /// <exception cref="UserInputException"></exception>
         public void Execute(User user)
         {
             Console.Clear();
