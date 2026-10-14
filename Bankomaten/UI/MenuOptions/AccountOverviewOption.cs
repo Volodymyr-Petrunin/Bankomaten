@@ -2,7 +2,7 @@
 
 namespace Bankomaten.UI.MenuOptions
 {
-    internal class AccountOverviewOption(string title) : IMenuOptions
+    internal class AccountOverviewOption(string title, ConsoleInputValidation consoleInput) : IMenuOptions
     {
         public string Title { get; } = title;
 
@@ -24,6 +24,7 @@ namespace Bankomaten.UI.MenuOptions
             }
             
             PrintTransactionsHistory(user, 3);
+            consoleInput.WaitForEnter("Tryck på Enter för att återgå till huvudmenyn.");
         }
         
         private static void PrintTransactionsHistory(User user, byte numberOfTransactionsToShow)
@@ -39,5 +40,6 @@ namespace Bankomaten.UI.MenuOptions
             Console.WriteLine($"Senaste {numberOfTransactionsToShow} transaktionerna:");
             user.TransactionsHistory.AsEnumerable().Reverse().Take(numberOfTransactionsToShow).ToList().ForEach(Console.WriteLine);
         }
+
     }
 }
