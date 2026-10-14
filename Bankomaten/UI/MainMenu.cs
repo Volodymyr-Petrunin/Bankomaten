@@ -11,7 +11,7 @@ namespace Bankomaten.UI
         /// </summary>
         private const string UserMenuTitle = """
                                              ==========================
-                                                     Huvudmeny!
+                                                     Huvudmeny
                                              ==========================
                                              """;
 
