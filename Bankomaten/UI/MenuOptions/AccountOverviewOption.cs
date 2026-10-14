@@ -6,9 +6,9 @@ namespace Bankomaten.UI.MenuOptions
     {
         public string Title { get; } = title;
 
-        private const string AccountOverviewTitle = """
+        private readonly string AccountOverviewTitle = $"""
                                                    ==========================
-                                                           Konton & Saldo
+                                                           {title}
                                                    ==========================
                                                    """;
 
