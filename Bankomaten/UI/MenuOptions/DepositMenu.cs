@@ -16,7 +16,7 @@ namespace Bankomaten.UI.MenuOptions
         private const string ToAccountQuestion = "Välj konto för insättning: ";
         private const string AmountQuestion = "Ange belopp: ";
         private const string NotEnoughAccountsMessage = "Du behöver minst ett konto för att sätta in pengar.";
-        private const string SuccessMessage = "Insättning genomförd.";
+        private const string SuccessMessage = "Insättningen är godkänd.";
         private const string FailedMessage = "Insättningen kunde inte genomföras.";
         private const string AtmMessage = "Bankomatinsättning";
         public string Title { get; } = title;
@@ -28,33 +28,18 @@ namespace Bankomaten.UI.MenuOptions
         /// <exception cref="UnreachableException"></exception>
         public void Execute(User user)
         {
-            int selectedOption = consoleInputValidation.ReadInteger(BuildMenu(), 1, 2);
-            Console.Clear();
 
-            switch (selectedOption)
+            try
             {
-                case 1:
-                    DepositToUserAccount(user);
-                    break;
-                case 2:
-                    break;
-                default:
-                    throw new UnreachableException($"Ogiltigt menyval: {selectedOption}");
+                DepositToUserAccount(user);
             }
-            Console.Clear();
-        }
+            catch (UserInputException ex)
+            {
+                // Använd din WaitForEnter-metod vid fel
+                consoleInputValidation.WaitForEnter(ex.Message + _nl + "Tryck på Enter för att återgå till huvudmenyn");
+            }
 
-        // <summary>
-        // Builds and returns a formatted string representing a transfer menu with options.
-        // </summary>
-        // <returns>A string containing the transfer menu options, formatted for display.</returns>
-        private string BuildMenu()
-        {
-            return new StringBuilder()
-                .AppendLine(Title)
-                .AppendLine("1. Fortsätt")
-                .AppendLine("2. Tillbaka till huvudmenyn")
-                .ToString();
+            Console.Clear();
         }
 
         /// <summary>
