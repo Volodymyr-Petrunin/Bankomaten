@@ -6,11 +6,18 @@ namespace Bankomaten.UI.MenuOptions
     {
         public string Title => "Konton & Saldo";
 
+        private const string AccountOverviewTitle = """
+                                                   ==========================
+                                                           Konton & Saldo
+                                                   ==========================
+                                                   """;
+
         /// <summary>
         /// Executes the account overview option, displaying all the user's accounts and their balances.
         /// </summary>
         public void Execute(User user)
         {
+            Console.WriteLine(AccountOverviewTitle);
             foreach (var account in user.Accounts)
             {
                 Console.WriteLine(account.ToString());
