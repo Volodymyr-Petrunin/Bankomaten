@@ -2,9 +2,9 @@
 
 namespace Bankomaten.UI.MenuOptions
 {
-    internal class AccountOverviewOption : IMenuOptions
+    internal class AccountOverviewOption(string title) : IMenuOptions
     {
-        public string Title => "Konton & Saldo";
+        public string Title { get; } = title;
 
         private const string AccountOverviewTitle = """
                                                    ==========================
