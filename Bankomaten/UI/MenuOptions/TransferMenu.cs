@@ -108,7 +108,7 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
             user, TransactionType.OwnTransfer, amount, fromAccount.Name, toAccount.Name
         );
         
-        Console.WriteLine(SuccessMessage);
+        WriteSuccessMessage(SuccessMessage);
         PrintBalance(fromAccount);
         PrintBalance(toAccount);
     }
@@ -152,7 +152,7 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
         );
 
         // Only the sender's own balance is shown, never the recipient's accounts
-        Console.WriteLine($"{SuccessMessage} {amount:C} har skickats till {recipient.UserName}.");
+        WriteSuccessMessage($"{SuccessMessage} {amount:C} har skickats till {recipient.UserName}.");
         PrintBalance(fromAccount);
     }
 
@@ -217,6 +217,13 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
 
     private bool VerifyPinCode(User user)
     {
-        return bankService.VerifyPassword(user, consoleInputValidation.ReadText(PinCodeQuestion));
+        return bankService.VerifyPassword(user, consoleInputValidation.HandlePinUserInput(PinCodeQuestion, true));
+    }
+
+    private void WriteSuccessMessage(string message)
+    {
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine(message);
+        Console.ResetColor();
     }
 }
