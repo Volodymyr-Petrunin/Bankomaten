@@ -35,6 +35,8 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
     
     public string Title { get; } = title;
 
+    private readonly AccountView _accountView = new AccountView(consoleInputValidation);
+
     /// <summary>
     /// Executes the transfer menu for the specified user. Prompts the user to select an option
     /// for transferring funds between their own accounts or to another user, or to exit the menu.
@@ -91,7 +93,7 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
 
         // The source account is left out, so the same account can never be chosen twice
         List<Account> targetAccounts = user.Accounts.Where(account => account != fromAccount).ToList();
-        Account toAccount = ChooseAccount(ToAccountQuestion, targetAccounts);
+        Account toAccount = _accountView.ChooseAccount(ToAccountQuestion, targetAccounts);
 
         decimal amount = consoleInputValidation.ReadDecimal(AmountQuestion, fromAccount.GetBalance());
 
@@ -108,9 +110,9 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
             user, TransactionType.OwnTransfer, amount, fromAccount.Name, toAccount.Name
         );
         
-        WriteSuccessMessage(SuccessMessage);
-        PrintBalance(fromAccount);
-        PrintBalance(toAccount);
+        _accountView.WriteSuccessMessage(SuccessMessage);
+        _accountView.PrintBalance(fromAccount);
+        _accountView.PrintBalance(toAccount);
     }
 
     /// <summary>
@@ -152,8 +154,8 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
         );
 
         // Only the sender's own balance is shown, never the recipient's accounts
-        WriteSuccessMessage($"{SuccessMessage} {amount:C} har skickats till {recipient.UserName}.");
-        PrintBalance(fromAccount);
+        _accountView.WriteSuccessMessage($"{SuccessMessage} {amount:C} har skickats till {recipient.UserName}.");
+        _accountView.PrintBalance(fromAccount);
     }
 
 
@@ -164,7 +166,7 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
     /// <exception cref="UserInputException">Thrown if the user chooses an empty account.</exception>
     private Account ChooseSourceAccount(User user)
     {
-        Account account = ChooseAccount(FromAccountQuestion, user.Accounts);
+        Account account = _accountView.ChooseAccount(FromAccountQuestion, user.Accounts);
 
         // ReadDecimal requires max >= 0.01, so an empty account must be stopped before asking for an amount
         if (account.GetBalance() < 0.01m)
@@ -175,55 +177,8 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
         return account;
     }
 
-    /// <summary>
-    /// Prompts the user to select an account from a list of available accounts.
-    /// Ensures that the user inputs a valid selection within the given range.
-    /// </summary>
-    /// <returns>The account selected by the user.</returns>
-    /// <exception cref="ArgumentOutOfRangeException">
-    /// Thrown if the provided list of accounts is empty or the user's selection is out of range.
-    /// </exception>
-    private Account ChooseAccount(string question, List<Account> accounts)
-    {
-        int choice = consoleInputValidation.ReadInteger(
-            BuildAccountPrompt(question, accounts), 1, accounts.Count
-        );
-        
-        return accounts[choice - 1];
-    }
-
-    /// <summary>Displays the current balance of the specified account in a formatted manner.</summary>
-    private void PrintBalance(Account account)
-    {
-        Console.WriteLine($"Nytt saldo på {account.Name}: {account.GetBalance():C}");
-    }
-
-    /// <summary>
-    /// Constructs a formatted prompt string displaying a question and a list of accounts.
-    /// Each account is displayed with an index, its name, and the current balance.
-    /// </summary>
-    /// <returns>A formatted string containing the prompt and account options.</returns>
-    private string BuildAccountPrompt(string question, List<Account> accounts)
-    {
-        var stringBuilder = new StringBuilder().AppendLine(question);
-        
-        for (int i = 0; i < accounts.Count; i++)
-        {
-            stringBuilder.AppendLine($"{i + 1}. {accounts[i].Name}  Balance: {accounts[i].GetBalance():C}");
-        }
-        
-        return stringBuilder.ToString();
-    }
-
     private bool VerifyPinCode(User user)
     {
         return bankService.VerifyPassword(user, consoleInputValidation.HandlePinUserInput(PinCodeQuestion, true));
-    }
-
-    private void WriteSuccessMessage(string message)
-    {
-        Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine(message);
-        Console.ResetColor();
     }
 }
