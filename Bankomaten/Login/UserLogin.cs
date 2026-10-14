@@ -70,7 +70,7 @@ namespace Bankomaten.Login
         /// </summary>
         private void BlockUserTimePeriod()
         {
-            int blockWaitingTime = 5; 
+            int blockWaitingTime = 180; 
 
             while (blockWaitingTime >= 0)
             {
