@@ -93,7 +93,12 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
 
         // The source account is left out, so the same account can never be chosen twice
         List<Account> targetAccounts = user.Accounts.Where(account => account != fromAccount).ToList();
-        Account toAccount = _accountView.ChooseAccount(ToAccountQuestion, targetAccounts);
+        Account? toAccount = _accountView.ChooseAccount(ToAccountQuestion, targetAccounts);
+        
+        if (toAccount == null)
+        {
+            return;
+        }
 
         decimal amount = consoleInputValidation.ReadDecimal(AmountQuestion, fromAccount.GetBalance());
 
@@ -166,7 +171,7 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
     /// <exception cref="UserInputException">Thrown if the user chooses an empty account.</exception>
     private Account ChooseSourceAccount(User user)
     {
-        Account account = _accountView.ChooseAccount(FromAccountQuestion, user.Accounts);
+        Account account = _accountView.ChooseAccount(FromAccountQuestion, user.Accounts)!;
 
         // ReadDecimal requires max >= 0.01, so an empty account must be stopped before asking for an amount
         if (account.GetBalance() < 0.01m)
