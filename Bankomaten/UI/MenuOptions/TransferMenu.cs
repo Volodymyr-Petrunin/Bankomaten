@@ -29,7 +29,7 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
     
     private const string WrongPinCodeMessage = "Felaktig PIN-kod.";
     
-    private const string SuccessMessage = "Överföringen är klar.";
+    private const string SuccessMessage = "Överföringen lyckades:";
     
     private const string FailedMessage = "Överföringen kunde inte genomföras.";
     
