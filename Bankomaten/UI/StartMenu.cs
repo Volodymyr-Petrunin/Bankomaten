@@ -24,7 +24,6 @@ namespace Bankomaten.UI
         public bool Run()
         {
             ShowStartMenu();
-
             if (consoleInputValidation.ReadInteger("Ange ditt val: ", 1, 2, "Ogiltigt val. Välj ett av alternativen i menyn.") == 1)
             {
                 // The logged in user is saved here and passed to the main menu.
@@ -47,12 +46,12 @@ namespace Bankomaten.UI
         {
             Console.WriteLine(consoleInputValidation.CenterTitle("Startmeny"));
             Console.WriteLine("""
-                Välkommen till Bankomaten!
+                Välkommen!
                 Välj ett av alternativen nedan:
 
-                [1] Logga in
+                1. Logga in
 
-                [2] Avsluta
+                2. Avsluta
 
                 """);
 

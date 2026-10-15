@@ -176,33 +176,4 @@ public class ConsoleInputValidation
         int rightSpacers = width - title.Length - leftSpacers;
         return border + _nl + new string(' ', leftSpacers) + title + new string(' ', rightSpacers) + _nl + border + _nl;
     }
-    public string BuildMenu(string title, string subTitle, string[] options) 
-    {
-        int width = Console.WindowWidth;
-        string _nl = Environment.NewLine;
-
-        string bottomBorder = new string('=', width);
-        int subTitleSpacers = Math.Max(0, width - subTitle.Length) / 2;
-        string centerSubTitle = new string(' ', subTitleSpacers) + subTitle;
-
-        int longestOption = options.Max(l => l.Length) + 4;
-        int optionSpacers = Math.Max(0, (width - longestOption) / 2);
-        string spacers = new string(' ', optionSpacers);
-
-        var sB = new StringBuilder()
-            .Append(CenterTitle(title))
-            .AppendLine()
-            .Append(centerSubTitle)
-            .AppendLine();
-
-        foreach (var option in options) 
-        {
-            sB.AppendLine($"{spacers} > {option}");
-        }
-
-        sB.AppendLine().Append(bottomBorder);
-
-        return sB.ToString();
-
-    }
 }
