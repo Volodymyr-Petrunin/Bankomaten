@@ -17,8 +17,12 @@ namespace Bankomaten.UI
         public bool Show(User user)
         {
             Console.WriteLine(consoleInput.CenterTitle("Huvudmeny"));
-            Console.WriteLine($"Du är inloggad som: {user.UserName}.");
-            Console.WriteLine($"Välj ett alternativ nedan:{_nl}");
+
+            Console.Write("Du är inloggad som: "); 
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write($"{user.UserName}.");
+            Console.ResetColor();
+            Console.WriteLine($"{_nl}Välj ett av alternativen nedan:{_nl}");
 
             for (int index = 0; index < menuOptions.Length; index++)
             {
