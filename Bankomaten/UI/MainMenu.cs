@@ -32,7 +32,7 @@ namespace Bankomaten.UI
             {
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Du har loggats ut.");
+                Console.WriteLine($"{_nl}Du har loggats ut.{_nl}");
                 Console.ResetColor();
                 return false;
             }
