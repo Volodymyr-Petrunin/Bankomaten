@@ -29,11 +29,13 @@ namespace Bankomaten.UI.MenuOptions
             if (user.TransactionsHistory.Count == 0)
             {
                 Console.WriteLine("Inga transaktioner ännu.");
+                Console.WriteLine(new string('-', Console.WindowWidth));
                 return;
             }
             
             Console.WriteLine($"Senaste {numberOfTransactionsToShow} transaktioner:");
             user.TransactionsHistory.AsEnumerable().Reverse().Take(numberOfTransactionsToShow).ToList().ForEach(Console.WriteLine);
+            Console.WriteLine(new string('-', Console.WindowWidth));
         }
 
     }
