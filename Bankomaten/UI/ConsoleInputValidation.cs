@@ -182,7 +182,7 @@ public class ConsoleInputValidation
         string _nl = Environment.NewLine;
 
         string bottomBorder = new string('=', width);
-        int subTitleSpacers = (width - subTitle.Length) / 2;
+        int subTitleSpacers = Math.Max(0, width - subTitle.Length) / 2;
         string centerSubTitle = new string(' ', subTitleSpacers) + subTitle;
 
         int longestOption = options.Max(l => l.Length) + 4;
