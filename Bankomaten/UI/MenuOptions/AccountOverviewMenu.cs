@@ -2,15 +2,9 @@
 
 namespace Bankomaten.UI.MenuOptions
 {
-<<<<<<< HEAD:Bankomaten/UI/MenuOptions/AccountOverviewOption.cs
-    internal class AccountOverviewOption(string title, ConsoleInputValidation consoleInputValidation) : IMenuOptions
-    {
-        public string Title { get; } = title;
-=======
-    internal class AccountOverviewMenu(string title) : IMenuOptions
+    internal class AccountOverviewMenu(string title, ConsoleInputValidation consoleInputValidation) : IMenuOptions
     {
         public string Title => title;
->>>>>>> origin/main:Bankomaten/UI/MenuOptions/AccountOverviewMenu.cs
 
         /// <summary>
         /// Executes the account overview option, displaying all the user's accounts and their balances.
