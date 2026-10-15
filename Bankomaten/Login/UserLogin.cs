@@ -21,6 +21,7 @@ namespace Bankomaten.Login
             // The loop continues until the user has successfully logged in to prevent return of a null-value
             while (true)
             {
+                Console.WriteLine();
                 string usernameInput = consoleInputValidation.ReadText("Ange användarnamn: ");
                 Console.WriteLine();
 
