@@ -24,7 +24,7 @@ namespace Bankomaten.UI.MenuOptions
         
         private static void PrintTransactionsHistory(User user, byte numberOfTransactionsToShow)
         {
-            Console.WriteLine(new string('-', Console.WindowWidth / 2));
+            Console.WriteLine(new string('-', Console.WindowWidth));
             
             if (user.TransactionsHistory.Count == 0)
             {
