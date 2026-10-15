@@ -37,12 +37,20 @@ internal class AccountView(ConsoleInputValidation consoleInputValidation)
         Console.WriteLine($"Nytt saldo på {account.Name}: {account.GetBalance():C}");
     }
 
+    /// <summary> Change Console color to green and print success message than reset color</summary>
+    public void WriteSuccessMessage(string message)
+    {
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine(message);
+        Console.ResetColor();
+    }
+
     /// <summary>
     /// Constructs a formatted prompt string displaying a question and a list of accounts.
     /// Each account is displayed with an index, its name, and the current balance.
     /// </summary>
     /// <returns>A formatted string containing the prompt and account options.</returns>
-    public string BuildAccountPrompt(string question, List<Account> accounts)
+    private string BuildAccountPrompt(string question, List<Account> accounts)
     {
         var stringBuilder = new StringBuilder().AppendLine(question);
 
@@ -57,12 +65,5 @@ internal class AccountView(ConsoleInputValidation consoleInputValidation)
         stringBuilder.AppendLine($"{accounts.Count + 1}. Tillbaka till huvudmenyn");
         
         return stringBuilder.ToString();
-    }
-    
-    public void WriteSuccessMessage(string message)
-    {
-        Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine(message);
-        Console.ResetColor();
     }
 }
