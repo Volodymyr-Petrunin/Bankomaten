@@ -67,7 +67,7 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
     private string BuildMenu()
     {
         return new StringBuilder()
-            .AppendLine(Title)
+            .AppendLine(consoleInputValidation.CenterTitle(Title))
             .AppendLine("1. Mellan egna konton")
             .AppendLine("2. Till en annan användare")
             .AppendLine("3. Tillbaka till huvudmenyn")
