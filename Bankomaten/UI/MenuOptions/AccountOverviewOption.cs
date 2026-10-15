@@ -11,7 +11,7 @@ namespace Bankomaten.UI.MenuOptions
         /// </summary>
         public void Execute(User user)
         {
-            consoleInputValidation.CenterTitle(title);
+            Console.WriteLine(consoleInputValidation.CenterTitle(Title));
             foreach (var account in user.Accounts)
             {
                 Console.WriteLine(account.ToString());
