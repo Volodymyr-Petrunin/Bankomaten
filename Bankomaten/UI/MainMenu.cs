@@ -7,15 +7,6 @@ namespace Bankomaten.UI
     internal class MainMenu (IMenuOptions[] menuOptions, ConsoleInputValidation consoleInput)
     {
         /// <summary>
-        /// The title of the user menu, displayed when the user logs in.
-        /// </summary>
-        private const string UserMenuTitle = """
-                                             ==========================
-                                                     Huvudmeny
-                                             ==========================
-                                             """;
-
-        /// <summary>
         /// Empty line, replaces \n.
         /// </summary>
         private readonly string _nl = Environment.NewLine;
