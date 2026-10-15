@@ -2,9 +2,9 @@
 
 namespace Bankomaten.UI.MenuOptions
 {
-    internal class AccountOverviewOption : IMenuOptions
+    internal class AccountOverviewMenu(string title) : IMenuOptions
     {
-        public string Title => "Se dina konton och saldo";
+        public string Title => title;
 
         /// <summary>
         /// Executes the account overview option, displaying all the user's accounts and their balances.
