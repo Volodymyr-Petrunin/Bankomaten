@@ -19,7 +19,7 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
     
     private const string PinCodeQuestion = "Ange din PIN-kod för att bekräfta överföring: ";
     
-    private const string NotEnoughAccountsMessage = "Du behöver minst två konton göra en överföring mellan egna konton.";
+    private const string NotEnoughAccountsMessage = "Du behöver minst två konton för att göra en överföring mellan egna konton.";
     
     private const string EmptyAccountMessage = "Kontot är tomt. Välj ett konto med pengar.";
 
