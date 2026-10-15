@@ -45,13 +45,15 @@ internal class AccountView(ConsoleInputValidation consoleInputValidation)
     public string BuildAccountPrompt(string question, List<Account> accounts)
     {
         var stringBuilder = new StringBuilder().AppendLine(question);
-        
+
+        stringBuilder.AppendLine(); // Empty line for better readability
+
         for (int i = 0; i < accounts.Count; i++)
         {
             stringBuilder.AppendLine($"{i + 1}. {accounts[i].Name}  Saldo: {accounts[i].GetBalance():C}");
         }
 
-        stringBuilder.AppendLine(); // Add an empty line for better readability
+        stringBuilder.AppendLine(); // Empty line for better readability
         stringBuilder.AppendLine($"{accounts.Count + 1}. Tillbaka till huvudmenyn");
         
         return stringBuilder.ToString();
