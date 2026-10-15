@@ -174,6 +174,6 @@ public class ConsoleInputValidation
         }
         int leftSpacers = (width - title.Length) / 2;
         int rightSpacers = width - title.Length - leftSpacers;
-        return border + _nl + new string(' ', leftSpacers) + title + new string(' ', rightSpacers) + _nl + border;
+        return border + _nl + new string(' ', leftSpacers) + title + new string(' ', rightSpacers) + _nl + border + _nl;
     }
 }
