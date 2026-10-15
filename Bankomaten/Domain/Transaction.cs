@@ -53,8 +53,8 @@ public class Transaction
     {
         return new StringBuilder()
             .Append(TransactionType.ToDisplayString())
-            .Append(" Från: " + FromAccountName +"|")
-            .Append(" Till: " + CounterpartyName +"|")
+            .Append(" Från: " + FromAccountName +" |")
+            .Append(" Till: " + CounterpartyName +" |")
             .Append($" Belopp: {Amount:C} |")
             .Append(" Datum: " + DateTime)
             .ToString();
