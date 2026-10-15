@@ -29,7 +29,6 @@ namespace Bankomaten.UI
                 // The logged in user is saved here and passed to the main menu.
                 // The user will stay logged in until they choose to log out from the main menu.
                 var user = userLogin.UserInput();
-                Console.Clear();
                 while (mainMenu.Show(user));
                 return true;
             }
