@@ -27,7 +27,6 @@ namespace Bankomaten.UI.MenuOptions
         /// <exception cref="UserInputException"></exception>
         public void Execute(User user)
         {
-            Console.Clear();
             Console.WriteLine(consoleInputValidation.CenterTitle(Title));
             try
             {

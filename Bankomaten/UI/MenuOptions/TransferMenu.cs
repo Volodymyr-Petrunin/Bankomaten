@@ -70,6 +70,7 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
             .AppendLine(consoleInputValidation.CenterTitle(Title))
             .AppendLine("1. Mellan egna konton")
             .AppendLine("2. Till en annan användare")
+            .AppendLine()
             .AppendLine("3. Tillbaka till huvudmenyn")
             .ToString();
     }
@@ -138,7 +139,11 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
             throw new UserInputException(SelfTransferMessage);
         }
 
-        Account fromAccount = ChooseSourceAccount(sender);
+        Account? fromAccount = ChooseSourceAccount(sender);
+        if (fromAccount == null) 
+        { 
+            return; 
+        }
         decimal amount = consoleInputValidation.ReadDecimal(AmountQuestion, fromAccount.GetBalance());
         
         if (!VerifyPinCode(sender))
@@ -171,8 +176,11 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
     /// <exception cref="UserInputException">Thrown if the user chooses an empty account.</exception>
     private Account ChooseSourceAccount(User user)
     {
-        Account account = _accountView.ChooseAccount(FromAccountQuestion, user.Accounts)!;
-
+        Account? account = _accountView.ChooseAccount(FromAccountQuestion, user.Accounts);
+        if (account == null)
+        {
+            return account!;
+        }
         // ReadDecimal requires max >= 0.01, so an empty account must be stopped before asking for an amount
         if (account.GetBalance() < 0.01m)
         {
