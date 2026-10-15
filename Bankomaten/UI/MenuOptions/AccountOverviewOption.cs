@@ -2,29 +2,23 @@
 
 namespace Bankomaten.UI.MenuOptions
 {
-    internal class AccountOverviewOption(string title, ConsoleInputValidation consoleInput) : IMenuOptions
+    internal class AccountOverviewOption(string title, ConsoleInputValidation consoleInputValidation) : IMenuOptions
     {
         public string Title { get; } = title;
-
-        private readonly string AccountOverviewTitle = $"""
-                                                   ==========================
-                                                           {title}
-                                                   ==========================
-                                                   """;
 
         /// <summary>
         /// Executes the account overview option, displaying all the user's accounts and their balances.
         /// </summary>
         public void Execute(User user)
         {
-            Console.WriteLine(AccountOverviewTitle);
+            consoleInputValidation.CenterTitle(title);
             foreach (var account in user.Accounts)
             {
                 Console.WriteLine(account.ToString());
             }
             
             PrintTransactionsHistory(user, 3);
-            consoleInput.WaitForEnter("Tryck på Enter för att återgå till huvudmenyn.");
+            consoleInputValidation.WaitForEnter("Tryck på Enter för att återgå till huvudmenyn.");
             Console.Clear();
         }
         
