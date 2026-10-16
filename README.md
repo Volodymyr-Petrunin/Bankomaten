@@ -51,6 +51,7 @@ classDiagram
 ```
 
 ## 📊 Klassdiagram
+![Test](Docs/UML/bankomaten-class-diagram.svg)
 <img src="https://github.com/Volodymyr-Petrunin/Bankomaten/blob/12-create-uml-class-diagram/Docs/UML/bankomaten-class-diagram.svg">
 
 ## 🤔Reflektion/resonemang
