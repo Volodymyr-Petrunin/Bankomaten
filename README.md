@@ -62,7 +62,7 @@ classDiagram
   * Påbörja/bygga upp strukturen av README.md.
   * Skapa presentation.
 ### 🧑Ben Johansson
-
+ * Skapade UserManagement och WithdrawMenu.
 ### 🧑Nils Olmås
 
 ### 🧑Volodymyr Petrunin
