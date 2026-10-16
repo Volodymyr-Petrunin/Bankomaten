@@ -18,14 +18,9 @@ Detta är en konsolapplikation och ett skolprojekt som simulerar en bankomat i e
 * **Överföring till eget konto**
   * Sätt in pengar till ett eget konto.
 
-
-
-
-
 ## 🏗️ Funktionsöversikt
 ```mermaid
 classDiagram
-    class Program
     class StartMenu {
         Logga in
         Avsluta
@@ -39,26 +34,24 @@ classDiagram
         Överföring till eget konton
         Ta ut pengar
     }
-    class AccountOverViewOption{
-    }
-    class DepositMenu{
-    }
+    class AccountOverViewOption
+    class DepositMenu
     class TransferMenu{
         Mellan egna konton
         Till annan användare
     }
-    class WithDrawMenu{
-    }
+    class WithDrawMenu
 
-    Program --> StartMenu
     StartMenu --> UserLogin
     UserLogin --> MainMenu
     MainMenu --> AccountOverViewOption
     MainMenu --> DepositMenu
     MainMenu --> TransferMenu
     MainMenu --> WithDrawMenu
-
 ```
+
+## 📊 Klassdiagram
+<img src="https://github.com/Volodymyr-Petrunin/Bankomaten/blob/12-create-uml-class-diagram/Docs/UML/bankomaten-class-diagram.svg">
 
 ## 🤔Reflektion/resonemang
 
@@ -69,4 +62,4 @@ classDiagram
 ### 🧑Nils Olmås
 ### 🧑Volodymyr Petrunin
 
-#### Not. Flera utav hjälpklasserna har vi alla varit med och bidragit till.
+#### _Notering. Flera utav hjälpklasserna har vi alla varit med och bidragit till._
