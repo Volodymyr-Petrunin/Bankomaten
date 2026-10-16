@@ -160,7 +160,7 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
         );
         
         userManagement.AddUserTransaction(
-            recipient, TransactionType.TransferReceived, amount, fromAccount.Name, recipient.UserName
+            recipient, TransactionType.TransferReceived, amount, sender.UserName, recipient.Accounts[0].Name
         );
 
         // Only the sender's own balance is shown, never the recipient's accounts
