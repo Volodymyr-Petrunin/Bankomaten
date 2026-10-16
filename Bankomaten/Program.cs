@@ -21,11 +21,10 @@ class Program {
         ConsoleInputValidation consoleInputValidation = new ConsoleInputValidation();
         
         IMenuOptions[] options = [
-            new AccountOverviewMenu("Se dina konton och saldo"),
-            new TransferMenu("Överföring mellan konton", consoleInputValidation, bankService, userManagement),
-            new DepositMenu("Överföring till eget konto", consoleInputValidation, bankService, userManagement),
-            new WithdrawMenu("Ta ut pengar", consoleInputValidation, bankService, userManagement),
-
+            new AccountOverviewMenu("Konton & Saldo", consoleInputValidation),
+            new TransferMenu("Betala & Överföra", consoleInputValidation, bankService, userManagement),
+            new DepositMenu("Insättning", consoleInputValidation, bankService, userManagement),
+            new WithdrawMenu("Uttag", consoleInputValidation, bankService, userManagement),
         ];
 
         MainMenu mainMenu = new MainMenu(options,  consoleInputValidation);

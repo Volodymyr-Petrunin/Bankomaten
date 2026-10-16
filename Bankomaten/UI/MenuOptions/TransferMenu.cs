@@ -13,13 +13,13 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
 
     private const string ToAccountQuestion = "Välj konto att föra över till: ";
 
-    private const string AmountQuestion = "Hur mycket vill du föra över: ";
+    private const string AmountQuestion = "Ange belopp att överföra: ";
 
     private const string RecipientQuestion = "Ange mottagarens användarnamn: ";
     
-    private const string PinCodeQuestion = "Ange PIN-kod: ";
+    private const string PinCodeQuestion = "Ange din PIN-kod för att bekräfta överföring: ";
     
-    private const string NotEnoughAccountsMessage = "Du behöver minst två konton för att föra över mellan egna konton.";
+    private const string NotEnoughAccountsMessage = "Du behöver minst två konton för att göra en överföring mellan egna konton.";
     
     private const string EmptyAccountMessage = "Kontot är tomt. Välj ett konto med pengar.";
 
@@ -29,7 +29,7 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
     
     private const string WrongPinCodeMessage = "Felaktig PIN-kod.";
     
-    private const string SuccessMessage = "Överföringen är klar.";
+    private const string SuccessMessage = "Överföringen lyckades:";
     
     private const string FailedMessage = "Överföringen kunde inte genomföras.";
     
@@ -44,7 +44,7 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
     /// <exception cref="UnreachableException">Thrown when an unexpected menu option is selected.</exception>
     public void Execute(User user)
     {
-        int selectedOption = consoleInputValidation.ReadInteger(BuildMenu(), 1, 3);
+        int selectedOption = consoleInputValidation.ReadInteger(BuildMenu(), 1, 3, "Ogiltigt val. Välj ett av alternativen i menyn.");
         Console.Clear();
 
         switch (selectedOption)
@@ -67,9 +67,10 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
     private string BuildMenu()
     {
         return new StringBuilder()
-            .AppendLine(Title)
+            .AppendLine(consoleInputValidation.CenterTitle(Title))
             .AppendLine("1. Mellan egna konton")
             .AppendLine("2. Till en annan användare")
+            .AppendLine()
             .AppendLine("3. Tillbaka till huvudmenyn")
             .ToString();
     }
@@ -93,7 +94,12 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
 
         // The source account is left out, so the same account can never be chosen twice
         List<Account> targetAccounts = user.Accounts.Where(account => account != fromAccount).ToList();
-        Account toAccount = _accountView.ChooseAccount(ToAccountQuestion, targetAccounts);
+        Account? toAccount = _accountView.ChooseAccount(ToAccountQuestion, targetAccounts);
+        
+        if (toAccount == null)
+        {
+            return;
+        }
 
         decimal amount = consoleInputValidation.ReadDecimal(AmountQuestion, fromAccount.GetBalance());
 
@@ -133,7 +139,11 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
             throw new UserInputException(SelfTransferMessage);
         }
 
-        Account fromAccount = ChooseSourceAccount(sender);
+        Account? fromAccount = ChooseSourceAccount(sender);
+        if (fromAccount == null) 
+        { 
+            return; 
+        }
         decimal amount = consoleInputValidation.ReadDecimal(AmountQuestion, fromAccount.GetBalance());
         
         if (!VerifyPinCode(sender))
@@ -150,7 +160,7 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
         );
         
         userManagement.AddUserTransaction(
-            recipient, TransactionType.TransferReceived, amount, fromAccount.Name, recipient.UserName
+            recipient, TransactionType.TransferReceived, amount, sender.UserName, recipient.Accounts[0].Name
         );
 
         // Only the sender's own balance is shown, never the recipient's accounts
@@ -166,8 +176,11 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
     /// <exception cref="UserInputException">Thrown if the user chooses an empty account.</exception>
     private Account ChooseSourceAccount(User user)
     {
-        Account account = _accountView.ChooseAccount(FromAccountQuestion, user.Accounts);
-
+        Account? account = _accountView.ChooseAccount(FromAccountQuestion, user.Accounts);
+        if (account == null)
+        {
+            return account!;
+        }
         // ReadDecimal requires max >= 0.01, so an empty account must be stopped before asking for an amount
         if (account.GetBalance() < 0.01m)
         {

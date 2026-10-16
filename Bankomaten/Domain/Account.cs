@@ -24,7 +24,7 @@ namespace Bankomaten.Domain
         {
             if (balance < 0)
             {
-                throw new ArgumentOutOfRangeException("Startsaldot för kontot kan inte vara mindre än 0.");
+                throw new ArgumentOutOfRangeException("Account balance cannot be negative.");
             }
 
             Name = name;
@@ -78,7 +78,7 @@ namespace Bankomaten.Domain
         /// <returns>Returns string with contains main info</returns>
         public override string ToString()
         {
-            return $"Account Name: {Name}, Balance: {Balance:C}";
+            return $"Konto: {Name}, Saldo: {Balance:C}";
         }
     }
 }

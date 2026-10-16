@@ -7,18 +7,9 @@ using System.Threading.Channels;
 
 namespace Bankomaten.Login
 {
-    internal class UserLogin
+    internal class UserLogin (UserManagement userManagement, ConsoleInputValidation consoleInputValidation)
     {
         private int loginAttempsCounter = 0;
-
-        private readonly UserManagement _userManagement;
-        private readonly ConsoleInputValidation _consoleInputValidation;
-
-        public UserLogin(UserManagement userManagement, ConsoleInputValidation consoleInputValidation)
-        {
-            _userManagement = userManagement;
-            _consoleInputValidation = consoleInputValidation;
-        }
 
         /// <summary>
         /// Handle user input information.
@@ -30,10 +21,11 @@ namespace Bankomaten.Login
             // The loop continues until the user has successfully logged in to prevent return of a null-value
             while (true)
             {
-                string usernameInput = _consoleInputValidation.ReadText("Skriv in ditt användarnamn: ");
+                Console.WriteLine();
+                string usernameInput = consoleInputValidation.ReadText("Ange användarnamn: ");
                 Console.WriteLine();
 
-                string userPinInput = _consoleInputValidation.HandlePinUserInput("Skriv in pinkoden: ", true);
+                string userPinInput = consoleInputValidation.HandlePinUserInput("Ange din PIN-kod: ", true);
 
                 user = UserCredentialAuthentication(usernameInput, userPinInput);
 
@@ -79,7 +71,7 @@ namespace Bankomaten.Login
 
                 blockWaitingTime--; // Count down 1s
 
-                Console.WriteLine("Du har angett fel användarnam eller lösenord för många gånger.");
+                Console.WriteLine("Du har angett fel användarnamn eller PIN-kod för många gånger.");
                 Console.WriteLine($"Temporär spärr aktiverad" + Environment.NewLine);
                 Console.WriteLine("Återstående tid: " + blockWaitingTime.ToString() + "s");
             }
@@ -95,9 +87,9 @@ namespace Bankomaten.Login
         /// <returns></returns>
         private User UserCredentialAuthentication(string usernameInput, string userPinInput)
         {
-            if (_userManagement != null)
+            if (userManagement != null)
             {
-                User? user = _userManagement.Authenticate(usernameInput, userPinInput);
+                User? user = userManagement.Authenticate(usernameInput, userPinInput);
 
                 if (user != null)
                 {

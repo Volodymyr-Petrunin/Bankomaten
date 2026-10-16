@@ -46,10 +46,10 @@ namespace Bankomaten.Domain
         public override string ToString()
         {
             return new StringBuilder()
-                .Append("User name: " + UserName)
+                .Append(" Användarnamn: " + UserName)
                 .Append(" Pin: " + Pin)
-                .Append(" Accounts: " + Accounts.Count)
-                .Append(" Transactions: " + TransactionsHistory.Count)
+                .Append(" Konton: " + Accounts.Count)
+                .Append(" Transaktioner: " + TransactionsHistory.Count)
                 .ToString();
         }
     }

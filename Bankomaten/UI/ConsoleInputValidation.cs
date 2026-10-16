@@ -16,17 +16,18 @@ public class ConsoleInputValidation
     /// <summary> Asks until the user enters an integer between min and max.</summary>
     /// <returns>A valid integer between min and max.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Throws only when min param is bigger than max param</exception>
-    public int ReadInteger(string question, int min, int max)
+    public int ReadInteger(string question, int min, int max, string errorMessage = null!)
     {
         ArgumentOutOfRangeException.ThrowIfGreaterThan(min, max);
 
+        errorMessage ??= $"Ogiltig inmatning. Ange ett tal mellan {min} och {max}.";
         Console.Write(question);
 
         int result;
 
         while (!int.TryParse(ReadLineOrThrow(), out result) || result < min || result > max)
         {
-            Console.WriteLine($"Ogiltig inmatning. Ange ett tal mellan {min} och {max}.");
+            Console.WriteLine(errorMessage);
             Console.Write(question);
         }
 
@@ -161,5 +162,18 @@ public class ConsoleInputValidation
         Console.WriteLine();
 
         return userPinInput;
+    }
+    public string CenterTitle(string title)
+    {
+        int width = Console.WindowWidth;
+        string _nl = Environment.NewLine;
+        string border = new string('=', width);
+        if (title.Length >= width)
+        {
+            return border + _nl + title + _nl + border; // If the title is longer than the width, return it as is.
+        }
+        int leftSpacers = (width - title.Length) / 2;
+        int rightSpacers = width - title.Length - leftSpacers;
+        return border + _nl + new string(' ', leftSpacers) + title + new string(' ', rightSpacers) + _nl + border + _nl;
     }
 }

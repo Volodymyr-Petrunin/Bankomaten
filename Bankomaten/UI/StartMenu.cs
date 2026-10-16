@@ -11,7 +11,7 @@ namespace Bankomaten.UI
     /// Class representing the start menu of the application.
     /// Takes in the main menu, console input validation, and user login as dependencies.
     /// </summary>
-    internal class StartMenu(MainMenu mainMenu, ConsoleInputValidation consoleInput, UserLogin userLogin)
+    internal class StartMenu(MainMenu mainMenu, ConsoleInputValidation consoleInputValidation, UserLogin userLogin)
     {
 
         /// <summary>
@@ -24,13 +24,11 @@ namespace Bankomaten.UI
         public bool Run()
         {
             ShowStartMenu();
-
-            if (consoleInput.ReadInteger("Ange ditt val: ", 1, 2) == 1)
+            if (consoleInputValidation.ReadInteger("Ange ditt val: ", 1, 2, "Ogiltigt val. Välj ett av alternativen i menyn.") == 1)
             {
                 // The logged in user is saved here and passed to the main menu.
                 // The user will stay logged in until they choose to log out from the main menu.
                 var user = userLogin.UserInput();
-                Console.Clear();
                 while (mainMenu.Show(user));
                 return true;
             }
@@ -45,13 +43,10 @@ namespace Bankomaten.UI
         /// </summary>
         private void ShowStartMenu()
         {
+            Console.WriteLine(consoleInputValidation.CenterTitle("Startmeny"));
             Console.WriteLine("""
-                ===========================
-                        Startmeny
-                ===========================
-
-                Välkommen till Bankomaten!
-                Välj ett alternativ nedan:
+                Välkommen!
+                Välj ett av alternativen nedan:
 
                 1. Logga in
 

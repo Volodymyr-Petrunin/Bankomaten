@@ -13,47 +13,31 @@ namespace Bankomaten.UI.MenuOptions
         private readonly AccountView _accountView = new AccountView(consoleInputValidation);
 
         private readonly string _nl = Environment.NewLine;
-        private const string ToAccountQuestion = "Välj konto att föra över till: ";
-        private const string AmountQuestion = "Hur mycket vill du föra över: ";
+        private const string ToAccountQuestion = "Välj konto för insättning: ";
+        private const string AmountQuestion = "Ange belopp: ";
         private const string NotEnoughAccountsMessage = "Du behöver minst ett konto för att sätta in pengar.";
-        private const string SuccessMessage = "Överföringen är klar.";
-        private const string FailedMessage = "Överföringen kunde inte genomföras.";
+        private const string SuccessMessage = "Insättningen är godkänd.";
+        private const string FailedMessage = "Insättningen kunde inte genomföras.";
         private const string AtmMessage = "Bankomatinsättning";
         public string Title { get; } = title;
 
         /// <summary>
         /// Manage user selection.
         /// </summary>
-        /// <param name="user"></param>
-        /// <exception cref="UnreachableException"></exception>
+        /// <exception cref="UserInputException"></exception>
         public void Execute(User user)
         {
-            int selectedOption = consoleInputValidation.ReadInteger(BuildMenu(), 1, 2);
-            Console.Clear();
-
-            switch (selectedOption)
+            Console.WriteLine(consoleInputValidation.CenterTitle(Title));
+            try
             {
-                case 1:
-                    DepositToUserAccount(user);
-                    break;
-                case 2:
-                    break;
-                default:
-                    throw new UnreachableException($"Ogiltigt menyval: {selectedOption}");
+                DepositToUserAccount(user);
             }
-        }
+            catch (UserInputException ex)
+            {
+                consoleInputValidation.WaitForEnter(ex.Message + _nl + "Tryck på Enter för att återgå till huvudmenyn");
+            }
 
-        // <summary>
-        // Builds and returns a formatted string representing a transfer menu with options.
-        // </summary>
-        // <returns>A string containing the transfer menu options, formatted for display.</returns>
-        private string BuildMenu()
-        {
-            return new StringBuilder()
-                .AppendLine(Title)
-                .AppendLine("1. Fortsätt")
-                .AppendLine("2. Tillbaka till huvudmenyn")
-                .ToString();
+            Console.Clear();
         }
 
         /// <summary>
@@ -61,10 +45,10 @@ namespace Bankomaten.UI.MenuOptions
         /// Validates that the user has at least one one account. If so the user will be presented a list with their account(s).
         /// The amount that can be deposited is between "decimal.MaxValue" (approx. 79 trillion trillion) and "decimal default" (0,01).
         /// </summary>
-        /// <param name="user"></param>
         /// <exception cref="UserInputException"></exception>
         private void DepositToUserAccount(User user)
         {
+
             // Check so the user have at least one account
             if (user.Accounts.Count < 1)
             {
@@ -72,8 +56,12 @@ namespace Bankomaten.UI.MenuOptions
             }
 
             List<Account> targetAccounts = user.Accounts.ToList();
-            Account toAccount = _accountView.ChooseAccount(ToAccountQuestion, targetAccounts);
+            Account? toAccount = _accountView.ChooseAccount(ToAccountQuestion, targetAccounts);
 
+            if (toAccount == null)
+            {
+                return;
+            }
             decimal amount = consoleInputValidation.ReadDecimal(_nl + AmountQuestion, decimal.MaxValue, default);
 
             if (!bankService.DepositToOwnAccount(user, toAccount, amount))
@@ -86,6 +74,7 @@ namespace Bankomaten.UI.MenuOptions
 
             Console.WriteLine($"{_nl}{SuccessMessage}");
             _accountView.PrintBalance(toAccount);
+            consoleInputValidation.WaitForEnter("Tryck på Enter för att återgå till huvudmenyn");
         }
     }
 }
