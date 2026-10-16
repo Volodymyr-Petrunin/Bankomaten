@@ -59,6 +59,7 @@ classDiagram
 ### 🧑Marcus Jungersten
   Skapat inloggning och insättning till eget konto.
 ### 🧑Ben Johansson
+  Skapade UserManagement och WithdrawMenu
 ### 🧑Nils Olmås
 ### 🧑Volodymyr Petrunin
 
