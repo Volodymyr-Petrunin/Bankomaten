@@ -50,16 +50,21 @@ classDiagram
     MainMenu --> WithDrawMenu
 ```
 
-
- ![📊 Klassdiagram](Docs/UML/bankomaten-class-diagram.svg)
+## 📊 Klassdiagram
+ ![](Docs/UML/bankomaten-class-diagram.svg)
 
 ## 🤔Reflektion/resonemang
-
+ * I dagsläget går det inte att ångra sig och gå tillbaka till föregående meny när användaren ska överföra, göra insättning eller göra ett uttag. Detta skulle enkelt åtgärdas med hjälp av ett GUI med exempelvis en bakåtknapp.
+ * Man skulle kunna ha komplett historik (jämfört med nuvarande som bara visa 3 senaste transaktioner), men vi såg detta var onödigt då vi inte sparar all historik i en fil.
 ## 👷Arbetsfördelning (huvudansvar)
 ### 🧑Marcus Jungersten
-  Skapat inloggning och insättning till eget konto.
+  * Skapat inloggning och insättning till eget konto.
+  * Påbörja/bygga upp strukturen av README.md.
+  * Skapa presentation.
 ### 🧑Ben Johansson
+ * Skapade UserManagement och WithdrawMenu.
 ### 🧑Nils Olmås
+
 ### 🧑Volodymyr Petrunin
 
 #### _Notering. Flera utav hjälpklasserna har vi alla varit med och bidragit till._
