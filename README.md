@@ -29,10 +29,10 @@ classDiagram
         Skriv in uppgifter
     }
     class MainMenu{
-        Se konton och saldo
-        Överföring mellan konton
-        Överföring till eget konton
-        Ta ut pengar
+        Konton och saldo
+        Betala och överföra
+        Insättning
+        Uttag
     }
     class AccountOverViewOption
     class DepositMenu
