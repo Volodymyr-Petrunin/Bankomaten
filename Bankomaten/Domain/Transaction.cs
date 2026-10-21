@@ -10,33 +10,33 @@ public class Transaction
     /// <summary>
     /// Gets the date and time when the transaction occurred.
     /// </summary>
-    public DateTime DateTime { get; private set; }
+    private DateTime DateTime { get; set; }
 
     /// <summary>
     /// Gets the type of transaction that was performed.
     /// </summary>
-    public TransactionType TransactionType { get; private set; }
+    private TransactionType TransactionType { get; set; }
     
     /// <summary>
     /// Gets the amount of money involved in the transaction.
     /// </summary>
-    public decimal Amount { get; private set; }
+    private decimal Amount { get; set; }
     
     /// <summary>
     /// Gets the name of the account from which the transaction originated.
     /// </summary>
-    public String FromAccountName { get; private set; }
+    private string FromAccountName { get; set; }
     
     /// <summary>
     /// Gets the name of the receiving account, user, or counterparty involved in the transaction.
     /// </summary>
-    public String CounterpartyName { get; private set; }
+    private string CounterpartyName { get; set; }
     
     /// <summary>
     /// Initializes a new instance of the <see cref="Transaction"/> class.
     /// </summary>
     public Transaction(DateTime dateTime, TransactionType transactionType,
-        decimal amount, String fromAccount, String counterpartyName)
+        decimal amount, string fromAccount, string counterpartyName)
     {
         DateTime = dateTime;
         TransactionType = transactionType;
