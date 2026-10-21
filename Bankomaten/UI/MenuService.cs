@@ -3,7 +3,7 @@ using Bankomaten.Domain;
 
 namespace Bankomaten.UI;
 
-internal class AccountView(ConsoleInputValidation consoleInputValidation)
+internal class MenuService(ConsoleInputValidation consoleInputValidation)
 {
     /// <summary>
     /// Prompts the user to select an account from a list of available accounts.
@@ -44,6 +44,24 @@ internal class AccountView(ConsoleInputValidation consoleInputValidation)
         Console.WriteLine(message);
         Console.ResetColor();
     }
+    
+    /// <summary>Returns a centered and bordered title string for the console menu.</summary>
+    public string CenterTitle(string title)
+    {
+        int width = Console.WindowWidth;
+        string nl = Environment.NewLine;
+        string border = new string('=', width);
+            
+        if (title.Length >= width)
+        {
+            return border + nl + title + nl + border; // If the title is longer than the width, return it as is.
+        }
+            
+        int leftSpacers = (width - title.Length) / 2;
+        int rightSpacers = width - title.Length - leftSpacers;
+            
+        return border + nl + new string(' ', leftSpacers) + title + new string(' ', rightSpacers) + nl + border + nl;
+    }
 
     /// <summary>
     /// Constructs a formatted prompt string displaying a question and a list of accounts.
@@ -56,9 +74,10 @@ internal class AccountView(ConsoleInputValidation consoleInputValidation)
 
         stringBuilder.AppendLine(); // Empty line for better readability
 
-        for (int i = 0; i < accounts.Count; i++)
+        // Suggestion rename i to index
+        for (int index = 0; index < accounts.Count; index++)
         {
-            stringBuilder.AppendLine($"{i + 1}. {accounts[i].Name}  Saldo: {accounts[i].GetBalance():C}");
+            stringBuilder.AppendLine($"{index + 1}. {accounts[index].Name}  Saldo: {accounts[index].GetBalance():C}");
         }
 
         stringBuilder.AppendLine(); // Empty line for better readability
