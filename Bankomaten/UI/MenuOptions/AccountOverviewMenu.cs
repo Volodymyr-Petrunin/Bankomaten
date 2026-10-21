@@ -5,6 +5,9 @@ namespace Bankomaten.UI.MenuOptions
     internal class AccountOverviewMenu(string title, ConsoleInputValidation consoleInputValidation) : IMenuOptions
     {
         private const int NumberOfTransactionsToShow = 3;
+        
+        private readonly MenuService _menuService = new MenuService(consoleInputValidation);
+        
         public string Title => title;
 
         /// <summary>
@@ -12,7 +15,7 @@ namespace Bankomaten.UI.MenuOptions
         /// </summary>
         public void Execute(User user)
         {
-            Console.WriteLine(consoleInputValidation.CenterTitle(Title));
+            Console.WriteLine(_menuService.CenterTitle(Title));
             
             foreach (Account account in user.Accounts)
             {
@@ -24,6 +27,12 @@ namespace Bankomaten.UI.MenuOptions
             Console.Clear();
         }
         
+        /// <summary>
+        /// Displays the transaction history for the specified user in the console, 
+        /// showing up to a specified number of recent transactions.
+        /// </summary>
+        /// <param name="user">The user whose transaction history is to be displayed.</param>
+        /// <param name="numberOfTransactionsToShow">The maximum number of recent transactions to display.</param>
         private static void PrintTransactionsHistory(User user, byte numberOfTransactionsToShow)
         {
             string horizontalLine = new string('-', Console.WindowWidth);
