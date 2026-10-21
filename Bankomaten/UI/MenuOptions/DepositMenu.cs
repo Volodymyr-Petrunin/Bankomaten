@@ -1,16 +1,13 @@
 ﻿using Bankomaten.Domain;
 using Bankomaten.Services;
 using Bankomaten.UI.Exceptions;
-using Bankomaten.UI.MenuOptions;
-using System.Diagnostics;
-using System.Text;
 
 namespace Bankomaten.UI.MenuOptions
 {
     public class DepositMenu(string title, ConsoleInputValidation consoleInputValidation,
-    BankService bankService, UserManagement userManagement) : IMenuOptions
+        BankService bankService, UserManagement userManagement) : IMenuOptions
     {
-        private readonly AccountView _accountView = new AccountView(consoleInputValidation);
+        private readonly MenuService _menuService = new MenuService(consoleInputValidation);
 
         private readonly string _nl = Environment.NewLine;
         private const string ToAccountQuestion = "Välj konto för insättning: ";
@@ -27,15 +24,9 @@ namespace Bankomaten.UI.MenuOptions
         /// <exception cref="UserInputException"></exception>
         public void Execute(User user)
         {
-            Console.WriteLine(consoleInputValidation.CenterTitle(Title));
-            try
-            {
-                DepositToUserAccount(user);
-            }
-            catch (UserInputException ex)
-            {
-                consoleInputValidation.WaitForEnter(ex.Message + _nl + "Tryck på Enter för att återgå till huvudmenyn");
-            }
+            Console.WriteLine(_menuService.CenterTitle(Title));
+            
+            DepositToUserAccount(user);
 
             Console.Clear();
         }
@@ -54,26 +45,27 @@ namespace Bankomaten.UI.MenuOptions
             {
                 throw new UserInputException(NotEnoughAccountsMessage);
             }
-
-            List<Account> targetAccounts = user.Accounts.ToList();
-            Account? toAccount = _accountView.ChooseAccount(ToAccountQuestion, targetAccounts);
+            
+            Account? toAccount = _menuService.ChooseAccount(ToAccountQuestion, user.Accounts);
 
             if (toAccount == null)
             {
                 return;
             }
+            
             decimal amount = consoleInputValidation.ReadDecimal(_nl + AmountQuestion, decimal.MaxValue, default);
 
             if (!bankService.DepositToOwnAccount(user, toAccount, amount))
             {
                 Console.WriteLine(FailedMessage);
+                return;
             }
 
             // Add transaction history
             userManagement.AddUserTransaction(user, TransactionType.OwnTransfer, amount, AtmMessage, toAccount.Name);
 
             Console.WriteLine($"{_nl}{SuccessMessage}");
-            _accountView.PrintBalance(toAccount);
+            _menuService.PrintBalance(toAccount);
             consoleInputValidation.WaitForEnter("Tryck på Enter för att återgå till huvudmenyn");
         }
     }
