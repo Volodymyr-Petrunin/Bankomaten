@@ -94,6 +94,11 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
         
         Account fromAccount = ChooseSourceAccount(user);
 
+        if (fromAccount == null)
+        {
+            return;
+        }
+
         // The source account is left out, so the same account can never be chosen twice
         List<Account> targetAccounts = user.Accounts.Where(account => account != fromAccount).ToList();
         Account? toAccount = _accountView.ChooseAccount(ToAccountQuestion, targetAccounts);
