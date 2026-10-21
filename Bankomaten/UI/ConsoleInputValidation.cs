@@ -114,6 +114,7 @@ public class ConsoleInputValidation
     /// The "hideChar" can be changed to let the character be display to the user; true=hide chars / false=show chars
     /// </summary>
     /// <param name="question"></param>
+    /// <param name="hideChar"></param>
     /// <returns>The entered pin code</returns>
     public string HandlePinUserInput(string question, bool hideChar)
     {
@@ -162,18 +163,5 @@ public class ConsoleInputValidation
         Console.WriteLine();
 
         return userPinInput;
-    }
-    public string CenterTitle(string title)
-    {
-        int width = Console.WindowWidth;
-        string _nl = Environment.NewLine;
-        string border = new string('=', width);
-        if (title.Length >= width)
-        {
-            return border + _nl + title + _nl + border; // If the title is longer than the width, return it as is.
-        }
-        int leftSpacers = (width - title.Length) / 2;
-        int rightSpacers = width - title.Length - leftSpacers;
-        return border + _nl + new string(' ', leftSpacers) + title + new string(' ', rightSpacers) + _nl + border + _nl;
     }
 }
