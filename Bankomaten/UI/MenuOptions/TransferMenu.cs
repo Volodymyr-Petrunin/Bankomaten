@@ -125,9 +125,7 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
             user, TransactionType.OwnTransfer, amount, fromAccount.Name, toAccount.Name
         );
         
-        _menuService.WriteSuccessMessage(SuccessMessage);
-        _menuService.PrintBalance(fromAccount);
-        _menuService.PrintBalance(toAccount);
+        _menuService.WriteSuccessMessage(SuccessMessage, fromAccount, toAccount);
     }
 
     /// <summary>
@@ -173,8 +171,7 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
         );
 
         // Only the sender's own balance is shown, never the recipient's accounts
-        _menuService.WriteSuccessMessage($"{SuccessMessage} {amount:C} har skickats till {recipient.UserName}.");
-        _menuService.PrintBalance(fromAccount);
+        _menuService.WriteSuccessMessage($"{SuccessMessage} {amount:C} har skickats till {recipient.UserName}.", fromAccount);
     }
 
 

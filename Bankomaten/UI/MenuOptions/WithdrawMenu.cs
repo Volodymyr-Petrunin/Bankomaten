@@ -81,9 +81,8 @@ namespace Bankomaten.UI.MenuOptions
 
             // completes the withdrawal and adds a transaction to the user's account
             userManagement.AddUserTransaction(user, TransactionType.Withdrawal, amount, AtmMessage, fromAccount.Name);
-
-            Console.WriteLine($"{_nl}{SuccessMessage}");
-            _menuService.PrintBalance(fromAccount);
+            
+            _menuService.WriteSuccessMessage(_nl + SuccessMessage, fromAccount);
         }
     }
 }

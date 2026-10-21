@@ -63,10 +63,8 @@ namespace Bankomaten.UI.MenuOptions
 
             // Add transaction history
             userManagement.AddUserTransaction(user, TransactionType.OwnTransfer, amount, AtmMessage, toAccount.Name);
-
-            Console.WriteLine($"{_nl}{SuccessMessage}");
-            _menuService.PrintBalance(toAccount);
-            consoleInputValidation.WaitForEnter("Tryck på Enter för att återgå till huvudmenyn");
+            
+            _menuService.WriteSuccessMessage(_nl + SuccessMessage, toAccount);
         }
     }
 }

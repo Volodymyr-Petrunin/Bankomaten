@@ -5,6 +5,8 @@ namespace Bankomaten.UI;
 
 internal class MenuService(ConsoleInputValidation consoleInputValidation)
 {
+    private const string ReturnToMenuMessage = "Tryck på Enter för att återgå till huvudmenyn";
+
     /// <summary>
     /// Prompts the user to select an account from a list of available accounts.
     /// Ensures that the user inputs a valid selection within the given range.
@@ -31,20 +33,47 @@ internal class MenuService(ConsoleInputValidation consoleInputValidation)
         return accounts[choice - 1];
     }
 
-    /// <summary>Displays the current balance of the specified account in a formatted manner.</summary>
-    public void PrintBalance(Account account)
-    {
-        Console.WriteLine($"Nytt saldo på {account.Name}: {account.GetBalance():C}");
-    }
-
     /// <summary> Change Console color to green and print success message than reset color</summary>
-    public void WriteSuccessMessage(string message)
+    public void WriteSuccessMessage(string message, Account account)
     {
         Console.ForegroundColor = ConsoleColor.Green;
         Console.WriteLine(message);
         Console.ResetColor();
+        
+        PrintBalance(account);
+        
+        consoleInputValidation.WaitForEnter(ReturnToMenuMessage);
     }
-    
+
+    /// <summary>
+    /// Displays a success message and updates the balances of the involved accounts.
+    /// Highlights the message in green for better visibility and waits for user confirmation before returning to the main menu.
+    /// </summary>
+    /// <param name="message">The success message to display.</param>
+    /// <param name="fromAccount">The account from which the transfer originated.</param>
+    /// <param name="toAccount">The account to which the transfer was made.</param>
+    /// <exception cref="ArgumentNullException">
+    /// Thrown if either <paramref name="fromAccount"/> or <paramref name="toAccount"/> is null.
+    /// </exception>
+    public void WriteSuccessMessage(string message, Account fromAccount, Account toAccount)
+    {
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine(message);
+        Console.ResetColor();
+        
+        PrintBalance(fromAccount);
+        PrintBalance(toAccount);
+
+        
+        consoleInputValidation.WaitForEnter(ReturnToMenuMessage);
+    }
+
+    /// <summary>Displays the current balance of the specified account in a formatted manner.</summary>
+    private void PrintBalance(Account account)
+    {
+        Console.WriteLine($"Nytt saldo på {account.Name}: {account.GetBalance():C}");
+    }
+
     /// <summary>Returns a centered and bordered title string for the console menu.</summary>
     public string CenterTitle(string title)
     {
