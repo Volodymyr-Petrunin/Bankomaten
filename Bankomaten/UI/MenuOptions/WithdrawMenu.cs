@@ -1,17 +1,12 @@
 ﻿using Bankomaten.Domain;
 using Bankomaten.Services;
 using Bankomaten.UI.Exceptions;
-using Bankomaten.UI.MenuOptions;
-using System.Diagnostics;
-using System.Text;
 
 namespace Bankomaten.UI.MenuOptions
 {
     public class WithdrawMenu(string title, ConsoleInputValidation consoleInputValidation,
     BankService bankService, UserManagement userManagement) : IMenuOptions
     {
-        private readonly AccountView _accountView = new AccountView(consoleInputValidation);
-
         private readonly string _nl = Environment.NewLine;
         private const string FromAccountQuestion = "Välj konto för uttag: ";
         private const string AmountQuestion = "Ange beloop: ";
@@ -21,6 +16,9 @@ namespace Bankomaten.UI.MenuOptions
         private const string AtmMessage = "Bankomatuttag";
         private const string EmptyAccountMessage = "Kontot är tomt.";
         private const string WrongPinMessage = "Fel PIN-kod.";
+        
+        private readonly MenuService _menuService = new MenuService(consoleInputValidation);
+        
         public string Title { get; } = title;
 
         /// <summary>
@@ -29,17 +27,10 @@ namespace Bankomaten.UI.MenuOptions
         /// <exception cref="UserInputException"></exception>
         public void Execute(User user)
         {
-            Console.WriteLine(consoleInputValidation.CenterTitle(Title));
-            try
-            {
-                WithdrawFromUserAccount(user);
-            }
-            catch (UserInputException ex)
-            {
-
-                consoleInputValidation.WaitForEnter(ex.Message + _nl + "Tryck på enter för att återgå till huvudmenyn.");
-            }
-
+            Console.WriteLine(_menuService.CenterTitle(Title));
+            
+            WithdrawFromUserAccount(user);
+            
             Console.Clear();
         }
 
@@ -55,9 +46,8 @@ namespace Bankomaten.UI.MenuOptions
             {
                 throw new UserInputException(NotEnoughAccountsMessage);
             }
-
-            List<Account> accounts = user.Accounts.ToList();
-            Account? fromAccount = _accountView.ChooseAccount(FromAccountQuestion, accounts);
+            
+            Account? fromAccount = _menuService.ChooseAccount(FromAccountQuestion, user.Accounts);
 
             if (fromAccount == null)
             {
@@ -74,7 +64,7 @@ namespace Bankomaten.UI.MenuOptions
             decimal amount = consoleInputValidation.ReadDecimal(_nl + AmountQuestion, fromAccount.GetBalance());
 
             // Ask for PIN code
-            string pin = consoleInputValidation.HandlePinUserInput("ange PIN: ", true);
+            string pin = consoleInputValidation.HandlePinUserInput("Ange PIN: ", true);
 
             // checks if the PIN code is correct
             if (!bankService.VerifyPassword(user, pin))
@@ -93,7 +83,7 @@ namespace Bankomaten.UI.MenuOptions
             userManagement.AddUserTransaction(user, TransactionType.Withdrawal, amount, AtmMessage, fromAccount.Name);
 
             Console.WriteLine($"{_nl}{SuccessMessage}");
-            _accountView.PrintBalance(fromAccount);
+            _menuService.PrintBalance(fromAccount);
         }
     }
 }
