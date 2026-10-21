@@ -4,6 +4,7 @@ namespace Bankomaten.UI.MenuOptions
 {
     internal class AccountOverviewMenu(string title, ConsoleInputValidation consoleInputValidation) : IMenuOptions
     {
+        private const int NumberOfTransactionsToShow = 3;
         public string Title => title;
 
         /// <summary>
@@ -12,30 +13,32 @@ namespace Bankomaten.UI.MenuOptions
         public void Execute(User user)
         {
             Console.WriteLine(consoleInputValidation.CenterTitle(Title));
-            foreach (var account in user.Accounts)
+            
+            foreach (Account account in user.Accounts)
             {
                 Console.WriteLine(account.ToString());
             }
             
-            PrintTransactionsHistory(user, 3);
+            PrintTransactionsHistory(user, NumberOfTransactionsToShow);
             consoleInputValidation.WaitForEnter("Tryck på Enter för att återgå till huvudmenyn.");
             Console.Clear();
         }
         
         private static void PrintTransactionsHistory(User user, byte numberOfTransactionsToShow)
         {
-            Console.WriteLine(new string('-', Console.WindowWidth));
+            string horizontalLine = new string('-', Console.WindowWidth);
+            Console.WriteLine(horizontalLine);
             
             if (user.TransactionsHistory.Count == 0)
             {
                 Console.WriteLine("Inga transaktioner ännu.");
-                Console.WriteLine(new string('-', Console.WindowWidth));
+                Console.WriteLine(horizontalLine);
                 return;
             }
             
             Console.WriteLine($"Senaste {numberOfTransactionsToShow} transaktioner:");
             user.TransactionsHistory.AsEnumerable().Reverse().Take(numberOfTransactionsToShow).ToList().ForEach(Console.WriteLine);
-            Console.WriteLine(new string('-', Console.WindowWidth));
+            Console.WriteLine(horizontalLine);
         }
 
     }
