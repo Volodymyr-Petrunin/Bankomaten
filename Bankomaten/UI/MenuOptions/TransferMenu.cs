@@ -72,6 +72,8 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
             .AppendLine("2. Till en annan användare")
             .AppendLine()
             .AppendLine("3. Tillbaka till huvudmenyn")
+            .AppendLine()
+            .Append("Ange ditt val: ")
             .ToString();
     }
 
