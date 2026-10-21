@@ -23,7 +23,7 @@ namespace Bankomaten.UI
         /// </returns>
         public bool Run()
         {
-            ShowStartMenu();
+            Console.WriteLine(ShowStartMenu());
             if (consoleInputValidation.ReadInteger("Ange ditt val: ", 1, 2, "Ogiltigt val. Välj ett av alternativen i menyn.") == 1)
             {
                 // The logged in user is saved here and passed to the main menu.
@@ -41,18 +41,19 @@ namespace Bankomaten.UI
         /// <summary>
         /// Displays the start menu options to the console.
         /// </summary>
-        private void ShowStartMenu()
+        private string ShowStartMenu()
         {
-            Console.WriteLine(consoleInputValidation.CenterTitle("Startmeny"));
-            Console.WriteLine("""
-                Välkommen!
-                Välj ett av alternativen nedan:
-
-                1. Logga in
-
-                2. Avsluta
-
-                """);
+            return new StringBuilder()
+                .AppendLine(consoleInputValidation.CenterTitle("Startmeny"))
+                .AppendLine("Välkommen!")
+                .AppendLine("Välj ett av alternativen nedan:")
+                .AppendLine()
+                .AppendLine("1. Logga in")
+                .AppendLine()
+                .AppendLine("2. Avsluta")
+                .AppendLine()
+                .ToString();
+            
 
 
         }
