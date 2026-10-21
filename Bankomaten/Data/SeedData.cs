@@ -45,11 +45,12 @@ public static class SeedData
     /// </summary>
     private static void AddAccountsToUsers()
     {
-        // Every user must have a different number of accounts, so the counts are shuffled, not random
+        // The assignment requires every user to have a different number of accounts (at least one),
+        // so the counts 1...N are shuffled instead of picked at random
         int[] accountCounts = [.. Enumerable.Range(1, AccountNames.Length)];
         Random.Shared.Shuffle(accountCounts);
 
-        for (int index = 0; index < Users.Count - 1; index++)
+        for (int index = 0; index < Users.Count; index++)
         {
             Users[index].Accounts.AddRange(CreateAccounts(accountCounts[index]));
         }
