@@ -63,6 +63,8 @@ internal class AccountView(ConsoleInputValidation consoleInputValidation)
 
         stringBuilder.AppendLine(); // Empty line for better readability
         stringBuilder.AppendLine($"{accounts.Count + 1}. Tillbaka till huvudmenyn");
+        stringBuilder.AppendLine();
+        stringBuilder.Append("Ange ditt val: ");
         
         return stringBuilder.ToString();
     }
