@@ -10,13 +10,15 @@ namespace Bankomaten.UI
         /// Empty line, replaces \n.
         /// </summary>
         private readonly string _nl = Environment.NewLine;
+        
+        private readonly MenuService _menuService = new MenuService(consoleInput);
 
         /// <summary>
         /// Displays the main menu for the user.
         /// </summary>
         public bool Show(User user)
         {
-            Console.WriteLine(consoleInput.CenterTitle("Huvudmeny"));
+            Console.WriteLine(_menuService.CenterTitle("Huvudmeny"));
 
             Console.Write("Du är inloggad som: "); 
             Console.ForegroundColor = ConsoleColor.Green;

@@ -41,7 +41,7 @@ public class UserManagement
     /// Adds a transaction entry to the specified user's transaction history.
     /// </summary>
     public void AddUserTransaction(User user, TransactionType transactionType, decimal amount,
-        String fromAccountName, String counterpartyName)
+        string fromAccountName, string counterpartyName)
     {
         user.TransactionsHistory.Enqueue(
             new Transaction(DateTime.Now, transactionType, amount, fromAccountName, counterpartyName)

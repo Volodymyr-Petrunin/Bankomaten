@@ -1,5 +1,4 @@
 ﻿using Bankomaten.Domain;
-using Bankomaten.UI.Exceptions;
 
 namespace Bankomaten.Services;
 
@@ -60,9 +59,17 @@ public class BankService
     /// Deposit user entered amount to selected account.
     /// </summary>
     /// <returns>True if the transfer was successful, false otherwise.</returns>
+    /// <exception cref="ArgumentException">Throws if account don't belong to user</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Throws if amount is'n positive</exception>
     public bool DepositToOwnAccount(User user, Account toAccount, decimal amount)
     {
-        return (toAccount.Deposit(amount));
+        if (!user.Accounts.Contains(toAccount))
+            throw new ArgumentException("The account does not belong to the sender.");
+
+        if (amount <= 0)
+            throw new ArgumentOutOfRangeException(nameof(amount), "Amount must be positive.");
+        
+        return toAccount.Deposit(amount);
     }
     
     /// <summary>

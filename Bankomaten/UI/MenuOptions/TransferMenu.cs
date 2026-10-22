@@ -20,6 +20,8 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
     private const string PinCodeQuestion = "Ange din PIN-kod för att bekräfta överföring: ";
     
     private const string NotEnoughAccountsMessage = "Du behöver minst två konton för att göra en överföring mellan egna konton.";
+
+    private const string InvalidMenuChoice = "Ogiltigt val. Välj ett av alternativen i menyn.";
     
     private const string EmptyAccountMessage = "Kontot är tomt. Välj ett konto med pengar.";
 
@@ -35,7 +37,7 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
     
     public string Title { get; } = title;
 
-    private readonly AccountView _accountView = new AccountView(consoleInputValidation);
+    private readonly MenuService _menuService = new MenuService(consoleInputValidation);
 
     /// <summary>
     /// Executes the transfer menu for the specified user. Prompts the user to select an option
@@ -44,7 +46,7 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
     /// <exception cref="UnreachableException">Thrown when an unexpected menu option is selected.</exception>
     public void Execute(User user)
     {
-        int selectedOption = consoleInputValidation.ReadInteger(BuildMenu(), 1, 3, "Ogiltigt val. Välj ett av alternativen i menyn.");
+        int selectedOption = consoleInputValidation.ReadInteger(BuildMenu(), 1, 3, InvalidMenuChoice);
         Console.Clear();
 
         switch (selectedOption)
@@ -67,7 +69,7 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
     private string BuildMenu()
     {
         return new StringBuilder()
-            .AppendLine(consoleInputValidation.CenterTitle(Title))
+            .AppendLine(_menuService.CenterTitle(Title))
             .AppendLine("1. Mellan egna konton")
             .AppendLine("2. Till en annan användare")
             .AppendLine()
@@ -101,7 +103,7 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
 
         // The source account is left out, so the same account can never be chosen twice
         List<Account> targetAccounts = user.Accounts.Where(account => account != fromAccount).ToList();
-        Account? toAccount = _accountView.ChooseAccount(ToAccountQuestion, targetAccounts);
+        Account? toAccount = _menuService.ChooseAccount(ToAccountQuestion, targetAccounts);
         
         if (toAccount == null)
         {
@@ -123,9 +125,7 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
             user, TransactionType.OwnTransfer, amount, fromAccount.Name, toAccount.Name
         );
         
-        _accountView.WriteSuccessMessage(SuccessMessage);
-        _accountView.PrintBalance(fromAccount);
-        _accountView.PrintBalance(toAccount);
+        _menuService.WriteSuccessMessage(SuccessMessage, fromAccount, toAccount);
     }
 
     /// <summary>
@@ -171,8 +171,7 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
         );
 
         // Only the sender's own balance is shown, never the recipient's accounts
-        _accountView.WriteSuccessMessage($"{SuccessMessage} {amount:C} har skickats till {recipient.UserName}.");
-        _accountView.PrintBalance(fromAccount);
+        _menuService.WriteSuccessMessage($"{SuccessMessage} {amount:C} har skickats till {recipient.UserName}.", fromAccount);
     }
 
 
@@ -183,7 +182,7 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
     /// <exception cref="UserInputException">Thrown if the user chooses an empty account.</exception>
     private Account ChooseSourceAccount(User user)
     {
-        Account? account = _accountView.ChooseAccount(FromAccountQuestion, user.Accounts);
+        Account? account = _menuService.ChooseAccount(FromAccountQuestion, user.Accounts);
         if (account == null)
         {
             return account!;
@@ -197,6 +196,10 @@ public class TransferMenu(string title, ConsoleInputValidation consoleInputValid
         return account;
     }
 
+    /// <summary>
+    /// Verifies the user's PIN code by prompting for input and checking it against the bank service.
+    /// </summary>
+    /// <returns><c>true</c> if the PIN code is correct, otherwise <c>false</c>.</returns>
     private bool VerifyPinCode(User user)
     {
         return bankService.VerifyPassword(user, consoleInputValidation.HandlePinUserInput(PinCodeQuestion, true));

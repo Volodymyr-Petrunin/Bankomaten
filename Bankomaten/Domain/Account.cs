@@ -1,5 +1,4 @@
-﻿using System.Text;
-
+﻿
 namespace Bankomaten.Domain
 {
     public class Account

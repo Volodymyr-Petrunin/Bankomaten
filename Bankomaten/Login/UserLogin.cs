@@ -1,23 +1,20 @@
 ﻿using Bankomaten.Domain;
 using Bankomaten.Services;
 using Bankomaten.UI;
-using Bankomaten.UI.MenuOptions;
-using System.Text;
-using System.Threading.Channels;
 
 namespace Bankomaten.Login
 {
     internal class UserLogin (UserManagement userManagement, ConsoleInputValidation consoleInputValidation)
     {
-        private int loginAttempsCounter = 0;
+        private const int MaxAttempts = 3;
+        
+        private int _loginAttemptsCounter = 0;
 
         /// <summary>
         /// Handle user input information.
         /// </summary>
         public User UserInput()
         {
-            User user;
-
             // The loop continues until the user has successfully logged in to prevent return of a null-value
             while (true)
             {
@@ -27,15 +24,15 @@ namespace Bankomaten.Login
 
                 string userPinInput = consoleInputValidation.HandlePinUserInput("Ange din PIN-kod: ", true);
 
-                user = UserCredentialAuthentication(usernameInput, userPinInput);
+                User? user = UserCredentialAuthentication(usernameInput, userPinInput);
 
                 if (user is null)
                 {
-                    CheckLoginAttemps();
+                    CheckLoginAttempts();
                 }
                 else
                 {
-                    loginAttempsCounter = 0; // Reset loginAttemps
+                    _loginAttemptsCounter = 0; // Reset loginAttemps
                     return user;
                 }
             }
@@ -45,11 +42,11 @@ namespace Bankomaten.Login
         /// Monitor the number of login attempts.
         /// If login attempts is equal to 3, call the block-user function.
         /// </summary>
-        private void CheckLoginAttemps()
+        private void CheckLoginAttempts()
         {
-            loginAttempsCounter++;
+            _loginAttemptsCounter++;
 
-            if (loginAttempsCounter == 3)
+            if (_loginAttemptsCounter == MaxAttempts)
             {
                 BlockUserTimePeriod();
             }
@@ -76,7 +73,7 @@ namespace Bankomaten.Login
                 Console.WriteLine("Återstående tid: " + blockWaitingTime.ToString() + "s");
             }
 
-            loginAttempsCounter = 0; // Reset loginAttemps
+            _loginAttemptsCounter = 0; // Reset loginAttemps
 
             Console.Clear();
         }
@@ -84,31 +81,30 @@ namespace Bankomaten.Login
         /// <summary>
         /// Authenticate user input credentials with the stored credentials.
         /// </summary>
-        /// <returns></returns>
-        private User UserCredentialAuthentication(string usernameInput, string userPinInput)
+        /// <returns>User object if authenticate otherwise null</returns>
+        /// <exception cref="ArgumentNullException">Throw exception if userManagement object is null</exception>
+        private User? UserCredentialAuthentication(string usernameInput, string userPinInput)
         {
-            if (userManagement != null)
+            ArgumentNullException.ThrowIfNull(userManagement);
+
+            User? user = userManagement.Authenticate(usernameInput, userPinInput);
+        
+            if (user is null)
             {
-                User? user = userManagement.Authenticate(usernameInput, userPinInput);
-
-                if (user != null)
-                {
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.Clear();
-                    Console.WriteLine(Environment.NewLine + "Inloggningen lyckades" + Environment.NewLine);
-                    Console.ResetColor();
-
-                    return user;
-                }
-                else
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Användarnamnet eller lösenordet är felaktigt!" + Environment.NewLine);
-                    Console.ResetColor();
-                    Console.WriteLine($"Försök {loginAttempsCounter + 1}/3." + Environment.NewLine);
-                }
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Användarnamnet eller PIN-koden är felaktigt!" + Environment.NewLine);
+                Console.ResetColor();
+                Console.WriteLine($"Försök {_loginAttemptsCounter + 1}/3." + Environment.NewLine);
+        
+                return null;
             }
-            return null!;
+        
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine(Environment.NewLine + "Inloggningen lyckades" + Environment.NewLine);
+            Console.ResetColor();
+            
+            return user;
         }
     }
 }
