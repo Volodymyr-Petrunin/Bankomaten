@@ -66,5 +66,9 @@ classDiagram
 ### 🧑Nils Olmås
 
 ### 🧑Volodymyr Petrunin
+ * Skapade repot på GitHub, CONTRIBUTING.md och de första issues.
+ * Skapade ConsoleInputValidation för inmatning och validering.
+ * Skapade överföring mellan egna konton och till andra användare (TransferMenu och metoderna i BankService).
+ * Skapade UML-klassdiagrammet.
 
 #### _Notering. Flera utav hjälpklasserna har vi alla varit med och bidragit till._
