@@ -35,7 +35,11 @@ namespace Bankomaten.Domain
             Accounts = new List<Account>();
             TransactionsHistory = new Queue<Transaction>();
         }
-        
+
+        /// <summary>
+        /// Verifies whether the provided PIN matches the user's stored PIN.
+        /// </summary>
+        /// <returns>True if the provided PIN matches the stored PIN; otherwise, false.</returns>
         public bool VerifyPin(string pin)
         {
             return Pin == pin;
