@@ -46,7 +46,7 @@ namespace Bankomaten.UI.MenuOptions
             }
             
             Console.WriteLine($"Senaste {numberOfTransactionsToShow} transaktioner:");
-            user.TransactionsHistory.AsEnumerable().Reverse().Take(numberOfTransactionsToShow).ToList().ForEach(Console.WriteLine);
+            user.TransactionsHistory.AsEnumerable().Take(numberOfTransactionsToShow).ToList().ForEach(Console.WriteLine);
             Console.WriteLine(horizontalLine);
         }
 

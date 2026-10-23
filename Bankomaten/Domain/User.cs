@@ -22,7 +22,7 @@ namespace Bankomaten.Domain
         /// <summary>
         /// Gets the transaction history for the user.
         /// </summary>
-        public Queue<Transaction> TransactionsHistory { get; private set; }
+        public Stack<Transaction> TransactionsHistory { get; private set; }
 
         /// <summary>
         /// Constructor for new user, with an empty list Accounts and queue TransactionsHistory.
@@ -33,7 +33,7 @@ namespace Bankomaten.Domain
             Pin = pin;
 
             Accounts = new List<Account>();
-            TransactionsHistory = new Queue<Transaction>();
+            TransactionsHistory = new Stack<Transaction>();
         }
 
         /// <summary>

@@ -43,7 +43,7 @@ public class UserManagement
     public void AddUserTransaction(User user, TransactionType transactionType, decimal amount,
         string fromAccountName, string counterpartyName)
     {
-        user.TransactionsHistory.Enqueue(
+        user.TransactionsHistory.Push(
             new Transaction(DateTime.Now, transactionType, amount, fromAccountName, counterpartyName)
         );
     }
