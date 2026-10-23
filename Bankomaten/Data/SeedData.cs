@@ -71,7 +71,7 @@ public static class SeedData
         string[] names = (string[])AccountNames.Clone();
         Random.Shared.Shuffle(names);
 
-        var accounts = new List<Account>();
+        List<Account> accounts = new List<Account>();
 
         for (int index = 0; index < count; index++)
         {
