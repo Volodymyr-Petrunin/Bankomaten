@@ -70,7 +70,7 @@ I projektet har vi använt flera olika datastrukturer beroende på hur vi behöv
 * **Array:** Vi använder en array där vi vet att storleken inte kommer att ändras under körning, till exempel för våra menyval i huvudmenyn.
 * **List:** Vi använder `List` där vi inte vet storleken på listan på förhand. Detta används exempelvis för våra konton eftersom vi genererar slumpmässiga konton för våra testanvändare när programmet körs.
 * **Dictionary:** Vi använder en `Dictionary` för våra användare, där en användares namn sparas som en sträng i `Key` och användaren som objekt sparas som `Value`. Detta låter oss snabbt hitta en användare med en sträng för validering vid inloggning och överföringar.
-* **Stack:** Vi använder en `Stack` för vår transaktionshistorik så datan sparas kronologiskt med det som hände senast överst. Detta gör det tydligt vilken transaktion som skedde när och vad den utförde.
+* **Queue:** Vi använder en `Queue` för vår transaktionshistorik så datan sparas kronologiskt med det som hände senast överst. Detta gör det tydligt vilken transaktion som skedde när och vad den utförde.
 
 ## Val av datatyper
 * **Integer (`int`):** För våra menyval använder vi oss av heltal för att validera och säkerställa att användaren har valt ett giltigt alternativ.
