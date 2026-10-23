@@ -66,7 +66,7 @@ I vårt fall hade ett mer konkret planeringsmöte innan projektstarten i kombina
 ## Val av datastrukturer
 I projektet har vi använt flera olika datastrukturer beroende på hur vi behöver lagra och hämta data:
 
-* **Interface:** Vi använder ett interface för att skapa ett ramverk över hur valen i huvudmenyn ska bete sig, vilket gör att vi slipper skapa nya objekt för varje enskilt menyval.
+* **Interface:** Vi använder ett interface för att skapa en struktur över hur valen i huvudmenyn ska bete sig, vilket gör att vi slipper skapa nya objekt för varje enskilt menyval.
 * **Array:** Vi använder en array där vi vet att storleken inte kommer att ändras under körning, till exempel för våra menyval i huvudmenyn.
 * **List:** Vi använder `List` där vi inte vet storleken på listan på förhand. Detta används exempelvis för våra konton eftersom vi genererar slumpmässiga konton för våra testanvändare när programmet körs.
 * **Dictionary:** Vi använder en `Dictionary` för våra användare, där en användares namn sparas som en sträng i `Key` och användaren som objekt sparas som `Value`. Detta låter oss snabbt hitta en användare med en sträng för validering vid inloggning och överföringar.
