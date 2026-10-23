@@ -94,7 +94,9 @@ Med mer tid för projektet hade vi gärna lagt till följande funktionalitet:
  * Skapade UserManagement och WithdrawMenu.
 ### 🧑Nils Olmås
  * Skapade första versionen av User och Acccount.
- * Skapade 
+ * Skapade interface IMenuOptions och AccountOverviewOption.
+ * Skapade StarMenu och MainMenu.
+ * Formaterade konsolltext och menytitlar.
 ### 🧑Volodymyr Petrunin
  * Skapade repot på GitHub, CONTRIBUTING.md och de första issues.
  * Skapade ConsoleInputValidation för inmatning och validering.
